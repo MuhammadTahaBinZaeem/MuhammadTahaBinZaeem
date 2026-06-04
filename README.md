@@ -34,6 +34,16 @@
 
 ---
 
+## 🛰️ Mission Control
+
+<div align="center">
+
+<img src="assets/mission-control.svg" alt="Mission control: now building, proof trail, low-level systems" width="100%" />
+
+</div>
+
+---
+
 ## 🧬 Identity
 
 ```txt
