@@ -28,7 +28,7 @@
 
 <div align="center">
 
-### Block the account if you want; your code still forks into my ideas.
+### Your code still forks into my ideas.
 
 </div>
 
