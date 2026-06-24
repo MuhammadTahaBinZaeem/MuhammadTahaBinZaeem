@@ -28,7 +28,7 @@
 
 <div align="center">
 
-### Your code still forks into my ideas.
+### Your code shall forks into my ideas.
 
 </div>
 
