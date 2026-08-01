@@ -38,7 +38,7 @@
   </g>
 
   <text x="230" y="203" text-anchor="middle" class="num">AI → EDA</text>
-  <text x="230" y="236" text-anchor="middle" class="label">Progen / Proteus</text>
+  <text x="230" y="236" text-anchor="middle" class="label">ProGenEDA / Proteus</text>
   <text x="230" y="260" text-anchor="middle" class="desc">circuit IR, validation, project generation</text>
 
   <text x="550" y="203" text-anchor="middle" class="num">MIPS</text>

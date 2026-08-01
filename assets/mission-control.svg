@@ -59,7 +59,7 @@
 
   <text x="242" y="232" text-anchor="middle" class="head">NOW BUILDING</text>
   <text x="242" y="272" text-anchor="middle" class="body">AI → circuit graph → simulator file</text>
-  <text x="242" y="300" text-anchor="middle" class="body">Progen, PSpice direction, EDA output</text>
+  <text x="242" y="300" text-anchor="middle" class="body">ProGenEDA, PSpice direction, EDA output</text>
   <text x="242" y="328" text-anchor="middle" class="body">with validation instead of guessing</text>
   <rect x="137" y="355" width="210" height="34" rx="17" fill="#a7f3d0"/>
   <text x="242" y="377" text-anchor="middle" class="chip">engineering artifact mindset</text>

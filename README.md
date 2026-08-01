@@ -1,3 +1,16 @@
+# Muhammad Taha Bin Zaeem
+
+Computer Engineering student at NUST CEME.
+
+Founder and lead developer of [ProGenEDA](https://progeneda.app), an EDA automation platform that converts supported circuit intent into editable native project files.
+
+Founder and product-direction lead at [Type2Learn](https://type2learn.tech), a team building accessible, typing-based active learning.
+
+## Building
+
+- [ProGenEDA](https://progeneda.app) — EDA automation for creating editable native circuit project files.
+- [Type2Learn](https://type2learn.tech) — accessible, typing-based active learning.
+
 <div align="center">
 
 <img src="assets/hero.svg" alt="Muhammad Taha Bin Zaeem — Computer Engineering, AI Systems, Circuit Simulation, Research Engineering" width="100%" />
@@ -11,8 +24,11 @@
 <a href="https://github.com/MuhammadTahaBinZaeem">
   <img src="https://img.shields.io/badge/GitHub-MuhammadTahaBinZaeem-0F172A?style=for-the-badge&logo=github&logoColor=white" />
 </a>
-<a href="https://progenlive.onrender.com/">
-  <img src="https://img.shields.io/badge/Live-Progen%20AI%20Circuit%20Generator-7C3AED?style=for-the-badge&logo=render&logoColor=white" />
+<a href="https://progeneda.app/">
+  <img src="https://img.shields.io/badge/ProGenEDA-EDA%20Automation-7C3AED?style=for-the-badge" />
+</a>
+<a href="https://type2learn.tech/">
+  <img src="https://img.shields.io/badge/Type2Learn-Accessible%20Learning-059669?style=for-the-badge" />
 </a>
 
 <br/>
@@ -73,8 +89,8 @@ I build from the uncomfortable edge: where AI has to create real files, where si
 <tr>
 <td width="50%" valign="top">
 
-### 🔌 Progen
-**AI-assisted circuit generation for Proteus simulation.**
+### 🔌 ProGenEDA
+**EDA automation that turns supported circuit intent into editable native project files.**
 
 Natural language goes in. Strict circuit IR is produced. Local validation and repair run. A downloadable `.pdsprj` comes out.
 
@@ -230,19 +246,20 @@ A number-entry app with profile data, quote generation, activity logs, daily quo
 
 ---
 
-## 📌 Selected Repositories
+## 📌 Selected Work
 
 <div align="center">
 
 | Repository | What it represents |
 |---|---|
-| [`progenlive`](https://github.com/MuhammadTahaBinZaeem/progenlive) | Live AI-assisted Proteus circuit generation app |
+| [ProGenEDA](https://progeneda.app) | EDA automation platform for editable native circuit project files |
+| [Type2Learn](https://type2learn.tech) | Accessible, typing-based active learning |
 | [`autodecom`](https://github.com/MuhammadTahaBinZaeem/autodecom) | Local automation workflow for structured technical analysis outputs |
 | [`Mips_Chess_Engine`](https://github.com/MuhammadTahaBinZaeem/Mips_Chess_Engine) | Chess engine built in MIPS assembly |
 | [`PROJECTINFINITY`](https://github.com/MuhammadTahaBinZaeem/PROJECTINFINITY) | Local-first AI context/workflow system |
-| [`litpaper`](https://github.com/MuhammadTahaBinZaeem/litpaper) | Reproducible literature/LLM research pipeline |
 | [`quote-quest`](https://github.com/MuhammadTahaBinZaeem/quote-quest) | Full-stack quote/personality app with tracked user state |
-| [`AMIPS`](https://github.com/MuhammadTahaBinZaeem/AMIPS) | Assembly/MIPS research and simulator direction |
+| [`CS-117-Project`](https://github.com/MuhammadTahaBinZaeem/CS-117-Project) | Single-cycle Verilog CPU with scalar and vector operations |
+| [`FOP-Project`](https://github.com/MuhammadTahaBinZaeem/FOP-Project) | C++ symbolic algebra solver with an AST-based simplification pipeline |
 
 </div>
 

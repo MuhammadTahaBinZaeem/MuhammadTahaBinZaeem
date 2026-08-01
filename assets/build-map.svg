@@ -52,7 +52,7 @@
   <text x="775" y="233" text-anchor="middle" class="small">files, outputs, checks</text>
 
   <rect x="80" y="335" width="225" height="88" rx="18" class="node purple"/>
-  <text x="192.5" y="369" text-anchor="middle" class="label">Progen</text>
+  <text x="192.5" y="369" text-anchor="middle" class="label">ProGenEDA</text>
   <text x="192.5" y="393" text-anchor="middle" class="small">AI → Proteus project</text>
 
   <rect x="350" y="335" width="225" height="88" rx="18" class="node blue"/>
