@@ -1,129 +1,291 @@
-Muhammad Taha Bin Zaeem
+<div align="center">
 
-Taha Bin Zaeem · Computer Engineering at NUST CEME
+<img src="assets/hero.svg" alt="Muhammad Taha Bin Zaeem — Computer Engineering, AI Systems, Circuit Simulation, Research Engineering" width="100%" />
 
-I am a Computer Engineering student from Pakistan building systems across EDA automation, accessible education, low-level computing, and AI-assisted engineering workflows. I use Muhammad Taha Bin Zaeem professionally and Taha Bin Zaeem as the shorter form of my name.
+<br/>
+<br/>
 
-<p align="center">
-  <a href="https://progeneda.app"><img src="https://img.shields.io/badge/ProGenEDA-Visit-6D28D9?style=for-the-badge" alt="Visit ProGenEDA" /></a>
-  <a href="https://type2learn.tech"><img src="https://img.shields.io/badge/Type2Learn-Visit-0F766E?style=for-the-badge" alt="Visit Type2Learn" /></a>
-  <a href="https://www.linkedin.com/in/tahabinzaeem/"><img src="https://img.shields.io/badge/LinkedIn-Taha%20Bin%20Zaeem-2563EB?style=for-the-badge&logo=linkedin&logoColor=white" alt="Taha Bin Zaeem on LinkedIn" /></a>
-  <a href="mailto:founder@progeneda.app"><img src="https://img.shields.io/badge/Email-founder%40progeneda.app-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email Muhammad Taha Bin Zaeem" /></a>
-</p>
+<a href="https://www.linkedin.com/in/muhammad-taha-bin-zaeem-a29524377/">
+  <img src="https://img.shields.io/badge/LinkedIn-Muhammad%20Taha%20Bin%20Zaeem-2563EB?style=for-the-badge&logo=linkedin&logoColor=white" />
+</a>
+<a href="https://github.com/MuhammadTahaBinZaeem">
+  <img src="https://img.shields.io/badge/GitHub-MuhammadTahaBinZaeem-0F172A?style=for-the-badge&logo=github&logoColor=white" />
+</a>
+<a href="https://progenlive.onrender.com/">
+  <img src="https://img.shields.io/badge/Live-Progen%20AI%20Circuit%20Generator-7C3AED?style=for-the-badge&logo=render&logoColor=white" />
+</a>
 
-<p align="center">
-  <img src="assets/hero.svg" alt="Muhammad Taha Bin Zaeem — Computer Engineering, EDA Automation, AI Systems, and Research Engineering" width="100%" />
-</p>
+<br/>
+<br/>
 
-Current work
+<img src="https://komarev.com/ghpvc/?username=MuhammadTahaBinZaeem&label=Profile%20Views&color=7c3aed&style=for-the-badge&base=324" />
+<img src="https://img.shields.io/badge/Focus-Systems%20that%20run-059669?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Mindset-Prototype%20%3E%20Excuse-F97316?style=for-the-badge" />
 
-ProGenEDA — Founder · Product & Engineering
+</div>
 
-ProGenEDA converts supported circuit intent into editable, native project files for Proteus, KiCad, EasyEDA Pro, and LTspice. Its canonical CircuitIR, backend-specific adapters, component catalogues, and validation gates keep generation inside explicit, tested boundaries.
+---
 
-The aim is not to replace engineering judgment. It is to reduce repetitive circuit-construction work while leaving the result open for inspection, editing, simulation, and verification in the target EDA tool.
+<div align="center">
 
-CircuitIR · Python · Rust · EDA automation · Native project generation · Validation
+### Your code shall forks into my ideas.
 
-Type2Learn — Founder · Product Direction
+</div>
 
-Type2Learn is a five-person team project building accessible, typing-based active learning. I lead the product vision, learning architecture, and the principle that learner dignity and configurability must be designed into the experience.
+---
 
-The team is using structured interviews and repeated prototype testing with learners, teachers, and relevant professionals to turn research findings into testable product decisions.
+## 🛰️ Mission Control
 
-Accessible learning · Product research · Co-design · Education technology
+<div align="center">
 
-Engineering profile
+<img src="assets/mission-control.svg" alt="Mission control: now building, proof trail, low-level systems" width="100%" />
 
-I am most interested in work where software must produce a real, inspectable artifact rather than only a plausible answer. That includes:
+</div>
 
-tool-native engineering files and deterministic validation;
+---
 
-computer architecture, MIPS assembly, and Verilog;
+## 🧬 Identity
 
-local-first applications and explicit data ownership;
+```txt
+Name        : Muhammad Taha Bin Zaeem
+Location    : Pakistan
+University  : NUST CEME
+Field       : Computer Engineering
+Build Mode  : AI + circuit simulation + architecture + research pipelines
+North Star  : Turn hard technical ideas into testable engineering artifacts
+```
 
-reproducible AI and research pipelines;
+I am not trying to look like a generic developer profile.
 
-full-stack products that preserve state and evidence.
+I build from the uncomfortable edge: where AI has to create real files, where simulators refuse to cooperate, where assembly becomes a full project, where research needs logs instead of vibes, and where a prototype must survive actual testing.
 
-Selected public repositories
+<div align="center">
 
-Repository
+> **I like systems that are hard enough to expose weak thinking.**
 
-What it demonstrates
+</div>
 
-autodecom
+---
 
-A local automation workflow for structured technical-analysis outputs
+## 🚀 Flagship Work
 
-Mips_Chess_Engine
+<table>
+<tr>
+<td width="50%" valign="top">
 
-Chess state, validation, special rules, and a simple opponent implemented in MIPS assembly
+### 🔌 Progen
+**AI-assisted circuit generation for Proteus simulation.**
 
-PROJECTINFINITY
+Natural language goes in. Strict circuit IR is produced. Local validation and repair run. A downloadable `.pdsprj` comes out.
 
-Local-first context and workflow architecture using explicit user approval and structured project data
+**Why it matters:** this is not another chatbot wrapper. It is an attempt to make AI produce simulator-ready engineering artifacts.
 
-CS-117-Project
+`FastAPI` · `CircuitIR` · `Proteus` · `MongoDB` · `Docker` · `LLM pipeline`
 
-A custom single-cycle Verilog CPU with a 20-bit instruction set and scalar/vector operations
+</td>
+<td width="50%" valign="top">
 
-quote-quest
+### 🧩 AutoDecomp
+**A local workflow for turning opaque binaries into readable technical maps.**
 
-A full-stack application with persistent profiles, activity records, and personalized state
+It preserves folder structure, runs a controlled analysis pipeline, writes structured outputs, records failures, and treats tooling as a repeatable engineering process instead of a one-time stunt.
 
-FOP-Project
+**Why it matters:** real computer engineering means being able to move from black-box behavior toward understandable structure.
 
-Current coursework and programming work
+`Python` · `Automation` · `Ghidra workflow` · `Structured output` · `Local tooling`
 
-ProGenEDA's production core is not currently published as a public repository. Public technical specifications, examples, and validation material will be linked here when released.
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
 
-Tools and technologies
+### ♟️ MIPS Chess Engine
+**A functional chess engine written in MIPS assembly.**
 
-Languages: Python, Rust, C, C++, Java, TypeScript, JavaScript, MIPS Assembly, Verilog
+Board representation, coordinate move input, move validation, special rules, check/checkmate detection, and a simple AI opponent.
 
-Applications: React, Three.js, FastAPI, Electron
+**Why it matters:** assembly stops being theory when it has to hold a game state and enforce rules.
 
-Data and infrastructure: PostgreSQL, MongoDB, SQLite, Docker, Git
+`MIPS` · `SPIM` · `Assembly` · `Game logic` · `Memory layout`
 
-Engineering: Proteus, KiCad, EasyEDA Pro, LTspice, PSpice
+</td>
+<td width="50%" valign="top">
 
-Research and AI: LLM pipelines, structured evaluation, metadata, checksums, reproducible outputs
+### ∞ Project Infinity
+**A local-first context and workflow system.**
 
-How I work
+A serious app architecture around project files, context packs, searchable local data, explicit user approval, redaction, provider routing, and reproducible handoff flows.
 
-principles:
-  - define the boundary before claiming the capability
-  - turn vague intent into a testable specification
-  - preserve evidence, failures, and reproducibility
-  - release what can be verified and label what cannot
-  - use AI as a tool, not as the final authority
+**Why it matters:** AI workflows need memory, structure, consent, and traceability — not just another text box.
 
-Current priorities
+`Electron` · `SQLite` · `TypeScript` · `Local-first design` · `Context systems`
 
-Qualify and expand ProGenEDA's strongest native-generation path.
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
 
-Publish clearer technical evidence, examples, and failure boundaries.
+### 📚 Litpaper
+**Research pipeline built around reproducibility.**
 
-Build and test Type2Learn with its intended users during the IncludAI hackathon.
+Raw sources, deterministic scripts, prompt templates, stored LLM outputs, metadata, checksums, and environment records.
 
-Contribute to developer and engineering communities through documentation, workshops, and open-source work.
+**Why it matters:** if a paper depends on LLM outputs, the pipeline must preserve the evidence trail.
 
-<p align="center">
-  <img src="assets/build-map.svg" alt="Muhammad Taha Bin Zaeem project build map" width="100%" />
-</p>
+`Research engineering` · `Metadata` · `Checksums` · `LLM outputs` · `Auditability`
 
-Connect
+</td>
+<td width="50%" valign="top">
 
-Portfolio and technical work: ProGenEDA
+### 🧩 Quote Quest
+**A full-stack experimental web app with tracked user state.**
 
-Team education project: Type2Learn
+A number-entry app with profile data, quote generation, activity logs, daily quotes, locked mode, and personalized behavior.
 
-Professional profile: LinkedIn
+**Why it matters:** small apps become serious when they store state, model behavior, and evolve from toy idea to actual product structure.
 
-GitHub: MuhammadTahaBinZaeem
+`React` · `TypeScript` · `Drizzle` · `Postgres schema` · `User state`
 
-Email: founder@progeneda.app
+</td>
+</tr>
+</table>
 
-Muhammad Taha Bin Zaeem · Taha Bin Zaeem · Computer Engineering · NUST CEME · Pakistan
+---
+
+## 🧠 What My Repos Say About Me
+
+<div align="center">
+
+| Signal | Evidence |
+|---|---|
+| 🔥 **I build beyond coursework** | AI circuit generation, MIPS chess, context systems, research pipelines |
+| ⚙️ **I care about real artifacts** | `.pdsprj` output, Docker deployment, SQLite storage, generated manifests |
+| 🧪 **I care about reproducibility** | checksums, stored outputs, metadata, locked baselines, audit docs |
+| 🧱 **I like low-level thinking** | MIPS assembly, simulator design, memory layout, architecture experiments |
+| 🌐 **I can ship web apps too** | React/TypeScript frontends, FastAPI backends, MongoDB/Postgres schemas |
+
+</div>
+
+---
+
+## 🛠️ Arsenal
+
+<div align="center">
+
+### Languages
+![Python](https://img.shields.io/badge/Python-0F172A?style=for-the-badge&logo=python&logoColor=FACC15)
+![C](https://img.shields.io/badge/C-0F172A?style=for-the-badge&logo=c&logoColor=60A5FA)
+![C++](https://img.shields.io/badge/C++-0F172A?style=for-the-badge&logo=c%2B%2B&logoColor=60A5FA)
+![Java](https://img.shields.io/badge/Java-0F172A?style=for-the-badge&logo=openjdk&logoColor=F97316)
+![MIPS Assembly](https://img.shields.io/badge/MIPS%20Assembly-0F172A?style=for-the-badge&logoColor=A78BFA)
+![Verilog](https://img.shields.io/badge/Verilog-0F172A?style=for-the-badge&logoColor=22C55E)
+![TypeScript](https://img.shields.io/badge/TypeScript-0F172A?style=for-the-badge&logo=typescript&logoColor=60A5FA)
+![JavaScript](https://img.shields.io/badge/JavaScript-0F172A?style=for-the-badge&logo=javascript&logoColor=FACC15)
+
+### AI / Data / Research
+![LLM Systems](https://img.shields.io/badge/LLM%20Systems-312E81?style=for-the-badge)
+![Pandas](https://img.shields.io/badge/Pandas-0F172A?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-0F172A?style=for-the-badge&logo=numpy&logoColor=60A5FA)
+![PyTorch](https://img.shields.io/badge/PyTorch-0F172A?style=for-the-badge&logo=pytorch&logoColor=F97316)
+![Jupyter](https://img.shields.io/badge/Jupyter-0F172A?style=for-the-badge&logo=jupyter&logoColor=F97316)
+![LaTeX](https://img.shields.io/badge/LaTeX-0F172A?style=for-the-badge&logo=latex&logoColor=22C55E)
+
+### Web / App / Infra
+![React](https://img.shields.io/badge/React-0F172A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-0F172A?style=for-the-badge&logo=node.js&logoColor=22C55E)
+![FastAPI](https://img.shields.io/badge/FastAPI-0F172A?style=for-the-badge&logo=fastapi&logoColor=22C55E)
+![Electron](https://img.shields.io/badge/Electron-0F172A?style=for-the-badge&logo=electron&logoColor=9CA3AF)
+![MongoDB](https://img.shields.io/badge/MongoDB-0F172A?style=for-the-badge&logo=mongodb&logoColor=22C55E)
+![SQLite](https://img.shields.io/badge/SQLite-0F172A?style=for-the-badge&logo=sqlite&logoColor=60A5FA)
+![Docker](https://img.shields.io/badge/Docker-0F172A?style=for-the-badge&logo=docker&logoColor=60A5FA)
+
+### Engineering Tools
+![Arch Linux](https://img.shields.io/badge/Arch%20Linux-0F172A?style=for-the-badge&logo=archlinux&logoColor=60A5FA)
+![Git](https://img.shields.io/badge/Git-0F172A?style=for-the-badge&logo=git&logoColor=F97316)
+![GitHub](https://img.shields.io/badge/GitHub-0F172A?style=for-the-badge&logo=github&logoColor=white)
+![Proteus](https://img.shields.io/badge/Proteus-0F172A?style=for-the-badge&logoColor=A78BFA)
+![PSpice](https://img.shields.io/badge/PSpice-0F172A?style=for-the-badge&logoColor=22C55E)
+
+</div>
+
+---
+
+## 📊 GitHub Pulse
+
+<div align="center">
+
+<img src="assets/pulse.svg" alt="GitHub pulse summary" width="100%" />
+
+</div>
+
+---
+
+## 🏗️ Current Build Map
+
+<div align="center">
+
+<img src="assets/build-map.svg" alt="Current build map from idea to public output" width="100%" />
+
+</div>
+
+---
+
+## 📌 Selected Repositories
+
+<div align="center">
+
+| Repository | What it represents |
+|---|---|
+| [`progenlive`](https://github.com/MuhammadTahaBinZaeem/progenlive) | Live AI-assisted Proteus circuit generation app |
+| [`autodecom`](https://github.com/MuhammadTahaBinZaeem/autodecom) | Local automation workflow for structured technical analysis outputs |
+| [`Mips_Chess_Engine`](https://github.com/MuhammadTahaBinZaeem/Mips_Chess_Engine) | Chess engine built in MIPS assembly |
+| [`PROJECTINFINITY`](https://github.com/MuhammadTahaBinZaeem/PROJECTINFINITY) | Local-first AI context/workflow system |
+| [`litpaper`](https://github.com/MuhammadTahaBinZaeem/litpaper) | Reproducible literature/LLM research pipeline |
+| [`quote-quest`](https://github.com/MuhammadTahaBinZaeem/quote-quest) | Full-stack quote/personality app with tracked user state |
+| [`AMIPS`](https://github.com/MuhammadTahaBinZaeem/AMIPS) | Assembly/MIPS research and simulator direction |
+
+</div>
+
+---
+
+## 🧭 What I’m Chasing
+
+<div align="center">
+
+<table>
+<tr>
+<td align="center"><b>Short Term</b></td>
+<td>Make AI-generated simulation files reliable enough to trust.</td>
+</tr>
+<tr>
+<td align="center"><b>Medium Term</b></td>
+<td>Build publishable research pipelines with clean evidence trails.</td>
+</tr>
+<tr>
+<td align="center"><b>Long Term</b></td>
+<td>Become the kind of engineer who can move between software, hardware, AI, and systems without fear.</td>
+</tr>
+</table>
+
+</div>
+
+---
+
+## 🧨 Personal Operating System
+
+```yaml
+rules:
+  - build first, polish second, document before forgetting
+  - vague ideas are uncompiled specifications
+  - if a system cannot be tested, it is still mostly imagination
+  - if research cannot be audited, it is only a story
+  - do not worship tools; make them serve the goal
+```
+
+---
+
+<div align="center">
+
+### “A spark of impenetrable darkness flashed within the concealed of the concealed.”
+
+</div>
