@@ -1,17 +1,23 @@
-# Muhammad Taha Bin Zaeem
-
-Computer Engineering student at NUST CEME.
-
-Founder and lead developer of [ProGenEDA](https://progeneda.app), an EDA automation platform that converts supported circuit intent into editable native project files.
-
-Founder and product-direction lead at [Type2Learn](https://type2learn.tech), a team building accessible, typing-based active learning.
-
-## Building
-
-- [ProGenEDA](https://progeneda.app) — EDA automation for creating editable native circuit project files.
-- [Type2Learn](https://type2learn.tech) — accessible, typing-based active learning.
-
 <div align="center">
+
+<h1>Muhammad Taha Bin Zaeem</h1>
+
+<p><strong>Computer Engineering @ NUST CEME</strong> &nbsp;·&nbsp; Pakistan</p>
+
+<p>
+  Founder &amp; lead developer of <a href="https://progeneda.app"><strong>ProGenEDA</strong></a>
+  &nbsp;·&nbsp;
+  Founder &amp; product lead at <a href="https://type2learn.tech"><strong>Type2Learn</strong></a>
+</p>
+
+<p>Building editable native EDA projects and accessible, typing-based active learning.</p>
+
+<a href="https://progeneda.app">
+  <img src="https://img.shields.io/badge/ProGenEDA-progeneda.app-7C3AED?style=for-the-badge" alt="Visit ProGenEDA at progeneda.app" />
+</a>
+<a href="https://type2learn.tech">
+  <img src="https://img.shields.io/badge/Type2Learn-type2learn.tech-059669?style=for-the-badge" alt="Visit Type2Learn at type2learn.tech" />
+</a>
 
 <img src="assets/hero.svg" alt="Muhammad Taha Bin Zaeem — Computer Engineering, founder of ProGenEDA and Type2Learn" width="100%" />
 
@@ -24,13 +30,6 @@ Founder and product-direction lead at [Type2Learn](https://type2learn.tech), a t
 <a href="https://github.com/MuhammadTahaBinZaeem">
   <img src="https://img.shields.io/badge/GitHub-MuhammadTahaBinZaeem-0F172A?style=for-the-badge&logo=github&logoColor=white" />
 </a>
-<a href="https://progeneda.app/">
-  <img src="https://img.shields.io/badge/ProGenEDA-EDA%20Automation-7C3AED?style=for-the-badge" />
-</a>
-<a href="https://type2learn.tech/">
-  <img src="https://img.shields.io/badge/Type2Learn-Accessible%20Learning-059669?style=for-the-badge" />
-</a>
-
 <br/>
 <br/>
 
@@ -44,7 +43,7 @@ Founder and product-direction lead at [Type2Learn](https://type2learn.tech), a t
 
 <div align="center">
 
-### Your code shall forks into my ideas.
+### Build the file. Prove the artifact. Keep the work editable.
 
 </div>
 
