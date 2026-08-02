@@ -7,7 +7,7 @@
 <p>
   Founder &amp; lead developer of <a href="https://progeneda.app"><strong>ProGenEDA</strong></a>
   &nbsp;·&nbsp;
-  Founder &amp; product lead at <a href="https://type2learn.tech"><strong>Type2Learn</strong></a>
+  Founder &amp; lead developer at <a href="https://type2learn.tech"><strong>Type2Learn</strong></a>
 </p>
 
 <p>Building editable native EDA projects and accessible, typing-based active learning.</p>
