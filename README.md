@@ -13,7 +13,7 @@ Founder and product-direction lead at [Type2Learn](https://type2learn.tech), a t
 
 <div align="center">
 
-<img src="assets/hero.svg" alt="Muhammad Taha Bin Zaeem — Computer Engineering, AI Systems, Circuit Simulation, Research Engineering" width="100%" />
+<img src="assets/hero.svg" alt="Muhammad Taha Bin Zaeem — Computer Engineering, founder of ProGenEDA and Type2Learn" width="100%" />
 
 <br/>
 <br/>
@@ -101,14 +101,14 @@ Natural language goes in. Strict circuit IR is produced. Local validation and re
 </td>
 <td width="50%" valign="top">
 
-### 🧩 AutoDecomp
-**A local workflow for turning opaque binaries into readable technical maps.**
+### ⌨️ [Type2Learn](https://type2learn.tech)
+**Accessible active learning built around typing, learner choice, and clear feedback.**
 
-It preserves folder structure, runs a controlled analysis pipeline, writes structured outputs, records failures, and treats tooling as a repeatable engineering process instead of a one-time stunt.
+Type2Learn pairs structured courses with learner-controlled supports, including narration, alternative input, and focus controls. Typing is a way to show learning—not a speed test.
 
-**Why it matters:** real computer engineering means being able to move from black-box behavior toward understandable structure.
+**Why it matters:** accessible learning should preserve learner agency while making active participation practical.
 
-`Python` · `Automation` · `Ghidra workflow` · `Structured output` · `Local tooling`
+`Accessible learning` · `Learning design` · `Learner controls` · `Active practice` · `Product direction`
 
 </td>
 </tr>
@@ -153,14 +153,14 @@ Raw sources, deterministic scripts, prompt templates, stored LLM outputs, metada
 </td>
 <td width="50%" valign="top">
 
-### 🧩 Quote Quest
-**A full-stack experimental web app with tracked user state.**
+### 🧩 AutoDecomp
+**A local workflow for turning opaque binaries into readable technical maps.**
 
-A number-entry app with profile data, quote generation, activity logs, daily quotes, locked mode, and personalized behavior.
+It preserves folder structure, runs controlled analysis, writes structured outputs, records failures, and treats tooling as a repeatable engineering process instead of a one-time stunt.
 
-**Why it matters:** small apps become serious when they store state, model behavior, and evolve from toy idea to actual product structure.
+**Why it matters:** real computer engineering means being able to move from black-box behavior toward understandable structure.
 
-`React` · `TypeScript` · `Drizzle` · `Postgres schema` · `User state`
+`Python` · `Ghidra` · `Binary analysis` · `Structured output` · `Local tooling`
 
 </td>
 </tr>
@@ -178,7 +178,7 @@ A number-entry app with profile data, quote generation, activity logs, daily quo
 | ⚙️ **I care about real artifacts** | `.pdsprj` output, Docker deployment, SQLite storage, generated manifests |
 | 🧪 **I care about reproducibility** | checksums, stored outputs, metadata, locked baselines, audit docs |
 | 🧱 **I like low-level thinking** | MIPS assembly, simulator design, memory layout, architecture experiments |
-| 🌐 **I can ship web apps too** | React/TypeScript frontends, FastAPI backends, MongoDB/Postgres schemas |
+| 🌐 **I can ship products too** | ProGenEDA native-file workflows and Type2Learn accessible active-learning experiences |
 
 </div>
 
@@ -257,7 +257,6 @@ A number-entry app with profile data, quote generation, activity logs, daily quo
 | [`autodecom`](https://github.com/MuhammadTahaBinZaeem/autodecom) | Local automation workflow for structured technical analysis outputs |
 | [`Mips_Chess_Engine`](https://github.com/MuhammadTahaBinZaeem/Mips_Chess_Engine) | Chess engine built in MIPS assembly |
 | [`PROJECTINFINITY`](https://github.com/MuhammadTahaBinZaeem/PROJECTINFINITY) | Local-first AI context/workflow system |
-| [`quote-quest`](https://github.com/MuhammadTahaBinZaeem/quote-quest) | Full-stack quote/personality app with tracked user state |
 | [`CS-117-Project`](https://github.com/MuhammadTahaBinZaeem/CS-117-Project) | Single-cycle Verilog CPU with scalar and vector operations |
 | [`FOP-Project`](https://github.com/MuhammadTahaBinZaeem/FOP-Project) | C++ symbolic algebra solver with an AST-based simplification pipeline |
 

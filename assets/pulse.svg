@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="360" viewBox="0 0 1100 360" role="img" aria-label="GitHub pulse summary">
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="360" viewBox="0 0 1100 360" role="img" aria-label="Three flagship areas: ProGenEDA, Type2Learn, and systems engineering">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#020617"/>
@@ -27,8 +27,8 @@
   <circle cx="960" cy="280" r="150" fill="#22c55e" opacity="0.12"/>
   <path d="M70 240 C210 170 320 300 455 230 S710 165 845 235 S1010 260 1060 198" fill="none" stroke="url(#accent)" stroke-width="3" opacity="0.55"/>
 
-  <text x="550" y="62" text-anchor="middle" class="title">GitHub Pulse</text>
-  <text x="550" y="90" text-anchor="middle" class="sub">A cleaner snapshot than broken external stat cards</text>
+  <text x="550" y="62" text-anchor="middle" class="title">What I Build</text>
+  <text x="550" y="90" text-anchor="middle" class="sub">ProGenEDA · Type2Learn · systems engineering</text>
   <rect x="370" y="108" width="360" height="4" rx="2" fill="url(#accent)"/>
 
   <g filter="url(#shadow)">
@@ -41,11 +41,11 @@
   <text x="230" y="236" text-anchor="middle" class="label">ProGenEDA / Proteus</text>
   <text x="230" y="260" text-anchor="middle" class="desc">circuit IR, validation, project generation</text>
 
-  <text x="550" y="203" text-anchor="middle" class="num">MIPS</text>
-  <text x="550" y="236" text-anchor="middle" class="label">Architecture Lab</text>
-  <text x="550" y="260" text-anchor="middle" class="desc">assembly, memory layout, chess engine</text>
+  <text x="550" y="203" text-anchor="middle" class="num">TYPE</text>
+  <text x="550" y="236" text-anchor="middle" class="label">Type2Learn</text>
+  <text x="550" y="260" text-anchor="middle" class="desc">typing, learner controls, clear feedback</text>
 
-  <text x="870" y="203" text-anchor="middle" class="num">TRACE</text>
-  <text x="870" y="236" text-anchor="middle" class="label">Research Pipelines</text>
-  <text x="870" y="260" text-anchor="middle" class="desc">logs, checksums, outputs, manifests</text>
+  <text x="870" y="203" text-anchor="middle" class="num">MIPS</text>
+  <text x="870" y="236" text-anchor="middle" class="label">Systems Engineering</text>
+  <text x="870" y="260" text-anchor="middle" class="desc">architecture, analysis, reproducible systems</text>
 </svg>

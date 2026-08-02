@@ -104,10 +104,10 @@
   </g>
 
   <text x="600" y="158" text-anchor="middle" class="title">MUHAMMAD TAHA BIN ZAEEM</text>
-  <text x="600" y="204" text-anchor="middle" class="subtitle">Computer Engineering @ NUST CEME • AI Systems • Circuit Simulation • Research Engineering</text>
+  <text x="600" y="204" text-anchor="middle" class="subtitle">Computer Engineering @ NUST CEME • ProGenEDA • Type2Learn • Systems Engineering</text>
 
   <rect x="285" y="236" width="630" height="48" rx="24" fill="#020617" opacity="0.86" stroke="#475569"/>
-  <text x="600" y="267" text-anchor="middle" class="terminal">rough idea → working prototype → documented pipeline<tspan class="blink">_</tspan></text>
+  <text x="600" y="267" text-anchor="middle" class="terminal">native EDA → accessible learning → tested systems<tspan class="blink">_</tspan></text>
 
   <circle cx="92" cy="97" r="3" fill="#ffffff" opacity="0.55">
     <animate attributeName="opacity" values="0.2;1;0.2" dur="2s" repeatCount="indefinite"/>
