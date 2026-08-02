@@ -93,6 +93,8 @@ I build from the uncomfortable edge: where AI has to create real files, where si
 
 Natural language goes in. Strict circuit IR is produced. Local validation and repair run. A downloadable `.pdsprj` comes out.
 
+**Explore:** [Website](https://progeneda.app) · [GitHub organization](https://github.com/ProGenEDA)
+
 **Why it matters:** this is not another chatbot wrapper. It is an attempt to make AI produce simulator-ready engineering artifacts.
 
 `FastAPI` · `CircuitIR` · `Proteus` · `MongoDB` · `Docker` · `LLM pipeline`
@@ -104,6 +106,8 @@ Natural language goes in. Strict circuit IR is produced. Local validation and re
 **Accessible active learning built around typing, learner choice, and clear feedback.**
 
 Type2Learn pairs structured courses with learner-controlled supports, including narration, alternative input, and focus controls. Typing is a way to show learning—not a speed test.
+
+**Explore:** [Website](https://type2learn.tech) · [GitHub organization](https://github.com/Type2Learn)
 
 **Why it matters:** accessible learning should preserve learner agency while making active participation practical.
 
