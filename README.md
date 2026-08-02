@@ -88,7 +88,11 @@ I build from the uncomfortable edge: where AI has to create real files, where si
 <tr>
 <td width="50%" valign="top">
 
-### 🔌 ProGenEDA
+<a href="https://progeneda.app">
+  <img src="assets/progeneda-logo.png" alt="ProGenEDA logo" width="58" align="right" />
+</a>
+
+### 🔌 [ProGenEDA](https://progeneda.app)
 **EDA automation that turns supported circuit intent into editable native project files.**
 
 Natural language goes in. Strict circuit IR is produced. Local validation and repair run. A downloadable `.pdsprj` comes out.
@@ -99,6 +103,10 @@ Natural language goes in. Strict circuit IR is produced. Local validation and re
 
 </td>
 <td width="50%" valign="top">
+
+<a href="https://type2learn.tech">
+  <img src="assets/type2learn-logo.png" alt="Type2Learn logo" width="58" align="right" />
+</a>
 
 ### ⌨️ [Type2Learn](https://type2learn.tech)
 **Accessible active learning built around typing, learner choice, and clear feedback.**
@@ -114,7 +122,7 @@ Type2Learn pairs structured courses with learner-controlled supports, including 
 <tr>
 <td width="50%" valign="top">
 
-### ♟️ MIPS Chess Engine
+### ♟️ [MIPS Chess Engine](https://github.com/MuhammadTahaBinZaeem/Mips_Chess_Engine)
 **A functional chess engine written in MIPS assembly.**
 
 Board representation, coordinate move input, move validation, special rules, check/checkmate detection, and a simple AI opponent.
@@ -126,7 +134,7 @@ Board representation, coordinate move input, move validation, special rules, che
 </td>
 <td width="50%" valign="top">
 
-### ∞ Project Infinity
+### ∞ [Project Infinity](https://github.com/MuhammadTahaBinZaeem/PROJECTINFINITY)
 **A local-first context and workflow system.**
 
 A serious app architecture around project files, context packs, searchable local data, explicit user approval, redaction, provider routing, and reproducible handoff flows.
@@ -152,7 +160,7 @@ Raw sources, deterministic scripts, prompt templates, stored LLM outputs, metada
 </td>
 <td width="50%" valign="top">
 
-### 🧩 AutoDecomp
+### 🧩 [AutoDecomp](https://github.com/MuhammadTahaBinZaeem/autodecom)
 **A local workflow for turning opaque binaries into readable technical maps.**
 
 It preserves folder structure, runs controlled analysis, writes structured outputs, records failures, and treats tooling as a repeatable engineering process instead of a one-time stunt.
