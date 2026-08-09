@@ -1,0 +1,22 @@
+node_modules/
+.next/
+dist/
+.wrangler/
+.vinext/
+.partial-node-modules-*/
+.reference-sources/
+qa-artifacts/
+*.log
+.env
+.env.*
+!.env.example
+
+# The portfolio application lives under web/.
+web/node_modules/
+web/.next/
+web/dist/
+web/.wrangler/
+web/.vinext/
+web/.partial-node-modules-*/
+web/.reference-sources/
+web/qa-artifacts/
