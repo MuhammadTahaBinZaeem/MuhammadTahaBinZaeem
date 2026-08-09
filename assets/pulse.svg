@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="360" viewBox="0 0 1100 360" role="img" aria-label="Three flagship areas: ProGenEDA, Type2Learn, and systems engineering">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#020617"/>
+      <stop offset="0.55" stop-color="#111827"/>
+      <stop offset="1" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a78bfa"/>
+      <stop offset="0.55" stop-color="#60a5fa"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <style>
+      .title{font:900 34px 'Segoe UI',Inter,Arial,sans-serif;fill:#f8fafc}
+      .sub{font:600 15px 'Segoe UI',Inter,Arial,sans-serif;fill:#cbd5e1}
+      .num{font:900 42px 'Segoe UI',Inter,Arial,sans-serif;fill:#ffffff}
+      .label{font:800 17px 'Segoe UI',Inter,Arial,sans-serif;fill:#c4b5fd}
+      .desc{font:600 13px 'Segoe UI',Inter,Arial,sans-serif;fill:#94a3b8}
+    </style>
+  </defs>
+
+  <rect width="1100" height="360" rx="28" fill="url(#bg)"/>
+  <circle cx="150" cy="90" r="130" fill="#7c3aed" opacity="0.16"/>
+  <circle cx="960" cy="280" r="150" fill="#22c55e" opacity="0.12"/>
+  <path d="M70 240 C210 170 320 300 455 230 S710 165 845 235 S1010 260 1060 198" fill="none" stroke="url(#accent)" stroke-width="3" opacity="0.55"/>
+
+  <text x="550" y="62" text-anchor="middle" class="title">What I Build</text>
+  <text x="550" y="90" text-anchor="middle" class="sub">ProGenEDA · Type2Learn · systems engineering</text>
+  <rect x="370" y="108" width="360" height="4" rx="2" fill="url(#accent)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="90" y="150" width="280" height="130" rx="24" fill="#0f172a" stroke="#334155"/>
+    <rect x="410" y="150" width="280" height="130" rx="24" fill="#0f172a" stroke="#334155"/>
+    <rect x="730" y="150" width="280" height="130" rx="24" fill="#0f172a" stroke="#334155"/>
+  </g>
+
+  <text x="230" y="203" text-anchor="middle" class="num">AI → EDA</text>
+  <text x="230" y="236" text-anchor="middle" class="label">ProGenEDA / Proteus</text>
+  <text x="230" y="260" text-anchor="middle" class="desc">circuit IR, validation, project generation</text>
+
+  <text x="550" y="203" text-anchor="middle" class="num">TYPE</text>
+  <text x="550" y="236" text-anchor="middle" class="label">Type2Learn</text>
+  <text x="550" y="260" text-anchor="middle" class="desc">typing, learner controls, clear feedback</text>
+
+  <text x="870" y="203" text-anchor="middle" class="num">MIPS</text>
+  <text x="870" y="236" text-anchor="middle" class="label">Systems Engineering</text>
+  <text x="870" y="260" text-anchor="middle" class="desc">architecture, analysis, reproducible systems</text>
+</svg>
