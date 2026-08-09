@@ -19,7 +19,7 @@
   <img src="https://img.shields.io/badge/Type2Learn-type2learn.tech-059669?style=for-the-badge" alt="Visit Type2Learn at type2learn.tech" />
 </a>
 
-<img src="../assets/hero.svg" alt="Muhammad Taha Bin Zaeem — Computer Engineering, founder of ProGenEDA and Type2Learn" width="100%" />
+<img src="../../assets/hero.svg" alt="Muhammad Taha Bin Zaeem — Computer Engineering, founder of ProGenEDA and Type2Learn" width="100%" />
 
 <br/>
 <br/>
@@ -53,7 +53,7 @@
 
 <div align="center">
 
-<img src="../assets/mission-control.svg" alt="Mission control: now building, proof trail, low-level systems" width="100%" />
+<img src="../../assets/mission-control.svg" alt="Mission control: now building, proof trail, low-level systems" width="100%" />
 
 </div>
 
@@ -88,7 +88,7 @@ I build from the uncomfortable edge: where AI has to create real files, where si
 <tr>
 <td width="50%" valign="top">
 
-### [<img src="../assets/progeneda-mark.webp" alt="" width="32" align="absmiddle" /> ProGenEDA](https://progeneda.app)
+### [<img src="../../assets/progeneda-mark.webp" alt="" width="32" align="absmiddle" /> ProGenEDA](https://progeneda.app)
 **EDA automation that turns supported circuit intent into editable native project files.**
 
 Natural language goes in. Strict circuit IR is produced. Local validation and repair run. A downloadable `.pdsprj` comes out.
@@ -102,7 +102,7 @@ Natural language goes in. Strict circuit IR is produced. Local validation and re
 </td>
 <td width="50%" valign="top">
 
-### [<img src="../assets/type2learn-mark.webp" alt="" width="32" align="absmiddle" /> Type2Learn](https://type2learn.tech)
+### [<img src="../../assets/type2learn-mark.webp" alt="" width="32" align="absmiddle" /> Type2Learn](https://type2learn.tech)
 **Accessible active learning built around typing, learner choice, and clear feedback.**
 
 Type2Learn pairs structured courses with learner-controlled supports, including narration, alternative input, and focus controls. Typing is a way to show learning—not a speed test.
@@ -233,7 +233,7 @@ It preserves folder structure, runs controlled analysis, writes structured outpu
 
 <div align="center">
 
-<img src="../assets/pulse.svg" alt="GitHub pulse summary" width="100%" />
+<img src="../../assets/pulse.svg" alt="GitHub pulse summary" width="100%" />
 
 </div>
 
@@ -243,7 +243,7 @@ It preserves folder structure, runs controlled analysis, writes structured outpu
 
 <div align="center">
 
-<img src="../assets/build-map.svg" alt="Current build map from idea to public output" width="100%" />
+<img src="../../assets/build-map.svg" alt="Current build map from idea to public output" width="100%" />
 
 </div>
 
