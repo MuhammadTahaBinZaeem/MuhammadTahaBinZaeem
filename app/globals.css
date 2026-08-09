@@ -93,6 +93,45 @@ button {
   transform: translateY(0);
 }
 
+.work-in-progress {
+  position: fixed;
+  z-index: 96;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  max-width: min(360px, calc(100vw - 2rem));
+  padding: 0.75rem 0.8rem;
+  color: var(--paper);
+  background: var(--ink);
+  border: 1px solid rgba(238, 233, 223, 0.3);
+  box-shadow: 5px 5px 0 var(--signal);
+  font: 700 0.63rem/1.35 var(--font-mono);
+  letter-spacing: 0.045em;
+}
+
+.work-in-progress > span {
+  color: var(--signal);
+  font-size: 0.8rem;
+}
+
+.work-in-progress p { margin: 0; }
+
+.work-in-progress button {
+  flex: 0 0 auto;
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+  color: var(--paper);
+  background: transparent;
+  border: 1px solid rgba(238, 233, 223, 0.35);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.work-in-progress button:hover { color: var(--ink); background: var(--lime); }
+
 .noise {
   position: fixed;
   z-index: 90;

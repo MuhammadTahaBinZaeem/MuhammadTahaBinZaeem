@@ -696,6 +696,7 @@ export default function Home() {
   const [machineReady, setMachineReady] = useState(false);
   const [machineActive, setMachineActive] = useState(true);
   const [activeSection, setActiveSection] = useState("top");
+  const [workInProgressVisible, setWorkInProgressVisible] = useState(true);
   const cursorDot = useRef<HTMLDivElement>(null);
   const cursorRing = useRef<HTMLDivElement>(null);
   const scrollProgress = useRef<HTMLDivElement>(null);
@@ -1068,6 +1069,20 @@ export default function Home() {
             </button>
           </div>
         </div>
+      )}
+
+      {!bootVisible && workInProgressVisible && (
+        <aside className="work-in-progress" role="status" aria-label="Portfolio status">
+          <span aria-hidden="true">●</span>
+          <p><strong>WORK IN PROGRESS</strong> — new builds are still being wired in.</p>
+          <button
+            type="button"
+            onClick={() => setWorkInProgressVisible(false)}
+            aria-label="Dismiss work in progress notice"
+          >
+            ×
+          </button>
+        </aside>
       )}
 
       <div className="cursor-dot" ref={cursorDot} aria-hidden="true" />
