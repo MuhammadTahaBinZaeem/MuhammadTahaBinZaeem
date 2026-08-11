@@ -6,9 +6,9 @@ import { PortalLink, SignalEmblem } from "./components/experience-shell";
 import { StoryMotion } from "./components/story-motion";
 
 export const metadata: Metadata = {
-  title: "The Threshold",
+  title: "Muhammad Taha Bin Zaeem | Taha Zaeem Computer Engineer Portfolio",
   description:
-    "Enter the portfolio of Muhammad Taha Bin Zaeem: a story built across hardware, software, AI, education, and proof.",
+    "Meet Muhammad Taha Bin Zaeem, also known as Muhammad Taha and Taha Zaeem: a NUST CEME computer engineer and founder building hardware, software, AI, and education products.",
   alternates: { canonical: "/" },
 };
 
@@ -241,10 +241,14 @@ export default function HomePage() {
         <p className="micro-label" data-reveal>00.5 / OPEN CHANNEL</p>
         <h2 data-reveal>BRING THE PROBLEM THAT LOOKS TOO HARD.</h2>
         <div className="threshold-contact__actions" data-reveal>
-          <a href="https://www.linkedin.com/in/tahabinzaeem/" rel="noreferrer" target="_blank">
+          <a href="https://www.linkedin.com/in/tahabinzaeem/" rel="me noreferrer" target="_blank">
             OPEN LINKEDIN CHANNEL ↗
           </a>
-          <a href="https://github.com/MuhammadTahaBinZaeem" rel="noreferrer" target="_blank">READ THE SOURCE ↗</a>
+          <a href="https://github.com/MuhammadTahaBinZaeem" rel="me noreferrer" target="_blank">READ THE SOURCE ↗</a>
+          <a href="https://lablab.ai/u/%40taha_zaeem65" rel="me noreferrer" target="_blank">OPEN LABLAB PROFILE ↗</a>
+          <a href="https://type2learn.tech" rel="noreferrer" target="_blank">VISIT TYPE2LEARN ↗</a>
+          <a href="https://progeneda.app" rel="noreferrer" target="_blank">VISIT PROGENEDA ↗</a>
+          <span aria-label="Devpost profile link pending verification">DEVPOST PROFILE URL PENDING</span>
         </div>
       </section>
     </StoryMotion>

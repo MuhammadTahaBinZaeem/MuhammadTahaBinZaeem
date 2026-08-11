@@ -1332,7 +1332,8 @@ img {
   margin-top: 1rem;
 }
 
-.threshold-contact__actions a {
+.threshold-contact__actions a,
+.threshold-contact__actions span {
   padding: 1rem 1.15rem;
   border: 1px solid rgb(var(--field-rgb) / 0.4);
   color: var(--field);
@@ -1342,6 +1343,7 @@ img {
 }
 
 .threshold-contact__actions a:hover { color: var(--void); background: var(--field); }
+.threshold-contact__actions span { color: rgb(var(--paper-rgb) / 0.62); border-style: dashed; }
 
 .site-footer {
   display: grid;

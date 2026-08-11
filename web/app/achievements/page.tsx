@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { ACHIEVEMENTS } from "../portfolio-data";
+import { CollectionStructuredData } from "../seo-schema";
+import { SITE_ORIGIN } from "../site-config";
 import { AchievementsExperience } from "./achievements-experience";
 
 export const metadata: Metadata = {
@@ -9,5 +12,20 @@ export const metadata: Metadata = {
 };
 
 export default function AchievementsPage() {
-  return <AchievementsExperience />;
+  return (
+    <>
+      <CollectionStructuredData
+        description="Competition, leadership, and project recognition evidence for Muhammad Taha Bin Zaeem."
+        items={ACHIEVEMENTS.map((achievement) => ({
+          name: achievement.title,
+          description: achievement.summary,
+          url: `${SITE_ORIGIN}/achievements#achievement-${achievement.id}`,
+          type: "CreativeWork",
+        }))}
+        name="Muhammad Taha Bin Zaeem Achievements"
+        path="/achievements"
+      />
+      <AchievementsExperience />
+    </>
+  );
 }

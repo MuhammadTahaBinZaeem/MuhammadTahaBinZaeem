@@ -17,6 +17,7 @@ import {
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Lenis from "lenis";
+import { SOCIAL_LINKS } from "../portfolio-data";
 
 const ROOMS = [
   { href: "/", label: "Threshold", code: "00" },
@@ -434,11 +435,18 @@ export function ExperienceShell({ children }: { children: ReactNode }) {
             <strong>tahabinzaeem.tech</strong>
           </div>
           <div className="site-footer__links">
-            <a href="https://github.com/MuhammadTahaBinZaeem" rel="noreferrer" target="_blank">GitHub ↗</a>
-            <a href="https://www.linkedin.com/in/tahabinzaeem/" rel="noreferrer" target="_blank">LinkedIn ↗</a>
-            <a href="https://lablab.ai/u/%40taha_zaeem65" rel="noreferrer" target="_blank">LabLab ↗</a>
+            {SOCIAL_LINKS.filter((link) => link.href).map((link) => (
+              <a
+                href={link.href ?? undefined}
+                key={link.id}
+                rel={link.kind === "product" ? "noreferrer" : "me noreferrer"}
+                target="_blank"
+              >
+                {link.label} ↗
+              </a>
+            ))}
             <span className="is-pending" aria-label="Devpost profile link pending verification">
-              Devpost · link pending
+              Devpost · verified profile URL pending
             </span>
           </div>
           <p>Designed as a living evidence system. Every room is independently replaceable.</p>

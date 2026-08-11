@@ -1,25 +1,32 @@
 import type { Metadata, Viewport } from "next";
 import { ExperienceShell } from "./components/experience-shell";
+import { PortfolioStructuredData } from "./seo-schema";
 import { SITE_ORIGIN } from "./site-config";
 import "./globals.css";
 
-const SITE_TITLE = "Muhammad Taha Bin Zaeem — Computer Engineer";
-const SITE_DESCRIPTION =
-  "The immersive portfolio of Muhammad Taha Bin Zaeem: custom processors, assembly systems, AI products, learning platforms, hardware, and the evidence behind them.";
+const SEO_TITLE = "Muhammad Taha Bin Zaeem | Taha Zaeem - Computer Engineer";
+const SEO_DESCRIPTION =
+  "Official portfolio of Muhammad Taha Bin Zaeem (Muhammad Taha, Taha Zaeem): computer engineer at NUST CEME, founder of Type2Learn and ProGenEDA, building processors, software, AI, hardware, and education systems.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
   title: {
-    default: SITE_TITLE,
+    default: SEO_TITLE,
     template: "%s — Muhammad Taha Bin Zaeem",
   },
-  description: SITE_DESCRIPTION,
+  description: SEO_DESCRIPTION,
   alternates: { canonical: "/" },
   applicationName: "Muhammad Taha Bin Zaeem — Field System",
   keywords: [
     "Muhammad Taha Bin Zaeem",
+    "Muhammad Taha",
+    "Taha Zaeem",
+    "Taha Bin Zaeem",
+    "tahabinzaeem",
     "computer engineer",
     "NUST CEME",
+    "Type2Learn",
+    "ProGenEDA",
     "Verilog",
     "MIPS assembly",
     "AI engineering",
@@ -28,13 +35,23 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Muhammad Taha Bin Zaeem", url: SITE_ORIGIN }],
   creator: "Muhammad Taha Bin Zaeem",
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
     url: "/",
     siteName: "Muhammad Taha Bin Zaeem",
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
+    title: SEO_TITLE,
+    description: SEO_DESCRIPTION,
     images: [
       {
         url: "/og.png",
@@ -46,8 +63,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
+    title: SEO_TITLE,
+    description: SEO_DESCRIPTION,
     images: ["/og.png"],
   },
 };
@@ -64,6 +81,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <head>
         <link rel="icon" href="/media/identity/favicon.png" type="image/png" />
+        <PortfolioStructuredData />
       </head>
       <body>
         <ExperienceShell>{children}</ExperienceShell>

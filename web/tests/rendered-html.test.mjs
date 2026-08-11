@@ -74,13 +74,17 @@ test("server-renders the complete five-route story with the real identity", asyn
 });
 
 test("keeps identity, domain, and verified public destinations exact", async () => {
-  const [portfolioData, layout, home, shell, siteConfig, appSource, packageText] =
+  const [portfolioData, layout, home, shell, siteConfig, schema, robots, sitemap, llms, appSource, packageText] =
     await Promise.all([
       readFile(new URL("../app/portfolio-data.ts", import.meta.url), "utf8"),
       readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
       readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
       readFile(new URL("../app/components/experience-shell.tsx", import.meta.url), "utf8"),
       readFile(new URL("../app/site-config.ts", import.meta.url), "utf8"),
+      readFile(new URL("../app/seo-schema.tsx", import.meta.url), "utf8"),
+      readFile(new URL("../app/robots.ts", import.meta.url), "utf8"),
+      readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8"),
+      readFile(new URL("../app/llms.txt/route.ts", import.meta.url), "utf8"),
       readTextTree(new URL("../app/", import.meta.url)),
       readFile(new URL("../package.json", import.meta.url), "utf8"),
     ]);
@@ -102,6 +106,17 @@ test("keeps identity, domain, and verified public destinations exact", async () 
     assert.ok(identitySource.includes(destination), `missing verified destination: ${destination}`);
   }
 
+  for (const alias of ["Muhammad Taha", "Taha Zaeem", "Taha Bin Zaeem", "tahabinzaeem"]) {
+    assert.ok(`${layout}\n${home}\n${schema}\n${llms}`.includes(alias), `missing search alias: ${alias}`);
+  }
+  assert.match(schema, /ProfilePage/);
+  assert.match(schema, /sameAs/);
+  assert.match(schema, /CollectionPage/);
+  assert.match(robots, /Googlebot/);
+  assert.match(robots, /OAI-SearchBot/);
+  assert.match(sitemap, /sitemap/);
+  assert.match(llms, /Official public profiles and ventures/);
+
   assert.doesNotMatch(
     appSource,
     /YOUR NAME|YOUR CITY|your-handle|example\.com|Lorem ipsum|codex-preview|SkeletonPreview/i,
@@ -118,6 +133,18 @@ test("keeps identity, domain, and verified public destinations exact", async () 
   assert.equal(allDependencies.three, undefined);
   assert.equal(allDependencies["@react-three/fiber"], undefined);
   assert.equal(allDependencies["@react-three/drei"], undefined);
+});
+
+test("publishes a crawlable machine-readable identity brief", async () => {
+  const response = await render("/llms.txt");
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type") ?? "", /^text\/plain\b/i);
+
+  const brief = await response.text();
+  assert.match(brief, /Muhammad Taha Bin Zaeem/);
+  assert.match(brief, /https:\/\/github\.com\/MuhammadTahaBinZaeem/);
+  assert.match(brief, /https:\/\/www\.linkedin\.com\/in\/tahabinzaeem\//);
+  assert.match(brief, /https:\/\/lablab\.ai\/u\/%40taha_zaeem65/);
 });
 
 test("ships the original 2D identity sequence and critical imagery within budgets", async () => {
