@@ -121,6 +121,30 @@ export function SignalEmblem({
   );
 }
 
+function LoaderSequence({ reducedMotion }: { reducedMotion: boolean }) {
+  if (reducedMotion) {
+    return <SignalEmblem className="loader-sequence loader-sequence--still" />;
+  }
+
+  return (
+    <span
+      className="loader-sequence"
+      role="img"
+      aria-label="Muhammad Taha Bin Zaeem's engineering monogram powering up"
+    >
+      <img
+        alt=""
+        aria-hidden="true"
+        decoding="sync"
+        fetchPriority="high"
+        height="512"
+        src="/media/identity/mtbz-loader-motion.webp"
+        width="768"
+      />
+    </span>
+  );
+}
+
 function useReducedMotion() {
   const [reduced, setReduced] = useState(true);
 
@@ -342,7 +366,7 @@ export function ExperienceShell({ children }: { children: ReactNode }) {
           <span>MTBZ / FIELD SYSTEM 00</span>
           <span>PAKISTAN · 33.6844° N</span>
         </div>
-        <SignalEmblem animated />
+        <LoaderSequence reducedMotion={reducedMotion} />
         <div className="boot-veil__command">
           <code>JAL&nbsp; TAHA.ENTRY</code>
           <span>turning evidence into signal</span>
@@ -351,7 +375,7 @@ export function ExperienceShell({ children }: { children: ReactNode }) {
 
       <div className="portal-warp" data-visible={moving} aria-hidden={!moving}>
         <div className="portal-warp__rings" />
-        <SignalEmblem animated />
+        <LoaderSequence reducedMotion={reducedMotion} />
         <p>
           ENTERING <strong>{destination}</strong>
         </p>
@@ -361,13 +385,21 @@ export function ExperienceShell({ children }: { children: ReactNode }) {
       </span>
 
       <header className="site-header">
-        <PortalLink className="site-brand" href="/" portalLabel="Threshold" aria-label="Return to the threshold">
-          <SignalEmblem />
+        <button
+          className="site-brand"
+          onClick={() => {
+            if (pathname === "/") router.refresh();
+            else router.push("/");
+          }}
+          aria-label="Return to the main page and reload it"
+          type="button"
+        >
+          <span className="site-brand__address" aria-hidden="true">00</span>
           <span>
-            <strong>MUHAMMAD TAHA</strong>
-            <small>BIN ZAEEM · COMPUTER ENGINEER</small>
+            <strong>MAIN / THRESHOLD</strong>
+            <small>RELOAD THE FIELD</small>
           </span>
-        </PortalLink>
+        </button>
 
         <nav className="desktop-rooms" aria-label="Portfolio rooms">
           {ROOMS.map((room) => (
@@ -445,9 +477,6 @@ export function ExperienceShell({ children }: { children: ReactNode }) {
                 {link.label} ↗
               </a>
             ))}
-            <span className="is-pending" aria-label="Devpost profile link pending verification">
-              Devpost · verified profile URL pending
-            </span>
           </div>
           <p>Designed as a living evidence system. Every room is independently replaceable.</p>
         </footer>

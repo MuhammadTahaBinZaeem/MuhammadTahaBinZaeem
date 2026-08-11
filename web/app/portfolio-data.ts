@@ -231,9 +231,9 @@ export const SOCIAL_LINKS = [
     id: "devpost",
     label: "Devpost",
     kind: "devpost",
-    href: null,
-    handle: null,
-    note: "Add the verified public profile URL here when supplied.",
+    href: "https://devpost.com/MuhammadTahaBinZaeem",
+    handle: "MuhammadTahaBinZaeem",
+    note: "Public hackathon profile and shipped submission record.",
   },
   {
     id: "type2learn",

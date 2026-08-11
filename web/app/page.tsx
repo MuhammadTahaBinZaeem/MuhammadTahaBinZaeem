@@ -248,7 +248,7 @@ export default function HomePage() {
           <a href="https://lablab.ai/u/%40taha_zaeem65" rel="me noreferrer" target="_blank">OPEN LABLAB PROFILE ↗</a>
           <a href="https://type2learn.tech" rel="noreferrer" target="_blank">VISIT TYPE2LEARN ↗</a>
           <a href="https://progeneda.app" rel="noreferrer" target="_blank">VISIT PROGENEDA ↗</a>
-          <span aria-label="Devpost profile link pending verification">DEVPOST PROFILE URL PENDING</span>
+          <a href="https://devpost.com/MuhammadTahaBinZaeem" rel="me noreferrer" target="_blank">OPEN DEVPOST PROFILE ↗</a>
         </div>
       </section>
     </StoryMotion>

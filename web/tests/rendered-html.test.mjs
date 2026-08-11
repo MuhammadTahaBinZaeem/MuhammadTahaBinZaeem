@@ -96,6 +96,7 @@ test("keeps identity, domain, and verified public destinations exact", async () 
     "https://github.com/MuhammadTahaBinZaeem",
     "https://www.linkedin.com/in/tahabinzaeem/",
     "https://lablab.ai/u/%40taha_zaeem65",
+    "https://devpost.com/MuhammadTahaBinZaeem",
     "https://type2learn.tech",
     "https://progeneda.app",
   ];
@@ -145,6 +146,7 @@ test("publishes a crawlable machine-readable identity brief", async () => {
   assert.match(brief, /https:\/\/github\.com\/MuhammadTahaBinZaeem/);
   assert.match(brief, /https:\/\/www\.linkedin\.com\/in\/tahabinzaeem\//);
   assert.match(brief, /https:\/\/lablab\.ai\/u\/%40taha_zaeem65/);
+  assert.match(brief, /https:\/\/devpost\.com\/MuhammadTahaBinZaeem/);
 });
 
 test("ships the original 2D identity sequence and critical imagery within budgets", async () => {
@@ -152,6 +154,7 @@ test("ships the original 2D identity sequence and critical imagery within budget
     ["../public/og.png", 700_000],
     ["../public/media/identity/favicon.png", 70_000],
     ["../public/media/identity/mtbz-signal-mark.webp", 140_000],
+    ["../public/media/identity/mtbz-loader-motion.webp", 260_000],
     ["../public/media/identity/muhammad-taha-studio-portrait.webp", 80_000],
     ["../public/media/identity/muhammad-taha-mountain-field-note.webp", 180_000],
     ["../public/media/identity/muhammad-taha-medals-portrait.webp", 180_000],
