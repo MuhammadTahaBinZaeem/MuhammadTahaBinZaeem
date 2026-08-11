@@ -1,64 +1,73 @@
 import type { Metadata, Viewport } from "next";
-import { PROFILE } from "./content";
+import { ExperienceShell } from "./components/experience-shell";
 import { SITE_ORIGIN } from "./site-config";
 import "./globals.css";
 
-const SITE_TITLE = "The Machine Remembers — Computer Engineer Portfolio";
+const SITE_TITLE = "Muhammad Taha Bin Zaeem — Computer Engineer";
 const SITE_DESCRIPTION =
-  "An immersive computer engineering portfolio spanning hardware, software, assembly, AI, and systems that ship.";
+  "The immersive portfolio of Muhammad Taha Bin Zaeem: custom processors, assembly systems, AI products, learning platforms, hardware, and the evidence behind them.";
 
 export const metadata: Metadata = {
-    metadataBase: new URL(SITE_ORIGIN),
+  metadataBase: new URL(SITE_ORIGIN),
+  title: {
+    default: SITE_TITLE,
+    template: "%s — Muhammad Taha Bin Zaeem",
+  },
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: "/" },
+  applicationName: "Muhammad Taha Bin Zaeem — Field System",
+  keywords: [
+    "Muhammad Taha Bin Zaeem",
+    "computer engineer",
+    "NUST CEME",
+    "Verilog",
+    "MIPS assembly",
+    "AI engineering",
+    "hardware",
+    "software",
+  ],
+  authors: [{ name: "Muhammad Taha Bin Zaeem", url: SITE_ORIGIN }],
+  creator: "Muhammad Taha Bin Zaeem",
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "Muhammad Taha Bin Zaeem",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    alternates: { canonical: "/" },
-    applicationName: "The Machine Remembers",
-    keywords: [
-      "computer engineer",
-      "hardware",
-      "software",
-      "assembly",
-      "Verilog",
-      "AI systems",
-      "portfolio",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Muhammad Taha Bin Zaeem — Computer Engineer",
+      },
     ],
-    authors: [{ name: PROFILE.name }],
-    creator: PROFILE.name,
-    robots: { index: true, follow: true },
-    openGraph: {
-      type: "website",
-      url: "/",
-      siteName: "The Machine Remembers",
-      title: SITE_TITLE,
-      description: SITE_DESCRIPTION,
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: "The Machine Remembers" }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: SITE_TITLE,
-      description: SITE_DESCRIPTION,
-      images: ["/og.png"],
-    },
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ["/og.png"],
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0b0b0a",
+  themeColor: "#0b0c0a",
   colorScheme: "dark light",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/generated/icons/favicon-core.png" type="image/png" />
+        <link rel="icon" href="/media/identity/favicon.png" type="image/png" />
       </head>
-      <body>{children}</body>
+      <body>
+        <ExperienceShell>{children}</ExperienceShell>
+      </body>
     </html>
   );
 }

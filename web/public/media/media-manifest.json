@@ -1,0 +1,587 @@
+{
+  "version": 1,
+  "generatedOn": "2026-08-11",
+  "optimization": {
+    "imageFormat": "webp",
+    "maximumDimension": 1600,
+    "qualityRange": "82-84",
+    "withoutEnlargement": true,
+    "metadataStripped": true
+  },
+  "certificates": {
+    "advanced-learning-algorithms": {
+      "label": "Advanced Learning Algorithms",
+      "issuer": "DeepLearning.AI / Stanford Online",
+      "publicPath": "/certificates/advanced-learning-algorithms.pdf",
+      "bytes": 342113,
+      "preview": {
+        "label": "Advanced Learning Algorithms preview",
+        "publicPath": "/media/certificates/advanced-learning-algorithms.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 47776,
+        "format": "webp"
+      }
+    },
+    "build-a-full-website-using-wordpress": {
+      "label": "Build a Full Website using WordPress",
+      "issuer": "Coursera Project Network",
+      "publicPath": "/certificates/build-a-full-website-using-wordpress.pdf",
+      "bytes": 394906,
+      "preview": {
+        "label": "Build a Full Website using WordPress preview",
+        "publicPath": "/media/certificates/build-a-full-website-using-wordpress.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 80950,
+        "format": "webp"
+      }
+    },
+    "connect-and-protect-networks-and-network-security": {
+      "label": "Connect and Protect: Networks and Network Security",
+      "issuer": "Google",
+      "publicPath": "/certificates/connect-and-protect-networks-and-network-security.pdf",
+      "bytes": 293934,
+      "preview": {
+        "label": "Connect and Protect: Networks and Network Security preview",
+        "publicPath": "/media/certificates/connect-and-protect-networks-and-network-security.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 48984,
+        "format": "webp"
+      }
+    },
+    "foundations-of-cybersecurity": {
+      "label": "Foundations of Cybersecurity",
+      "issuer": "Google",
+      "publicPath": "/certificates/foundations-of-cybersecurity.pdf",
+      "bytes": 293212,
+      "preview": {
+        "label": "Foundations of Cybersecurity preview",
+        "publicPath": "/media/certificates/foundations-of-cybersecurity.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 47538,
+        "format": "webp"
+      }
+    },
+    "game-theory": {
+      "label": "Game Theory",
+      "issuer": "Stanford University",
+      "publicPath": "/certificates/game-theory.pdf",
+      "bytes": 369831,
+      "preview": {
+        "label": "Game Theory preview",
+        "publicPath": "/media/certificates/game-theory.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 58194,
+        "format": "webp"
+      }
+    },
+    "machine-learning-specialization": {
+      "label": "Machine Learning Specialization",
+      "issuer": "DeepLearning.AI / Stanford Online",
+      "publicPath": "/certificates/machine-learning-specialization.pdf",
+      "bytes": 358844,
+      "preview": {
+        "label": "Machine Learning Specialization preview",
+        "publicPath": "/media/certificates/machine-learning-specialization.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 94582,
+        "format": "webp"
+      }
+    },
+    "play-it-safe-manage-security-risks": {
+      "label": "Play It Safe: Manage Security Risks",
+      "issuer": "Google",
+      "publicPath": "/certificates/play-it-safe-manage-security-risks.pdf",
+      "bytes": 293972,
+      "preview": {
+        "label": "Play It Safe: Manage Security Risks preview",
+        "publicPath": "/media/certificates/play-it-safe-manage-security-risks.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 47884,
+        "format": "webp"
+      }
+    },
+    "supervised-machine-learning-regression-and-classification": {
+      "label": "Supervised Machine Learning: Regression and Classification",
+      "issuer": "DeepLearning.AI / Stanford Online",
+      "publicPath": "/certificates/supervised-machine-learning-regression-and-classification.pdf",
+      "bytes": 342207,
+      "preview": {
+        "label": "Supervised Machine Learning: Regression and Classification preview",
+        "publicPath": "/media/certificates/supervised-machine-learning-regression-and-classification.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 49840,
+        "format": "webp"
+      }
+    },
+    "think-again-i-how-to-understand-arguments": {
+      "label": "Think Again I: How to Understand Arguments",
+      "issuer": "Duke University",
+      "publicPath": "/certificates/think-again-i-how-to-understand-arguments.pdf",
+      "bytes": 328453,
+      "preview": {
+        "label": "Think Again I: How to Understand Arguments preview",
+        "publicPath": "/media/certificates/think-again-i-how-to-understand-arguments.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 53522,
+        "format": "webp"
+      }
+    },
+    "think-again-ii-how-to-reason-deductively": {
+      "label": "Think Again II: How to Reason Deductively",
+      "issuer": "Duke University",
+      "publicPath": "/certificates/think-again-ii-how-to-reason-deductively.pdf",
+      "bytes": 328225,
+      "preview": {
+        "label": "Think Again II: How to Reason Deductively preview",
+        "publicPath": "/media/certificates/think-again-ii-how-to-reason-deductively.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 53506,
+        "format": "webp"
+      }
+    },
+    "think-again-iii-how-to-reason-inductively": {
+      "label": "Think Again III: How to Reason Inductively",
+      "issuer": "Duke University",
+      "publicPath": "/certificates/think-again-iii-how-to-reason-inductively.pdf",
+      "bytes": 328132,
+      "preview": {
+        "label": "Think Again III: How to Reason Inductively preview",
+        "publicPath": "/media/certificates/think-again-iii-how-to-reason-inductively.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 53472,
+        "format": "webp"
+      }
+    },
+    "think-again-iv-how-to-avoid-fallacies": {
+      "label": "Think Again IV: How to Avoid Fallacies",
+      "issuer": "Duke University",
+      "publicPath": "/certificates/think-again-iv-how-to-avoid-fallacies.pdf",
+      "bytes": 328366,
+      "preview": {
+        "label": "Think Again IV: How to Avoid Fallacies preview",
+        "publicPath": "/media/certificates/think-again-iv-how-to-avoid-fallacies.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 53246,
+        "format": "webp"
+      }
+    },
+    "unsupervised-learning-recommenders-reinforcement-learning": {
+      "label": "Unsupervised Learning, Recommenders, Reinforcement Learning",
+      "issuer": "DeepLearning.AI / Stanford Online",
+      "publicPath": "/certificates/unsupervised-learning-recommenders-reinforcement-learning.pdf",
+      "bytes": 342211,
+      "preview": {
+        "label": "Unsupervised Learning, Recommenders, Reinforcement Learning preview",
+        "publicPath": "/media/certificates/unsupervised-learning-recommenders-reinforcement-learning.webp",
+        "dimensions": {
+          "width": 1149,
+          "height": 888
+        },
+        "bytes": 49860,
+        "format": "webp"
+      }
+    }
+  },
+  "projects": {
+    "arduino-robot-car-side": {
+      "label": "Arduino robot car ? side view",
+      "publicPath": "/media/projects/arduino-robot-car-side.webp",
+      "dimensions": {
+        "width": 1156,
+        "height": 521
+      },
+      "bytes": 65596,
+      "format": "webp"
+    },
+    "arduino-robot-car-front": {
+      "label": "Arduino robot car ? front view",
+      "publicPath": "/media/projects/arduino-robot-car-front.webp",
+      "dimensions": {
+        "width": 1156,
+        "height": 521
+      },
+      "bytes": 63558,
+      "format": "webp"
+    },
+    "arduino-robot-car-top": {
+      "label": "Arduino robot car ? top view",
+      "publicPath": "/media/projects/arduino-robot-car-top.webp",
+      "dimensions": {
+        "width": 1156,
+        "height": 521
+      },
+      "bytes": 94170,
+      "format": "webp"
+    },
+    "clap-switch-schematic": {
+      "label": "NE555 clap-switch circuit schematic",
+      "publicPath": "/media/projects/clap-switch-schematic.webp",
+      "dimensions": {
+        "width": 624,
+        "height": 262
+      },
+      "bytes": 5632,
+      "format": "webp"
+    },
+    "clap-switch-off": {
+      "label": "NE555 clap-switch prototype ? idle state",
+      "publicPath": "/media/projects/clap-switch-off.webp",
+      "dimensions": {
+        "width": 720,
+        "height": 1280
+      },
+      "bytes": 99796,
+      "format": "webp"
+    },
+    "clap-switch-on": {
+      "label": "NE555 clap-switch prototype ? active state",
+      "publicPath": "/media/projects/clap-switch-on.webp",
+      "dimensions": {
+        "width": 720,
+        "height": 1280
+      },
+      "bytes": 121702,
+      "format": "webp"
+    },
+    "water-level-detector-schematic": {
+      "label": "Transistor water-level detector schematic",
+      "publicPath": "/media/projects/water-level-detector-schematic.webp",
+      "dimensions": {
+        "width": 466,
+        "height": 466
+      },
+      "bytes": 11418,
+      "format": "webp"
+    },
+    "water-level-detector-front": {
+      "label": "Water-level detector ? front assembly",
+      "publicPath": "/media/projects/water-level-detector-front.webp",
+      "dimensions": {
+        "width": 480,
+        "height": 853
+      },
+      "bytes": 58450,
+      "format": "webp"
+    },
+    "water-level-detector-back": {
+      "label": "Water-level detector ? back assembly",
+      "publicPath": "/media/projects/water-level-detector-back.webp",
+      "dimensions": {
+        "width": 480,
+        "height": 853
+      },
+      "bytes": 55264,
+      "format": "webp"
+    },
+    "mips-chess-move-log": {
+      "label": "MIPS chess engine move log",
+      "publicPath": "/media/projects/mips-chess-move-log.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 1509
+      },
+      "bytes": 73288,
+      "format": "webp"
+    },
+    "mips-chess-memory-map": {
+      "label": "MIPS chess engine memory map",
+      "publicPath": "/media/projects/mips-chess-memory-map.webp",
+      "dimensions": {
+        "width": 800,
+        "height": 183
+      },
+      "bytes": 36192,
+      "format": "webp"
+    },
+    "vector-cpu-module-tree": {
+      "label": "Custom 20-bit vector CPU module tree",
+      "publicPath": "/media/projects/vector-cpu-module-tree.webp",
+      "dimensions": {
+        "width": 432,
+        "height": 602
+      },
+      "bytes": 41540,
+      "format": "webp"
+    },
+    "vector-cpu-waveform-scalar": {
+      "label": "Custom CPU scalar simulation waveform",
+      "publicPath": "/media/projects/vector-cpu-waveform-scalar.webp",
+      "dimensions": {
+        "width": 1020,
+        "height": 860
+      },
+      "bytes": 39860,
+      "format": "webp"
+    },
+    "vector-cpu-waveform-simd": {
+      "label": "Custom CPU SIMD simulation waveform",
+      "publicPath": "/media/projects/vector-cpu-waveform-simd.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 834
+      },
+      "bytes": 35266,
+      "format": "webp"
+    },
+    "vector-cpu-showcase": {
+      "label": "Custom CPU interactive project showcase",
+      "publicPath": "/media/projects/vector-cpu-showcase.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 832
+      },
+      "bytes": 132232,
+      "format": "webp"
+    },
+    "autodecomp-ram-guard": {
+      "label": "AutoDecomp RAM safety guard",
+      "publicPath": "/media/projects/autodecomp-ram-guard.webp",
+      "dimensions": {
+        "width": 1200,
+        "height": 675
+      },
+      "bytes": 55878,
+      "format": "webp"
+    },
+    "autodecomp-self-install": {
+      "label": "AutoDecomp self-install terminal workflow",
+      "publicPath": "/media/projects/autodecomp-self-install.webp",
+      "dimensions": {
+        "width": 1200,
+        "height": 675
+      },
+      "bytes": 56864,
+      "format": "webp"
+    },
+    "autodecomp-batch-workflow": {
+      "label": "AutoDecomp batch decompilation workflow",
+      "publicPath": "/media/projects/autodecomp-batch-workflow.webp",
+      "dimensions": {
+        "width": 1200,
+        "height": 675
+      },
+      "bytes": 59004,
+      "format": "webp"
+    },
+    "debate-club-repository": {
+      "label": "AI Genesis Debate Club repository",
+      "publicPath": "/media/projects/debate-club-repository.webp",
+      "dimensions": {
+        "width": 982,
+        "height": 682
+      },
+      "bytes": 39102,
+      "format": "webp"
+    },
+    "debate-club-dashboard": {
+      "label": "AI Genesis Debate Club dashboard",
+      "publicPath": "/media/projects/debate-club-dashboard.webp",
+      "dimensions": {
+        "width": 1162,
+        "height": 812
+      },
+      "bytes": 30704,
+      "format": "webp"
+    },
+    "algebraic-expression-solver-code": {
+      "label": "Algebraic expression solver source",
+      "publicPath": "/media/projects/algebraic-expression-solver-code.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 783
+      },
+      "bytes": 64686,
+      "format": "webp"
+    },
+    "algebraic-expression-solver-curve-one": {
+      "label": "Algebraic expression solver output curve one",
+      "publicPath": "/media/projects/algebraic-expression-solver-curve-one.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 821
+      },
+      "bytes": 19586,
+      "format": "webp"
+    },
+    "algebraic-expression-solver-curve-two": {
+      "label": "Algebraic expression solver output curve two",
+      "publicPath": "/media/projects/algebraic-expression-solver-curve-two.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 832
+      },
+      "bytes": 19926,
+      "format": "webp"
+    }
+  },
+  "achievements": {
+    "stem-2024-runner-up-awards": {
+      "label": "STEM 2024 runner-up award and trophies",
+      "publicPath": "/media/achievements/stem-2024-runner-up-awards.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 942
+      },
+      "bytes": 106282,
+      "format": "webp"
+    },
+    "ai-completion-certificate": {
+      "label": "AI program certificate of completion",
+      "publicPath": "/media/achievements/ai-completion-certificate.webp",
+      "dimensions": {
+        "width": 1130,
+        "height": 1600
+      },
+      "bytes": 82318,
+      "format": "webp"
+    },
+    "project-award-ceremony": {
+      "label": "Project award ceremony",
+      "publicPath": "/media/achievements/project-award-ceremony.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 1200
+      },
+      "bytes": 139880,
+      "format": "webp"
+    },
+    "certificates-collection": {
+      "label": "Engineering competition certificate collection",
+      "publicPath": "/media/achievements/certificates-collection.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 1200
+      },
+      "bytes": 288520,
+      "format": "webp"
+    },
+    "sempec-award-presentation": {
+      "label": "SEMPEC hardware-category award presentation",
+      "publicPath": "/media/achievements/sempec-award-presentation.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 1067
+      },
+      "bytes": 86538,
+      "format": "webp"
+    },
+    "meeting-dr-samar-mubarakmand": {
+      "label": "Meeting with Dr. Samar Mubarakmand",
+      "publicPath": "/media/achievements/meeting-dr-samar-mubarakmand.webp",
+      "dimensions": {
+        "width": 1450,
+        "height": 1085
+      },
+      "bytes": 97542,
+      "format": "webp"
+    },
+    "stem-judging-session": {
+      "label": "STEM project judging session",
+      "publicPath": "/media/achievements/stem-judging-session.webp",
+      "dimensions": {
+        "width": 1182,
+        "height": 1331
+      },
+      "bytes": 84048,
+      "format": "webp"
+    },
+    "student-society-group": {
+      "label": "Student science society group",
+      "publicPath": "/media/achievements/student-society-group.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 877
+      },
+      "bytes": 193328,
+      "format": "webp"
+    },
+    "dsms-society-emblem": {
+      "label": "Dr. Samar Mubarakmand Society for Sciences emblem",
+      "publicPath": "/media/achievements/dsms-society-emblem.webp",
+      "dimensions": {
+        "width": 200,
+        "height": 200
+      },
+      "bytes": 6292,
+      "format": "webp"
+    }
+  },
+  "identity": {
+    "muhammad-taha-studio-portrait": {
+      "label": "Muhammad Taha Bin Zaeem — studio portrait",
+      "publicPath": "/media/identity/muhammad-taha-studio-portrait.webp",
+      "dimensions": {
+        "width": 988,
+        "height": 970
+      },
+      "bytes": 58088,
+      "format": "webp"
+    },
+    "muhammad-taha-mountain-field-note": {
+      "label": "Muhammad Taha Bin Zaeem — mountain field note",
+      "publicPath": "/media/identity/muhammad-taha-mountain-field-note.webp",
+      "dimensions": {
+        "width": 1058,
+        "height": 1086
+      },
+      "bytes": 153202,
+      "format": "webp"
+    },
+    "muhammad-taha-formal-portrait": {
+      "label": "Muhammad Taha Bin Zaeem ? formal portrait",
+      "publicPath": "/media/identity/muhammad-taha-formal-portrait.webp",
+      "dimensions": {
+        "width": 1067,
+        "height": 1600
+      },
+      "bytes": 301706,
+      "format": "webp"
+    },
+    "muhammad-taha-medals-portrait": {
+      "label": "Muhammad Taha Bin Zaeem ? competition medals portrait",
+      "publicPath": "/media/identity/muhammad-taha-medals-portrait.webp",
+      "dimensions": {
+        "width": 1339,
+        "height": 1069
+      },
+      "bytes": 148902,
+      "format": "webp"
+    }
+  }
+}

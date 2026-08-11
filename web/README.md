@@ -1,41 +1,54 @@
-# The Machine Remembers
+# Muhammad Taha Bin Zaeem — Field System
 
-An immersive portfolio starter pack for a computer engineer working across hardware, software, assembly, AI, and product systems.
+An animation-led portfolio for Muhammad Taha Bin Zaeem, Computer Engineer and founder of Type2Learn and ProGenEDA.
 
-The site is intentionally built as a story rather than a stack of résumé cards:
+This is a story with separate rooms, not a résumé grid:
 
-1. A skippable assembly-language boot sequence
-2. An interactive Meshy-generated machine core
-3. A systems thesis and signal counters
-4. Five large project case studies with distinct code-native schematics and constraint/build/proof evidence
-5. A hardware/software/intelligence capability bus
-6. Experience, credentials, operating rules, and contact routing
+1. **The Threshold** introduces the builder, operating principle, two live ventures, and four doors.
+2. **The Engine Room** gives eight projects their own full-screen worlds, media, evidence, and source links.
+3. **The Hall of Institutions** turns 14 credentials into issuer-specific environments; 13 include local source PDFs and public verification links.
+4. **The Trophy Voltage** presents five achievements as chronological memories rather than badges.
+5. **The Foundry** follows three education stations from early computer science through GCU Lahore to NUST CEME.
 
-It includes smooth scrolling, GSAP scroll choreography, WebGL interaction, an optional sound layer, a custom cursor, responsive navigation, Open Graph artwork, keyboard controls, reduced-motion handling, and a lightweight mobile 3D fallback.
+Portal transitions, GSAP scroll choreography, Lenis scrolling, an original transparent eight-frame signal animation, a custom cursor, route-specific art direction, mobile navigation, and reduced-motion fallbacks connect the experience. There is deliberately no 3D scene, stock logo pack, or WebGL dependency.
 
 ## Architecture
 
 | Area | Source of truth | Responsibility |
 | --- | --- | --- |
-| Portfolio content | `app/content.ts` | Identity, links, case studies, capabilities, timeline, credentials, and assembly copy |
-| Experience shell | `app/page.tsx` | Boot sequence, navigation, sections, interaction state, and project visuals |
-| 3D scene | `app/MachineCanvas.tsx` | Normalized GLB scene, lighting, direct manipulation, and GPU lifecycle |
-| Visual system | `app/globals.css` | Tokens, typography, responsive layouts, focus states, and motion fallbacks |
-| Metadata | `app/layout.tsx`, `app/site-config.ts` | Canonical URL, social cards, robots, and sitemap |
-| Hosting runtime | `worker/`, `build/`, `../.openai/hosting.json` | Vinext/Cloudflare worker entrypoint and OpenAI Sites packaging |
+| Portfolio records | `app/portfolio-data.ts` | Identity, verified destinations, portals, projects, credentials, achievements, education, media metadata, and per-story themes |
+| Global shell | `app/components/experience-shell.tsx` | Boot veil, 2D signal sequence, portal travel, header, mobile menu, cursor, scroll meter, and footer |
+| Shared motion | `app/components/story-motion.tsx` | Intro, reveal, and drift choreography with reduced-motion handling |
+| Threshold | `app/page.tsx` | Hero, room doors, live venture captures, and contact routing |
+| Story rooms | `app/{projects,certifications,achievements,education}/` | Route metadata and each room’s client-side experience |
+| Visual system | `app/globals.css` | Typography roles, base tokens, scene layouts, responsive behavior, focus states, and motion fallbacks |
+| Metadata | `app/layout.tsx`, `app/site-config.ts`, `app/sitemap.ts` | Canonical origin, social card, icons, robots, and all five sitemap routes |
+| Media archive | `public/media/`, `public/certificates/` | Optimized WebP evidence, transparent signal frames, live-site captures, and original PDFs |
+| Hosting runtime | `worker/`, `build/`, `../.openai/hosting.json` | Vinext/Cloudflare worker entry point and OpenAI Sites packaging |
 
-The page server-renders a complete semantic shell. The heavier Three.js client is loaded only after the intro, browser capability checks, and an idle window. Small screens, Save-Data clients, WebGL failures, and reduced-motion users receive the generated static core instead.
+The server renders the semantic content of every route. Motion enriches that content in the browser; it is not required to read the portfolio or follow its links.
 
-## Personalize it in five minutes
+## Content and media
 
-Open [`app/content.ts`](app/content.ts). Every personal value and portfolio record is kept there: name, role, location, email, social links, project stories, capability copy, timeline, and credentials.
+Normal portfolio updates begin in [`app/portfolio-data.ts`](app/portfolio-data.ts). Its typed records keep copy, dates, proof, URLs, asset dimensions, alt text, and scene colors together.
 
-The starter ships with deliberately obvious placeholders such as `YOUR NAME`, `YOUR CITY`, and `your-handle`. No personal identity is hard-coded into the interface components.
+The supplied personal archive is staged as:
 
-For a more detailed checklist, see [`docs/CUSTOMIZATION.md`](docs/CUSTOMIZATION.md).
-The previous GitHub profile README is preserved at [`docs/profile-readme-source.md`](docs/profile-readme-source.md), so the website starter does not erase that source material.
+- `public/media/projects/` — 23 optimized project images;
+- `public/media/certificates/` — 13 uncropped certificate previews;
+- `public/certificates/` — the matching 13 original PDFs;
+- `public/media/achievements/` — award, leadership, and education evidence;
+- `public/media/identity/` — two portraits, the original signal mark, favicon, and eight transparent animation frames;
+- `public/media/ventures/` — current captures of ProGenEDA, Type2Learn, and Debate Club;
+- `public/media/media-manifest.json` — sanitized labels, dimensions, byte sizes, and public paths; local extraction paths are deliberately excluded.
+
+Every scene uses its own evidence instead of recycling a generic hero image. The generated signal frames are 2D transparent WebPs, so the global identity animation remains sharp without a 3D runtime.
+
+See [`docs/CUSTOMIZATION.md`](docs/CUSTOMIZATION.md) for the replacement workflow. The previous GitHub profile README remains at [`docs/profile-readme-source.md`](docs/profile-readme-source.md).
 
 ## Run locally
+
+Node 22.13 or newer is required.
 
 ```bash
 npm install
@@ -47,76 +60,58 @@ Open `http://localhost:3000`.
 Production validation:
 
 ```bash
-npm run build
-npm test
 npm run check
 ```
 
-Node 22.13 or newer is required.
+`npm run check` runs strict TypeScript, ESLint, a production Vinext build, and server-render tests for all five routes. The tests also enforce the verified identity and destinations, the no-3D dependency contract, staged media/PDF paths, asset budgets, mobile-menu behavior, reduced-motion behavior, and project dwell-memory keys.
 
-## Release gates
+The same command runs in `.github/workflows/ci.yml` on pull requests and pushes to `main`.
 
-`npm run check` is the single release command. It runs strict TypeScript, scoped ESLint, a production Vinext build, and server-render tests. Before publishing, also inspect these interaction paths in a real browser:
+## Browser QA and screenshots
 
-- boot dialog completion and Escape skip;
-- keyboard skip navigation and visible focus;
-- mobile menu open, close, Escape, short-landscape scrolling, and resize above 1100px;
-- reduced-motion, Save-Data, WebGL failure, and model-loading fallbacks;
-- every external project/contact link and every public image/model response;
-- desktop, portrait mobile, and short-landscape composition with no console errors.
+Automated checks cannot judge composition. Before publishing, capture and inspect each state at desktop, portrait mobile, and short landscape:
 
-Generated build output, QA screenshots, downloaded references, local Cloudflare state, dependencies, and all `.env` variants except `.env.example` are intentionally ignored.
-The same release command runs in `.github/workflows/ci.yml` for every pull request and every push to `main`.
+- `/` — boot veil and settled threshold;
+- `/projects?focus=vector-cpu`, `/projects?focus=debate-club`, and `/projects?focus=arduino-robot-car`;
+- `/certifications?focus=think-again-i`, `/certifications?focus=machine-learning-specialization`, and `/certifications?focus=foundations-of-cybersecurity`;
+- `/achievements?focus=sempec-junior-hardware-runner-up` and `/achievements?focus=stem-2024-runner-up-photo-story`;
+- `/education?focus=nust`, `/education?focus=gcu-lahore`, and `/education?focus=qazi-grammar`;
+- the mobile menu opened, keyboard focus, portal transition, and `prefers-reduced-motion: reduce` fallback.
 
-## Generated assets
+Check for cropping, unreadably small media, repeated evidence, overflow, missing files, broken links, console errors, and unexpected layout shifts. QA captures belong in `qa-artifacts/`, which is intentionally ignored.
 
-- `public/models/machine-core.glb` — custom textured 3D asset generated through Meshy Text-to-3D
-- `public/generated/meshy-core-preview-hd.webp` — 1254px transparent, high-density mobile/performance fallback refined with OpenAI Imagegen from the Meshy task preview
-- `public/og.png` — bespoke social-preview artwork generated with OpenAI Imagegen
-- `public/generated/icons/*.png` — eight original, transparent, non-branded interface emblems generated as one Imagegen atlas and individually isolated with safe padding
-- UI arrows, audio state, and menu controls are lightweight original CSS primitives, so the live experience ships no stock logo or icon library
+## Future project clips
 
-The included `scripts/resize-glb-textures.mjs` and `scripts/split-icon-atlas.mjs` utilities make the optimization workflow reproducible when replacing the 3D core or icon system.
+Each project world reserves a motion slot for the short clips described in the brief. Use the project ID naming convention:
 
-The `.env` file is intentionally ignored. The optional `meshyapi` value is used only when regenerating the 3D source asset; the published site does not expose or require that credential.
+```text
+public/media/clips/vector-cpu.webm
+public/media/clips/debate-club.webm
+public/media/clips/autodecomp.webm
+```
 
-## Performance and accessibility contract
+Continue the pattern for the remaining IDs. Keep a poster image and a non-autoplay fallback; wire the clip into `MediaSequence` in `app/projects/projects-experience.tsx` after the final files arrive.
 
-- No autoplay audio; sound is opt-in and keyboard-toggleable.
-- The intro is a focus-managed dialog and can be skipped immediately.
-- Long-form content remains server-rendered and usable without WebGL.
-- The interactive core stops continuous rendering when offscreen or when the tab is hidden.
-- Native cursor behavior is preserved for coarse pointers and reduced motion.
-- All primary controls have high-contrast focus-visible styles, active-section state, and accessible labels.
-- Project art is distinct per case study and horizontally inspectable on narrow screens.
+## Interaction and accessibility contract
+
+- The boot veil dismisses automatically and is much shorter for reduced-motion users.
+- Internal room links receive a 2D portal transition before navigation.
+- Project dwell time is stored locally; the most-inspected project becomes the remembered affinity theme.
+- The mobile menu traps background interaction with `inert`, closes on Escape, and closes when resized above the mobile breakpoint.
+- Fine pointers receive the custom cursor; coarse pointers and reduced-motion users retain native behavior.
+- All primary controls have visible keyboard focus, semantic labels, and text alternatives.
+- Certificate PDFs open only on request and are not part of the initial route payload.
+
+## Technology
+
+Vinext / Next-compatible App Router, React 19, TypeScript, GSAP + ScrollTrigger, Lenis, Vite, CSS, and the OpenAI Sites deployment target.
 
 ## Reference source vault
 
-The design research list from the original brief is captured in [`scripts/fetch-references.ps1`](scripts/fetch-references.ps1). It downloads the referenced repositories into six clearly separated groups under `.reference-sources/`:
-
-- personal project sources
-- original award-recognized portfolios
-- praised spatial/editorial portfolios
-- Awwwards recreations and study projects
-- production-grade websites
-- reusable motion, 3D, and interface libraries
-
-The vault is ignored by Git because it is large and remains separate from the original portfolio implementation. Rebuild it at any time with:
+Design research repositories remain separated from the shipped site under the ignored `.reference-sources/` vault. Rebuild the repository reference collection with:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\fetch-references.ps1
 ```
 
-See [`docs/SOURCE-VAULT.md`](docs/SOURCE-VAULT.md) for the design synthesis and provenance policy.
-
-## Interaction controls
-
-- Scroll to move through the narrative and rotate the 3D signal rig
-- Drag the machine core on desktop to inspect it
-- Press `S` or use the speaker control to toggle interface audio
-- Press `Esc` to skip the boot sequence or close the mobile menu
-- Keyboard focus and `prefers-reduced-motion` are respected
-
-## Technology
-
-Vinext / Next-compatible App Router, React 19, TypeScript, GSAP + ScrollTrigger, Lenis, Three.js, React Three Fiber, Drei, Vite, and the OpenAI Sites deployment target.
+See [`docs/SOURCE-VAULT.md`](docs/SOURCE-VAULT.md) for its grouping and provenance notes.
