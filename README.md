@@ -7,14 +7,19 @@
 <p><strong>Computer Architecture</strong> &nbsp;·&nbsp; <strong>AI-Assisted Engineering</strong> &nbsp;·&nbsp; <strong>EDA</strong> &nbsp;·&nbsp; <strong>Research Engineering</strong></p>
 
 <p>
-  Co-creator of <strong>ParetoCo</strong>
+  Co-creator of <a href="https://github.com/MuhammadTahaBinZaeem/ParetCo"><strong>ParetoCo</strong></a>
   &nbsp;·&nbsp;
   Founder &amp; lead developer of <a href="https://progeneda.app"><strong>ProGenEDA</strong></a>
   &nbsp;·&nbsp;
   Founder &amp; lead developer at <a href="https://type2learn.tech"><strong>Type2Learn</strong></a>
 </p>
 
-<img src="https://img.shields.io/badge/ParetoCo-Architecture%20DSE-312E81?style=for-the-badge" alt="ParetoCo architecture design-space exploration" />
+<a href="https://github.com/MuhammadTahaBinZaeem/ParetCo">
+  <img src="https://img.shields.io/badge/ParetoCo-Architecture%20DSE-312E81?style=for-the-badge" alt="ParetoCo architecture design-space exploration" />
+</a>
+<a href="https://devpost.com/software/paretoco">
+  <img src="https://img.shields.io/badge/ParetoCo-Devpost-003E54?style=for-the-badge&logo=devpost&logoColor=white" alt="ParetoCo on Devpost" />
+</a>
 <a href="https://progeneda.app">
   <img src="https://img.shields.io/badge/ProGenEDA-progeneda.app-7C3AED?style=for-the-badge" alt="Visit ProGenEDA at progeneda.app" />
 </a>
@@ -88,7 +93,7 @@ That has taken me from heterogeneous architecture design-space exploration and n
 <tr>
 <td width="50%" valign="top">
 
-### <img src="assets/paretoco-mark.svg" alt="" width="32" align="absmiddle" /> ParetoCo
+### [<img src="assets/paretoco-logo.png" alt="ParetoCo logo" width="36" align="absmiddle" /> ParetoCo](https://github.com/MuhammadTahaBinZaeem/ParetCo)
 **AI-assisted heterogeneous computer-architecture design-space exploration.**
 
 ParetoCo combines **Gecode-backed native constraint search**, **SDF workload modelling**, and **Pareto / multi-objective analysis** across CPU, GPU, DSP, NPU, and accelerator design spaces.
@@ -96,6 +101,8 @@ ParetoCo combines **Gecode-backed native constraint search**, **SDF workload mod
 The AI layer helps translate natural-language intent into structured DSE models and interpret results, while **deterministic native computation remains the source of truth** for feasibility and trade-off evaluation.
 
 It also treats reproducibility as a first-class feature through sessions, snapshots, semantic diffs, Pareto-front evolution, and system-level analyses.
+
+**Explore:** [Devpost](https://devpost.com/software/paretoco) · [GitHub repository](https://github.com/MuhammadTahaBinZaeem/ParetCo)
 
 `Computer Architecture` · `DSE` · `Gecode` · `SDF` · `Pareto Optimization` · `AI-assisted modelling`
 
@@ -252,7 +259,7 @@ My research work emphasizes deterministic scripts, preserved source material, pr
 
 | Project | What it represents |
 |---|---|
-| **ParetoCo** | AI-assisted heterogeneous architecture DSE with deterministic constraint search and Pareto analysis |
+| [**ParetoCo**](https://github.com/MuhammadTahaBinZaeem/ParetCo) | AI-assisted heterogeneous architecture DSE with deterministic constraint search and Pareto analysis |
 | [ProGenEDA](https://progeneda.app) | AI-assisted EDA automation for editable native circuit project files |
 | [Type2Learn](https://type2learn.tech) | Accessibility-first active learning with learner-controlled adaptation |
 | [`Mips_Chess_Engine`](https://github.com/MuhammadTahaBinZaeem/Mips_Chess_Engine) | A complete stateful application written in MIPS assembly |
