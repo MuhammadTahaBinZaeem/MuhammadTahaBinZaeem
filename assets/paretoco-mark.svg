@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="ParetoCo mark">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111827"/>
+      <stop offset="1" stop-color="#312e81"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="0.55" stop-color="#60a5fa"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="url(#bg)" stroke="#475569" stroke-width="2"/>
+  <path d="M14 47 C20 43 22 36 29 34 S39 31 43 24 S49 17 53 15" fill="none" stroke="url(#line)" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="16" cy="45" r="4" fill="#34d399"/>
+  <circle cx="29" cy="34" r="4" fill="#60a5fa"/>
+  <circle cx="43" cy="24" r="4" fill="#818cf8"/>
+  <circle cx="52" cy="16" r="4" fill="#c4b5fd"/>
+  <path d="M15 15 V48 H54" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+</svg>
