@@ -4,7 +4,7 @@ param(
 )
 
 $ErrorActionPreference = "Continue"
-$repositoryRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+$repositoryRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 $destinationRoot = [System.IO.Path]::GetFullPath((Join-Path $repositoryRoot $Destination))
 
 if (-not $destinationRoot.StartsWith($repositoryRoot + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {

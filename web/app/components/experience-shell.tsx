@@ -385,21 +385,24 @@ export function ExperienceShell({ children }: { children: ReactNode }) {
       </span>
 
       <header className="site-header">
-        <button
+        {/* The control deliberately uses a document navigation so entering the threshold is always fresh. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a
           className="site-brand"
-          onClick={() => {
-            if (pathname === "/") router.refresh();
-            else router.push("/");
+          href="/"
+          onClick={(event) => {
+            if (pathname === "/") {
+              event.preventDefault();
+              window.location.reload();
+            }
           }}
           aria-label="Return to the main page and reload it"
-          type="button"
         >
-          <span className="site-brand__address" aria-hidden="true">00</span>
           <span>
-            <strong>MAIN / THRESHOLD</strong>
-            <small>RELOAD THE FIELD</small>
+            <strong>MUHAMMAD TAHA</strong>
+            <small>BIN ZAEEM · COMPUTER ENGINEER</small>
           </span>
-        </button>
+        </a>
 
         <nav className="desktop-rooms" aria-label="Portfolio rooms">
           {ROOMS.map((room) => (
