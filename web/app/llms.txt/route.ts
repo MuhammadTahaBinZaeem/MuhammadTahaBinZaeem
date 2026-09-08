@@ -12,15 +12,22 @@ export function GET() {
   const body = `# ${PROFILE.name}\n\n` +
     `Official portfolio: ${SITE_ORIGIN}\n\n` +
     `Muhammad Taha Bin Zaeem is also known publicly as Muhammad Taha, Taha Zaeem, Taha Bin Zaeem, and tahabinzaeem. ` +
-    `He is a computer engineer at NUST CEME and founder of Type2Learn and ProGenEDA. ` +
+    `He is a Computer Engineering undergraduate at NUST CEME and founder of Type2Learn and ProGenEDA. ` +
     `His work spans Verilog processors, MIPS assembly, C++, reverse engineering, AI engineering, electronics, robotics, and educational technology.\n\n` +
     `## Canonical sections\n\n` +
     `- Home and profile: ${SITE_ORIGIN}/\n` +
     `- Projects: ${SITE_ORIGIN}/projects\n` +
+    `- Research (unpublished work in progress): ${SITE_ORIGIN}/research\n` +
+    `- Experience and community: ${SITE_ORIGIN}/experience\n` +
+    `- All profiles, repositories and three downloadable CVs: ${SITE_ORIGIN}/connect\n` +
     `- Certifications: ${SITE_ORIGIN}/certifications\n` +
     `- Achievements: ${SITE_ORIGIN}/achievements\n` +
     `- Education: ${SITE_ORIGIN}/education\n\n` +
-    `## Official public profiles and ventures\n\n${verifiedProfiles}\n`;
+    `## Official public profiles and ventures\n\n${verifiedProfiles}\n` +
+    `- ParetoCo: https://devpost.com/software/paretoco\n` +
+    `- ProGenEDA source: https://github.com/ProGenEDA\n` +
+    `- Type2Learn source: https://github.com/Type2Learn\n\n` +
+    `Type2Learn is recorded as a P@SHA ICT Awards 2026 finalist, not a Gold winner. Both independent research studies are unpublished and ongoing. Workshop targets are planned, not completed.\n`;
 
   return new Response(body, {
     headers: {

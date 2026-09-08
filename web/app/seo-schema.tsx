@@ -30,7 +30,7 @@ export function PortfolioStructuredData() {
             name: "Muhammad Taha Bin Zaeem",
             alternateName: ["Taha Zaeem", "Taha Bin Zaeem", "tahabinzaeem"],
             description:
-              "The official portfolio of Muhammad Taha Bin Zaeem, a computer engineer building processor, software, AI, electronics, and education systems.",
+              "The official portfolio of Muhammad Taha Bin Zaeem, a Computer Engineering undergraduate researching applied AI and building engineering systems.",
             inLanguage: "en-PK",
             publisher: { "@id": PERSON_ID },
           },
@@ -38,7 +38,7 @@ export function PortfolioStructuredData() {
             "@type": "ProfilePage",
             "@id": `${SITE_ORIGIN}/#profile`,
             url: SITE_ORIGIN,
-            name: "Muhammad Taha Bin Zaeem | Computer Engineer Portfolio",
+            name: "Muhammad Taha Bin Zaeem | Engineering & Applied AI",
             mainEntity: { "@id": PERSON_ID },
             isPartOf: { "@id": `${SITE_ORIGIN}/#website` },
           },
@@ -49,7 +49,7 @@ export function PortfolioStructuredData() {
             alternateName: ["Muhammad Taha", "Taha Zaeem", "Taha Bin Zaeem", "tahabinzaeem"],
             url: SITE_ORIGIN,
             image: `${SITE_ORIGIN}${PROFILE.portrait.src}`,
-            jobTitle: "Computer Engineer",
+            jobTitle: "Computer Engineering Undergraduate; Founder",
             description: PROFILE.headline,
             homeLocation: {
               "@type": "Place",
@@ -70,7 +70,7 @@ export function PortfolioStructuredData() {
             ],
             hasOccupation: {
               "@type": "Occupation",
-              name: "Computer Engineer",
+              name: "Software Product Founder",
               occupationLocation: {
                 "@type": "Country",
                 name: "Pakistan",

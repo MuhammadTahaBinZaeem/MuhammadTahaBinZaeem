@@ -8,7 +8,10 @@
   "scripts": {
     "dev": "vinext dev",
     "build": "vinext build",
-    "start": "vinext start",
+    "start": "vite preview --host localhost --port 3000",
+    "art:build": "node scripts/build-notebook-art.mjs",
+    "sync:github": "node ../tools/sync-public-projects.mjs",
+    "test:browser": "node tests/browser-smoke.mjs",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
     "lint": "eslint app db worker tests \"scripts/*.mjs\" \"*.ts\" \"*.mjs\"",
     "typecheck": "tsc --noEmit --incremental false",

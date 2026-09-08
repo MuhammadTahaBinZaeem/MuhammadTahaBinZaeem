@@ -1,4 +1,12 @@
-# Muhammad Taha Bin Zaeem — Field System
+# Muhammad Taha Bin Zaeem — The Engineering Notebook
+
+The current version is documented in [NOTEBOOK.md](NOTEBOOK.md). Start there for local preview, content updates, original line artwork, PNG scroll animation, and testing. [CONTENT-COVERAGE.md](CONTENT-COVERAGE.md) maps the three supplied CVs and public GitHub projects to the eight current routes.
+
+**Current local preview:** `npm run build` followed by `npm start`, then open http://localhost:3000. This uses the Cloudflare Vite preview; it does not change production DNS.
+
+## Historical architecture: Field System
+
+The notes below describe the earlier version retained for source history. Boot veils, portal delays, Lenis, custom cursors, generated scene artwork, and per-project dwell themes are not mounted by the current notebook pages.
 
 An animation-led portfolio for Muhammad Taha Bin Zaeem, Computer Engineer and founder of Type2Learn and ProGenEDA.
 

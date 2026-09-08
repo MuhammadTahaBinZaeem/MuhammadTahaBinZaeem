@@ -1,0 +1,236 @@
+{
+  "owner": "MuhammadTahaBinZaeem",
+  "checkedAt": "2026-09-08T18:33:44.435Z",
+  "repositories": [
+    {
+      "name": "FOP-Project",
+      "description": "C++ symbolic algebra solver with a compiler-style lexer, AST parser, iterative simplification pipeline, and numeric evaluation.",
+      "url": "https://github.com/MuhammadTahaBinZaeem/FOP-Project",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "C++",
+      "branch": "main"
+    },
+    {
+      "name": "MuhammadTahaBinZaeem",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/MuhammadTahaBinZaeem",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "TypeScript",
+      "branch": "main"
+    },
+    {
+      "name": "Dis-Pater",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/Dis-Pater",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "Python",
+      "branch": "main"
+    },
+    {
+      "name": "webddd",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/webddd",
+      "homepage": "https://type2learn.tech/",
+      "fork": true,
+      "archived": false,
+      "language": "JavaScript",
+      "branch": "main"
+    },
+    {
+      "name": "ParetCo",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/ParetCo",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "JavaScript",
+      "branch": "main"
+    },
+    {
+      "name": "CleanUp",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/CleanUp",
+      "homepage": "https://clean-up-ten.vercel.app/",
+      "fork": false,
+      "archived": false,
+      "language": "JavaScript",
+      "branch": "main"
+    },
+    {
+      "name": "CS-117-Project",
+      "description": "Single-cycle 20-bit Verilog CPU with scalar and vector operations, Harvard architecture, tests, and design documentation.",
+      "url": "https://github.com/MuhammadTahaBinZaeem/CS-117-Project",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "Verilog",
+      "branch": "main"
+    },
+    {
+      "name": "quote-quest",
+      "description": "A full-stack TypeScript web app for personalized quotes, profiles, activity history, and persistent user state.",
+      "url": "https://github.com/MuhammadTahaBinZaeem/quote-quest",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "TypeScript",
+      "branch": "main"
+    },
+    {
+      "name": "PROJECTINFINITY",
+      "description": "A local-first Electron app for managing isolated AI browser profiles with Playwright, secure provider sessions, and auditable local data.",
+      "url": "https://github.com/MuhammadTahaBinZaeem/PROJECTINFINITY",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "TypeScript",
+      "branch": "main"
+    },
+    {
+      "name": "Mips_Chess_Engine",
+      "description": "A text-based chess engine in MIPS assembly with legal-move validation, special moves, check detection, and a basic computer opponent.",
+      "url": "https://github.com/MuhammadTahaBinZaeem/Mips_Chess_Engine",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "Assembly",
+      "branch": "main"
+    },
+    {
+      "name": "autodecom",
+      "description": "Windows tool that uses Ghidra headless analysis to recreate folder structures and export decompiler output for native binaries.",
+      "url": "https://github.com/MuhammadTahaBinZaeem/autodecom",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "Python",
+      "branch": "main"
+    },
+    {
+      "name": "sour",
+      "description": "Sauerbraten for the web.",
+      "url": "https://github.com/MuhammadTahaBinZaeem/sour",
+      "homepage": "https://sourga.me/",
+      "fork": true,
+      "archived": false,
+      "language": null,
+      "branch": "main"
+    },
+    {
+      "name": "game",
+      "description": "BananaBread is a C++ 3D game engine that runs on the web using JavaScript+WebGL+HTML",
+      "url": "https://github.com/MuhammadTahaBinZaeem/game",
+      "homepage": null,
+      "fork": true,
+      "archived": false,
+      "language": null,
+      "branch": "master"
+    },
+    {
+      "name": "Qalam-Helper-firefox-linux-",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/Qalam-Helper-firefox-linux-",
+      "homepage": null,
+      "fork": true,
+      "archived": false,
+      "language": "JavaScript",
+      "branch": "main"
+    },
+    {
+      "name": "CAR",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/CAR",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "C++",
+      "branch": "main"
+    },
+    {
+      "name": "KTO",
+      "description": "WiFi deauthentication tool that kicks every device off a target network - except the ones you whitelist by MAC address. It continuously scans for non‑whitelisted devices and deauths them the moment they appear or try to reconnect.",
+      "url": "https://github.com/MuhammadTahaBinZaeem/KTO",
+      "homepage": null,
+      "fork": true,
+      "archived": false,
+      "language": null,
+      "branch": "main"
+    },
+    {
+      "name": "working",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/working",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": null,
+      "branch": "main"
+    },
+    {
+      "name": "Arch",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/Arch",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "JavaScript",
+      "branch": "main"
+    },
+    {
+      "name": "ARCHintershipmonth1n2",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/ARCHintershipmonth1n2",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "C++",
+      "branch": "main"
+    },
+    {
+      "name": "VELORA",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/VELORA",
+      "homepage": "https://velora-five-gamma.vercel.app",
+      "fork": false,
+      "archived": false,
+      "language": "HTML",
+      "branch": "main"
+    },
+    {
+      "name": "Web_CS117",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/Web_CS117",
+      "homepage": null,
+      "fork": false,
+      "archived": false,
+      "language": "Verilog",
+      "branch": "main"
+    },
+    {
+      "name": "Debate-Club",
+      "description": null,
+      "url": "https://github.com/MuhammadTahaBinZaeem/Debate-Club",
+      "homepage": "https://debate-club.vercel.app",
+      "fork": false,
+      "archived": false,
+      "language": "Python",
+      "branch": "main"
+    },
+    {
+      "name": "AMIPS",
+      "description": "Mips Simulator",
+      "url": "https://github.com/MuhammadTahaBinZaeem/AMIPS",
+      "homepage": null,
+      "fork": true,
+      "archived": false,
+      "language": "HTML",
+      "branch": "main"
+    }
+  ]
+}

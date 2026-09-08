@@ -1,0 +1,167 @@
+{
+  "width": 960,
+  "height": 760,
+  "frames": [
+    {
+      "src": "/art/notebook/processor-00.png",
+      "bytes": 8268
+    },
+    {
+      "src": "/art/notebook/processor-01.png",
+      "bytes": 8268
+    },
+    {
+      "src": "/art/notebook/processor-02.png",
+      "bytes": 8268
+    },
+    {
+      "src": "/art/notebook/processor-03.png",
+      "bytes": 8268
+    },
+    {
+      "src": "/art/notebook/processor-04.png",
+      "bytes": 8268
+    },
+    {
+      "src": "/art/notebook/processor-05.png",
+      "bytes": 10316
+    },
+    {
+      "src": "/art/notebook/processor-06.png",
+      "bytes": 11070
+    },
+    {
+      "src": "/art/notebook/processor-07.png",
+      "bytes": 11181
+    },
+    {
+      "src": "/art/notebook/processor-08.png",
+      "bytes": 11271
+    },
+    {
+      "src": "/art/notebook/processor-09.png",
+      "bytes": 11226
+    },
+    {
+      "src": "/art/notebook/processor-10.png",
+      "bytes": 10840
+    },
+    {
+      "src": "/art/notebook/processor-11.png",
+      "bytes": 11314
+    },
+    {
+      "src": "/art/notebook/processor-12.png",
+      "bytes": 13829
+    },
+    {
+      "src": "/art/notebook/processor-13.png",
+      "bytes": 14442
+    },
+    {
+      "src": "/art/notebook/processor-14.png",
+      "bytes": 14688
+    },
+    {
+      "src": "/art/notebook/processor-15.png",
+      "bytes": 14552
+    },
+    {
+      "src": "/art/notebook/processor-16.png",
+      "bytes": 14349
+    },
+    {
+      "src": "/art/notebook/processor-17.png",
+      "bytes": 14835
+    },
+    {
+      "src": "/art/notebook/processor-18.png",
+      "bytes": 16374
+    },
+    {
+      "src": "/art/notebook/processor-19.png",
+      "bytes": 16407
+    },
+    {
+      "src": "/art/notebook/processor-20.png",
+      "bytes": 16659
+    },
+    {
+      "src": "/art/notebook/processor-21.png",
+      "bytes": 16275
+    },
+    {
+      "src": "/art/notebook/processor-22.png",
+      "bytes": 16797
+    },
+    {
+      "src": "/art/notebook/processor-23.png",
+      "bytes": 16991
+    },
+    {
+      "src": "/art/notebook/processor-24.png",
+      "bytes": 18287
+    },
+    {
+      "src": "/art/notebook/processor-25.png",
+      "bytes": 18294
+    },
+    {
+      "src": "/art/notebook/processor-26.png",
+      "bytes": 19247
+    },
+    {
+      "src": "/art/notebook/processor-27.png",
+      "bytes": 17590
+    },
+    {
+      "src": "/art/notebook/processor-28.png",
+      "bytes": 18975
+    },
+    {
+      "src": "/art/notebook/processor-29.png",
+      "bytes": 19251
+    },
+    {
+      "src": "/art/notebook/processor-30.png",
+      "bytes": 20522
+    },
+    {
+      "src": "/art/notebook/processor-31.png",
+      "bytes": 20714
+    },
+    {
+      "src": "/art/notebook/processor-32.png",
+      "bytes": 20829
+    },
+    {
+      "src": "/art/notebook/processor-33.png",
+      "bytes": 20725
+    },
+    {
+      "src": "/art/notebook/processor-34.png",
+      "bytes": 20811
+    },
+    {
+      "src": "/art/notebook/processor-35.png",
+      "bytes": 20098
+    },
+    {
+      "src": "/art/notebook/processor-36.png",
+      "bytes": 20274
+    },
+    {
+      "src": "/art/notebook/processor-37.png",
+      "bytes": 20933
+    },
+    {
+      "src": "/art/notebook/processor-38.png",
+      "bytes": 20207
+    },
+    {
+      "src": "/art/notebook/processor-39.png",
+      "bytes": 20976
+    }
+  ],
+  "totalBytes": 622489
+}

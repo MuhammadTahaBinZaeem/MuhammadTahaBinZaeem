@@ -1,5 +1,7 @@
 # Customization checklist
 
+For the current Engineering Notebook revision, use [NOTEBOOK.md](../NOTEBOOK.md) and [CONTENT-COVERAGE.md](../CONTENT-COVERAGE.md). The legacy scene-specific notes below remain for reference; current chapters are defined in `app/dossier-data.ts`, and the old boot, portal and dwell-theme systems are not mounted.
+
 The portfolio is already populated for Muhammad Taha Bin Zaeem. This guide is for changing records later or reusing the project as a starter without hunting through every animation.
 
 ## 1. Update the typed content control panel

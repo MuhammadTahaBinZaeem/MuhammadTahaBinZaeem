@@ -4,9 +4,10 @@ import { PortfolioStructuredData } from "./seo-schema";
 import { SITE_ORIGIN } from "./site-config";
 import "./globals.css";
 
-const SEO_TITLE = "Muhammad Taha Bin Zaeem | Taha Zaeem - Computer Engineer";
+const SEO_TITLE =
+  "Muhammad Taha Bin Zaeem | Taha Zaeem — Engineering & Applied AI";
 const SEO_DESCRIPTION =
-  "Official portfolio of Muhammad Taha Bin Zaeem (Muhammad Taha, Taha Zaeem): computer engineer at NUST CEME, founder of Type2Learn and ProGenEDA, building processors, software, AI, hardware, and education systems.";
+  "Official portfolio of Muhammad Taha Bin Zaeem (Taha Zaeem): Computer Engineering undergraduate at NUST CEME, founder of Type2Learn and ProGenEDA, working on applied AI, research, and computer architecture.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   },
   description: SEO_DESCRIPTION,
   alternates: { canonical: "/" },
-  applicationName: "Muhammad Taha Bin Zaeem — Field System",
+  applicationName: "Muhammad Taha Bin Zaeem — The Engineering Notebook",
   keywords: [
     "Muhammad Taha Bin Zaeem",
     "Muhammad Taha",
@@ -57,7 +58,7 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Muhammad Taha Bin Zaeem — Computer Engineer",
+        alt: "Muhammad Taha Bin Zaeem — The Engineering Notebook",
       },
     ],
   },
@@ -72,18 +73,23 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0b0c0a",
-  colorScheme: "dark light",
+  themeColor: "#f3eedf",
+  colorScheme: "light",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/media/identity/favicon.png" type="image/png" />
+        <link rel="icon" href="/art/favicon.png" type="image/png" />
         <PortfolioStructuredData />
       </head>
       <body>
+        <noscript>
+          <style>{`.sequence-chapter{height:auto!important}.sequence-sticky{position:relative!important;top:0!important;min-height:0!important;height:auto!important;padding-block:60px!important}.sequence-art canvas{display:none!important}.sequence-art>img{visibility:visible!important}`}</style>
+        </noscript>
         <ExperienceShell>{children}</ExperienceShell>
       </body>
     </html>

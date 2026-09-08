@@ -178,12 +178,12 @@ const THEMES = {
 export const PROFILE = {
   name: "Muhammad Taha Bin Zaeem",
   shortName: "Taha",
-  role: "Computer Engineer",
+  role: "Computer Engineering Undergraduate",
   headline:
     "Founder @ Type2Learn & ProGenEDA | Computer Engineering @ NUST | Building AI, Education & Technology Solutions",
   location: "Lahore, Punjab, Pakistan",
   domain: "https://tahabinzaeem.tech",
-  email: null,
+  email: "mtaha.ce47ceme@student.nust.edu.pk",
   intro:
     "I build across the boundary where software becomes signal: processors, assembly systems, engineering tools, AI products, and learning experiences.",
   thesis:

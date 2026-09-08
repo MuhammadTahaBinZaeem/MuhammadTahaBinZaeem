@@ -2,8 +2,17 @@ import type { MetadataRoute } from "next";
 import { SITE_ORIGIN } from "./site-config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/projects", "/certifications", "/achievements", "/education"];
-  const lastModified = new Date("2026-08-11T00:00:00.000Z");
+  const routes = [
+    "",
+    "/projects",
+    "/research",
+    "/experience",
+    "/certifications",
+    "/achievements",
+    "/education",
+    "/connect",
+  ];
+  const lastModified = new Date("2026-09-08T00:00:00.000Z");
 
   return routes.map((route, index) => ({
     url: `${SITE_ORIGIN}${route}`,
