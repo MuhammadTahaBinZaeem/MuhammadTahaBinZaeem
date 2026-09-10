@@ -9,6 +9,9 @@
   white-space: nowrap;
   border: 0;
 }
+.reader-edition-link{display:flex;justify-content:space-between;gap:20px;padding:25px 6vw;font:500 10px/1.6 var(--font-mono);color:var(--muted)}
+.reader-edition-link a{border-bottom:1px solid var(--line)}
+.reader-edition-link span{font-style:italic}
 .repo-count {
   font-family: var(--font-mono);
   font-size: 11px;

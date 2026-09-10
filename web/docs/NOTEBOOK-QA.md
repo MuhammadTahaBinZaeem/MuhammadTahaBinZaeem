@@ -1,22 +1,49 @@
-# Engineering Notebook — verification record
+# Living Field Book — verification record
 
-Verified locally on 8 September 2026 using the built Cloudflare Vite preview and installed Chromium. These are development-machine results, not production field performance claims.
+Verified locally on 10 September 2026 using the built Cloudflare Vite preview and installed Chromium. These are development-machine results, not production field performance claims. Production hosting and DNS were not changed.
 
-- TypeScript: passed.
-- ESLint: passed.
-- Production build: passed.
-- Rendered-HTML/content tests: 7 passed.
-- Browser suite: 37 screenshots; eight routes at 320, 390, 768 and 1440 pixels, plus three scroll stages, reduced-motion and no-JavaScript views.
-- Additional visual review: 26 captures including Duke credentials, original PDF links, mobile index, project repository directory and scroll stages.
-- Browser runtime, console and HTTP errors: none in the final suite.
-- Horizontal overflow and broken images: none at the tested widths.
-- Index dialog: opens, Escape closes, focus returns to the trigger.
-- Chapter links: immediate client navigation without a forced document reload or artificial loading delay.
-- Repository index: search, no-results state, clearing search and fork filter passed. Snapshot contains all 23 public repositories returned by the paginated GitHub API on 8 September 2026.
-- Scroll sequence: first, midpoint and final frames verified. Midpoint allows one frame of rounding because the browser scrolls to integer CSS pixels.
-- Saved motion preference and system reduced-motion: passed; canvas animation and extended sticky stage are removed.
-- CV downloads: all three returned HTTP 200 with `application/pdf`; delivered bytes matched the included PDFs.
-- Scroll performance sample: 121 frame intervals over a two-second scroll; 95th percentile 17 ms; no observed tasks over 50 ms. Headless local Chromium, not field Core Web Vitals.
-- Asset budget: 40 transparent 960 × 760 PNG frames, approximately 608 KB total. At most eight decoded frames retained and three in flight.
+## Build and content
 
-Reproduce using the commands in [NOTEBOOK.md](../NOTEBOOK.md). Browser screenshots and the full machine-readable report are saved to the ignored `qa-artifacts/notebook-browser/` directory. The earlier manual capture set is under `qa-artifacts/screens/notebook-v4/`.
+- TypeScript, ESLint and production build: passed.
+- Rendered-HTML/content tests: 8 passed.
+- The landing page contains one main landmark, one primary heading and nine complete worlds: foreword, atlas, projects, research, experience, education, certifications, achievements, and links/CVs.
+- The seven existing chapter routes remain standalone reader editions with their metadata and canonical links.
+- The 23-repository snapshot, 14 certificate entries, original evidence and all three CV downloads remain included. Planned work, applications, unpublished research and finalist selections retain their factual qualifiers.
+- All three CV downloads returned HTTP 200 with `application/pdf`; delivered bytes matched the original included PDFs.
+- Sitemap, robots, structured data and crawler-facing links remain covered by automated tests.
+
+## Browser checks
+
+The full browser run captures **101 screenshots** under `qa-artifacts/book-browser/`:
+
+- Eight routes at 320, 390, 768 and 1440 pixels; no detected horizontal overflow or broken images.
+- Cover opening and all nine embedded worlds at the same four widths, plus desktop/mobile reading stages and a short landscape viewport.
+- Every chapter's ending is reachable before its page turn starts.
+- Four forward page-turn positions match the corresponding reverse-scroll transforms.
+- Illustrated atlas leaves move with scroll; long chapter jumps tear outward inside the same document without a route reload.
+- Browser Back, direct chapter/subsection hashes, wheel cancellation of an in-flight jump, expandable project evidence, repository search, empty state and fork filtering pass.
+- Keyboard focus brings an offscreen certificate into view. Inactive worlds are inert and excluded from accessibility navigation.
+- Resizing preserves the chapter and updates the stage height. Idle layout observation does not continuously rebuild the animation timelines.
+- Reader mode retains the chapter, persists between visits and activates automatically for system reduced motion.
+- Without JavaScript, all nine worlds are in normal document flow with usable cover instructions.
+- No runtime, console or HTTP errors in the final suite.
+
+Screenshots were visually inspected across the cover, atlas, all chapter worlds, intermediate reading positions, page turns, tearing transitions, certificate focus, mobile layout, reader mode and no-JavaScript view. The screenshot helper waits for visible images to decode and paint, not only for their network requests to complete.
+
+## Corrections made during visual review
+
+- Fixed cover/invitation overlap and portrait-caption collision on small screens.
+- Rounded chapter distances to avoid one-pixel boundary leaks into an adjacent world.
+- Kept interrupted chapter jumps from leaving the tearing overlay stuck after content reflow.
+- Corrected research status-label, experience-note and CV-card contrast; regression checks require at least 4.5:1 for those text/background pairs.
+- Made certificate preview links block-level so keyboard focus has a useful visible target.
+- Added bounded chapter-image look-ahead and decoding instead of downloading the entire archive eagerly.
+- Scoped the continuously changing reading-progress style to the small bottom control instead of the ancestor of every chapter.
+
+## Performance and limitations
+
+The final machine-readable report records a two-second local scrolling sample, including frame intervals and tasks over 50 ms. This is a headless Chromium diagnostic, **not** a field Core Web Vitals measurement or a guarantee for every device. Only current/turning chapter layers are composited; there is no perpetual rendering loop or per-frame React state update.
+
+The original 40-frame transparent PNG sequence (approximately 608 KB total) is retained as an optional source asset, but is not mounted or downloaded by the current book. The book uses lightweight flat paper layers and GSAP; no WebGL models or generated decorative images are mounted.
+
+Physical-device Safari/iOS testing and production field measurements remain outside this local pass. Reproduce with the commands in [NOTEBOOK.md](../NOTEBOOK.md). The screenshots and `report.json` are local, ignored QA artifacts rather than production assets.

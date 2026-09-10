@@ -23,20 +23,23 @@ export function InkDrawing({
   );
 }
 export function ChapterHeading({
+  level = 1,
   number,
   title,
   lead,
   note,
 }: {
+  level?: 1 | 2;
   number: string;
   title: string;
   lead: string;
   note?: string;
 }) {
+  const Heading = level === 1 ? "h1" : "h2";
   return (
     <header className="page-heading">
       <p className="eyebrow">The engineering notebook / {number}</p>
-      <h1>{title}</h1>
+      <Heading>{title}</Heading>
       <div className="heading-tail">
         <p className="page-lead">{lead}</p>
         {note && <span className="hand-note">{note}</span>}

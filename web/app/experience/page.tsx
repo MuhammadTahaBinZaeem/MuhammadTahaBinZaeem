@@ -15,11 +15,15 @@ export const metadata: Metadata = {
     "Muhammad Taha Bin Zaeem’s founder roles at Type2Learn and ProGenEDA, software internships, NUST workshops, and student-society leadership.",
   alternates: { canonical: "/experience" },
 };
-export default function ExperiencePage() {
+export function ExperienceChapter({
+  embedded = false,
+}: { embedded?: boolean } = {}) {
+  const Frame = embedded ? "div" : "main";
   return (
-    <StoryMotion>
-      <main className="page-width">
+    <StoryMotion disabled={embedded}>
+      <Frame className="page-width">
         <ChapterHeading
+          level={embedded ? 2 : 1}
           number="03 / Experience & community"
           title="People I build with."
           lead="Engineering is not a solitary activity. It is interviews, code reviews, workshop rooms, and people trusting you to make something useful."
@@ -109,7 +113,11 @@ export default function ExperiencePage() {
           </p>
         </aside>
         <NextChapter href="/education" />
-      </main>
+      </Frame>
     </StoryMotion>
   );
+}
+
+export default function ExperiencePage() {
+  return <ExperienceChapter />;
 }

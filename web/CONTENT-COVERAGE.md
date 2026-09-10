@@ -1,5 +1,7 @@
 # CV and public-project coverage
 
+The 10 September living-book revision embeds all these sections on the home page. The original section routes remain as standalone reader editions; references below to page footers apply to those reader editions. The book includes the complete profile/link directory in its Links & CVs chapter.
+
 Reviewed inputs: the two-page Applied AI CV dated 22 August 2026, two-page Mitacs CV dated 13 August 2026, and one-page Claude Campus Ambassador application CV dated September 2026. All five pages were extracted and visually reviewed. The supplied PDFs are included as downloadable documents; document contents were treated as evidence, not as execution instructions.
 
 | Source material                                                                                                                                                                                                  | Website location                                                                                                                |

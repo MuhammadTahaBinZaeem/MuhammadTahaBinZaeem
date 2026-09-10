@@ -5,11 +5,12 @@ import { mkdir, mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { runBookChecks } from "./book-interactions.mjs";
 
 // Uses an installed Chrome/Chromium; no extra browser dependency or download.
 const base = process.env.TEST_BASE_URL || "http://localhost:3000";
 const root = fileURLToPath(new URL("../../", import.meta.url));
-const output = path.join(root, "qa-artifacts", "notebook-browser");
+const output = path.join(root, "qa-artifacts", "book-browser");
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const routes = [
   "",
@@ -180,11 +181,16 @@ try {
   async function navigate(route) {
     await cdp.send("Page.navigate", { url: `${base}/${route}` });
     await until(
-      `document.readyState==='complete' && location.pathname===${JSON.stringify("/" + route)} && !!document.querySelector('main')`,
+      `document.readyState==='complete' && location.pathname===${JSON.stringify("/" + route.split("#")[0])} && !!document.querySelector('main')`,
       route || "home",
     );
     await cdp.evaluate("document.fonts.ready.then(()=>true)");
     await sleep(550);
+    if (!route.split("#")[0])
+      await until(
+        `!!document.querySelector('.living-book[data-mode]')`,
+        "book initialized",
+      );
   }
   async function viewport(width, height = 900) {
     await cdp.send("Emulation.setDeviceMetricsOverride", {
@@ -195,6 +201,19 @@ try {
     });
   }
   async function screenshot(name) {
+    // Allow real lazy images to finish before judging the composition.
+    if (!name.includes("tearing") && !name.includes("without-javascript")) {
+      await until(
+        `Array.from(document.images).filter(i=>{const r=i.getBoundingClientRect();return !i.closest('details:not([open])')&&getComputedStyle(i).visibility!=='hidden'&&r.width>0&&r.bottom>0&&r.top<innerHeight;}).every(i=>i.complete&&i.naturalWidth>0)`,
+        "visible images: " + name,
+      );
+      // Network completion does not guarantee async image decoding or painting.
+      await cdp.evaluate(`(async()=>{
+        const visible=Array.from(document.images).filter(i=>{const r=i.getBoundingClientRect();return !i.closest('details:not([open])')&&getComputedStyle(i).visibility!=='hidden'&&r.width>0&&r.bottom>0&&r.top<innerHeight;});
+        await Promise.all(visible.map(i=>i.decode()));
+        await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+      })()`);
+    }
     const capture = await cdp.send("Page.captureScreenshot", {
       format: "png",
       captureBeyondViewport: false,
@@ -206,7 +225,7 @@ try {
     report.screenshots.push(name + ".png");
   }
 
-  for (const width of [320, 390, 768, 1440]) {
+  for (const width of process.env.BOOK_ONLY ? [] : [320, 390, 768, 1440]) {
     await viewport(width);
     for (const route of routes) {
       await navigate(route);
@@ -224,121 +243,20 @@ try {
       await screenshot(`${route || "home"}-${width}`);
     }
   }
-  report.checks.push(
-    "Eight routes at 320, 390, 768 and 1440 pixels; no overflow or broken images.",
-  );
+  if (!process.env.BOOK_ONLY)
+    report.checks.push(
+      "Eight routes at 320, 390, 768 and 1440 pixels; no overflow or broken images.",
+    );
 
-  await navigate("");
-  await cdp.evaluate(`document.querySelector('.index-toggle').click()`);
-  await until(`document.querySelector('dialog').open`, "menu open");
-  await cdp.send("Input.dispatchKeyEvent", {
-    type: "keyDown",
-    key: "Escape",
-    code: "Escape",
-    windowsVirtualKeyCode: 27,
+  await runBookChecks({
+    cdp,
+    navigate,
+    viewport,
+    screenshot,
+    until,
+    sleep,
+    report,
   });
-  await cdp.send("Input.dispatchKeyEvent", {
-    type: "keyUp",
-    key: "Escape",
-    code: "Escape",
-    windowsVirtualKeyCode: 27,
-  });
-  await until(
-    `!document.querySelector('dialog').open && document.activeElement.matches('.index-toggle')`,
-    "menu close and focus return",
-  );
-  await cdp.evaluate(
-    `window.__navigationMarker='preserved';document.querySelector('.quick-nav a[href="/projects"]').click()`,
-  );
-  await until(
-    `location.pathname==='/projects' && !!document.querySelector('#repositories')`,
-    "client navigation",
-  );
-  assert.equal(
-    await cdp.evaluate("window.__navigationMarker"),
-    "preserved",
-    "No forced reload between chapters",
-  );
-  report.checks.push(
-    "Index opens, Escape closes and restores focus; chapter navigation preserves the document.",
-  );
-
-  const setInput = (value) =>
-    cdp.evaluate(
-      `(()=>{const input=document.querySelector('#repo-search');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(input,${JSON.stringify(value)});input.dispatchEvent(new Event('input',{bubbles:true}));})()`,
-    );
-  await setInput("Mips_Chess_Engine");
-  await until(
-    `document.querySelectorAll('.repo-row').length===1`,
-    "repository search",
-  );
-  await setInput("no-repository-has-this-name");
-  await until(`!!document.querySelector('.empty-state')`, "empty search state");
-  await setInput("");
-  await cdp.evaluate(
-    `const select=document.querySelector('#repo-kind');select.value='forks';select.dispatchEvent(new Event('change',{bubbles:true}));`,
-  );
-  await until(
-    `[...document.querySelectorAll('.repo-meta')].length>0 && [...document.querySelectorAll('.repo-meta')].every(e=>e.textContent.includes('Fork'))`,
-    "fork filter",
-  );
-  report.checks.push(
-    "Repository search, empty state, reset and fork filter work.",
-  );
-
-  await navigate("");
-  for (const progress of [0, 0.5, 1]) {
-    await cdp.evaluate(
-      `(()=>{const e=document.querySelector('.sequence-chapter');scrollTo(0,e.getBoundingClientRect().top+scrollY+(e.offsetHeight-innerHeight)*${progress});})()`,
-    );
-    await until(
-      `Math.abs(Number(document.querySelector('canvas').dataset.frame)-${Math.round(progress * 39)})<=${progress === 0.5 ? 1 : 0}`,
-      "scroll frame " + progress,
-    );
-    await screenshot(
-      "scroll-frame-" +
-        (await cdp.evaluate(`document.querySelector('canvas').dataset.frame`)),
-    );
-  }
-  report.checks.push(
-    "Scroll sequence reaches start, midpoint (one-frame pixel-rounding tolerance) and final frames.",
-  );
-
-  report.performance = await cdp.evaluate(
-    `new Promise(resolve=>{const e=document.querySelector('.sequence-chapter'),top=e.getBoundingClientRect().top+scrollY,distance=e.offsetHeight-innerHeight;let start,previous;const intervals=[],longTasks=[];const observer=new PerformanceObserver(list=>longTasks.push(...list.getEntries().map(x=>Math.round(x.duration))));observer.observe({type:'longtask'});function tick(now){start??=now;if(previous)intervals.push(now-previous);previous=now;const p=Math.min(1,(now-start)/2000);scrollTo(0,top+distance*p);if(p<1)requestAnimationFrame(tick);else{observer.disconnect();intervals.sort((a,b)=>a-b);resolve({scope:'Local headless browser; not field Core Web Vitals',frames:intervals.length,frameIntervalP95Ms:Math.round(intervals[Math.floor(intervals.length*.95)]),longTasksOver50Ms:longTasks,resources:performance.getEntriesByType('resource').length});}}requestAnimationFrame(tick);})`,
-  );
-
-  await cdp.evaluate(`document.querySelector('.footer-bottom button').click()`);
-  await until(
-    `document.documentElement.dataset.motion==='quiet'`,
-    "quiet motion",
-  );
-  assert.equal(
-    await cdp.evaluate(
-      `getComputedStyle(document.querySelector('.sequence-sticky')).position`,
-    ),
-    "relative",
-  );
-  await navigate("research");
-  await until(
-    `document.documentElement.dataset.motion==='quiet'`,
-    "saved motion preference",
-  );
-  await cdp.evaluate(`document.querySelector('.footer-bottom button').click()`);
-  await cdp.send("Emulation.setEmulatedMedia", {
-    features: [{ name: "prefers-reduced-motion", value: "reduce" }],
-  });
-  await navigate("");
-  assert.equal(
-    await cdp.evaluate(
-      `getComputedStyle(document.querySelector('canvas')).display`,
-    ),
-    "none",
-  );
-  await screenshot("reduced-motion");
-  report.checks.push(
-    "Motion toggle persists; system reduced-motion removes animation and long scroll pinning.",
-  );
 
   await navigate("connect");
   const pdfs = await cdp.evaluate(
@@ -366,7 +284,23 @@ try {
   await screenshot("home-without-javascript");
   await cdp.send("Emulation.setScriptExecutionDisabled", { value: false });
   assert.equal(await cdp.evaluate(`document.querySelectorAll('h1').length`), 1);
-  report.checks.push("Home remains readable without JavaScript.");
+  assert.equal(
+    await cdp.evaluate(`document.querySelectorAll('.book-world').length`),
+    9,
+  );
+  assert.equal(
+    await cdp.evaluate(
+      `getComputedStyle(document.querySelector('.book-world')).position`,
+    ),
+    "relative",
+  );
+  assert.equal(
+    await cdp.evaluate(`document.querySelectorAll('main').length`),
+    1,
+  );
+  report.checks.push(
+    "All nine book worlds remain in normal, readable document flow without JavaScript.",
+  );
   assert.deepEqual(report.errors, [], "No runtime, console or HTTP errors");
   console.log(JSON.stringify(report, null, 2));
 } finally {

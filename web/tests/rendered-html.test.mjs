@@ -36,6 +36,44 @@ const OFFICIAL = [
   "https://devpost.com/MuhammadTahaBinZaeem",
   "https://lablab.ai/u/%40taha_zaeem65",
 ];
+test("home is one complete, progressively enhanced book; reader editions remain available", async () => {
+  const html = await (await render("/")).text();
+  assert.equal((html.match(/<main\b/g) || []).length, 1);
+  assert.equal((html.match(/data-world=/g) || []).length, 9);
+  assert.equal((html.match(/class="certificate-sheet"/g) || []).length, 14);
+  assert.equal((html.match(/class="atlas-leaf atlas-leaf-/g) || []).length, 7);
+  assert.doesNotMatch(
+    html,
+    /class="(?:top-bar|notebook-header|chapter-grid|quick-nav)"/,
+  );
+  for (const id of [
+    "foreword",
+    "atlas",
+    "projects",
+    "research",
+    "experience",
+    "education",
+    "certifications",
+    "achievements",
+    "connect",
+  ])
+    assert.ok(html.includes('id="' + id + '"'), id);
+  const github = JSON.parse(await source("../app/github-repositories.json"));
+  for (const repo of github.repositories)
+    assert.ok(html.includes(repo.url), repo.name + " in home HTML");
+  assert.ok(html.includes("/cv/muhammad-taha-bin-zaeem-mitacs-cv.pdf"));
+  assert.ok(
+    html.includes("/cv/muhammad-taha-bin-zaeem-claude-ambassador-cv.pdf"),
+  );
+  const engine = await source("../app/components/book-experience.tsx");
+  assert.match(engine, /ScrollTrigger\.create/);
+  assert.match(engine, /ResizeObserver/);
+  assert.match(engine, /prefers-reduced-motion/);
+  assert.doesNotMatch(
+    engine,
+    /setInterval|setTimeout|WebGL|requestAnimationFrame\(tick/,
+  );
+});
 test("all eight sections are server-rendered, crawlable, readable without loading gates", async () => {
   for (const [path, title] of ROUTES) {
     const response = await render(path);

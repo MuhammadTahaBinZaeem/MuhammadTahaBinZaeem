@@ -14,11 +14,15 @@ export const metadata: Metadata = {
     "Muhammad Taha Bin Zaeem: B.E. Computer Engineering at NUST CEME, GCU Lahore, Qazi Grammar, and a complete engineering and research skill set.",
   alternates: { canonical: "/education" },
 };
-export default function EducationPage() {
+export function EducationChapter({
+  embedded = false,
+}: { embedded?: boolean } = {}) {
+  const Frame = embedded ? "div" : "main";
   return (
-    <StoryMotion>
-      <main className="page-width">
+    <StoryMotion disabled={embedded}>
+      <Frame className="page-width">
         <ChapterHeading
+          level={embedded ? 2 : 1}
           number="04 / Education"
           title="Where it began."
           lead="From the first computer-science classroom to processor design, circuits, and machine-learning foundations."
@@ -81,7 +85,11 @@ export default function EducationPage() {
           </div>
         </section>
         <NextChapter href="/certifications" />
-      </main>
+      </Frame>
     </StoryMotion>
   );
+}
+
+export default function EducationPage() {
+  return <EducationChapter />;
 }

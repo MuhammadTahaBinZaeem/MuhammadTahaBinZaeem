@@ -15,10 +15,13 @@ export const metadata: Metadata = {
     "Independent research by Muhammad Taha Bin Zaeem: authorial style in LLM-rewritten fiction and semantic change attribution in EDA files. Work in progress, not published results.",
   alternates: { canonical: "/research" },
 };
-export default function ResearchPage() {
+export function ResearchChapter({
+  embedded = false,
+}: { embedded?: boolean } = {}) {
+  const Frame = embedded ? "div" : "main";
   return (
-    <StoryMotion>
-      <main className="page-width">
+    <StoryMotion disabled={embedded}>
+      <Frame className="page-width">
         <CollectionStructuredData
           path="/research"
           name="Research in progress"
@@ -31,6 +34,7 @@ export default function ResearchPage() {
           }))}
         />
         <ChapterHeading
+          level={embedded ? 2 : 1}
           number="02 / Research"
           title="Questions I test."
           lead="Useful AI begins where confident claims end: with a controlled experiment, a clear baseline, and evidence someone else can inspect."
@@ -112,7 +116,11 @@ export default function ResearchPage() {
           </p>
         </section>
         <NextChapter href="/experience" />
-      </main>
+      </Frame>
     </StoryMotion>
   );
+}
+
+export default function ResearchPage() {
+  return <ResearchChapter />;
 }

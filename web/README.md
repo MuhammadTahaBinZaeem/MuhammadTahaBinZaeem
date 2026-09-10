@@ -1,6 +1,6 @@
-# Muhammad Taha Bin Zaeem — The Engineering Notebook
+# Muhammad Taha Bin Zaeem — The Living Field Book
 
-The current version is documented in [NOTEBOOK.md](NOTEBOOK.md). Start there for local preview, content updates, original line artwork, PNG scroll animation, and testing. [CONTENT-COVERAGE.md](CONTENT-COVERAGE.md) maps the three supplied CVs and public GitHub projects to the eight current routes.
+The current version is documented in [NOTEBOOK.md](NOTEBOOK.md). Start there for the continuous scroll-controlled book, its nine themed worlds, original line artwork, local preview, content updates, and testing. [CONTENT-COVERAGE.md](CONTENT-COVERAGE.md) maps the three supplied CVs and public GitHub projects to the same complete content, now embedded in the book and still available through seven standalone reader editions.
 
 **Current local preview:** `npm run build` followed by `npm start`, then open http://localhost:3000. This uses the Cloudflare Vite preview; it does not change production DNS.
 

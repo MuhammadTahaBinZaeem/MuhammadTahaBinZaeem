@@ -10,12 +10,15 @@ export function editorialTitleScale(title: string) {
 export function StoryMotion({
   children,
   className = "",
+  disabled = false,
 }: {
   children: ReactNode;
   className?: string;
+  disabled?: boolean;
 }) {
   const scope = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    if (disabled) return;
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     let disposed = false,
       epoch = 0;
@@ -107,7 +110,7 @@ export function StoryMotion({
       media.removeEventListener("change", setup);
       preference.disconnect();
     };
-  }, []);
+  }, [disabled]);
   return (
     <div ref={scope} className={className}>
       {children}

@@ -60,10 +60,13 @@ const groups = [
     filter: (s: string) => s === "ai-genesis-completion",
   },
 ];
-export default function CertificationsPage() {
+export function CertificationsChapter({
+  embedded = false,
+}: { embedded?: boolean } = {}) {
+  const Frame = embedded ? "div" : "main";
   return (
-    <StoryMotion>
-      <main className="page-width">
+    <StoryMotion disabled={embedded}>
+      <Frame className="page-width">
         <CollectionStructuredData
           name="Muhammad Taha Bin Zaeem credentials"
           description="Original certificates with issuer, date, document and verification links."
@@ -76,6 +79,7 @@ export default function CertificationsPage() {
           }))}
         />
         <ChapterHeading
+          level={embedded ? 2 : 1}
           number="05 / Certifications"
           title="The learning record."
           lead="The concepts, the practice, and the original credentials. Filed by institution, with room to actually read them."
@@ -175,7 +179,11 @@ export default function CertificationsPage() {
           </section>
         ))}
         <NextChapter href="/achievements" />
-      </main>
+      </Frame>
     </StoryMotion>
   );
+}
+
+export default function CertificationsPage() {
+  return <CertificationsChapter />;
 }

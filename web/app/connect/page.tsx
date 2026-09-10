@@ -30,11 +30,15 @@ const destinations = [
   (link, index, all) =>
     link.href && all.findIndex((other) => other.href === link.href) === index,
 );
-export default function ConnectPage() {
+export function ConnectChapter({
+  embedded = false,
+}: { embedded?: boolean } = {}) {
+  const Frame = embedded ? "div" : "main";
   return (
-    <StoryMotion>
-      <main className="page-width">
+    <StoryMotion disabled={embedded}>
+      <Frame className="page-width">
         <ChapterHeading
+          level={embedded ? 2 : 1}
           number="07 / Links & CVs"
           title="The next conversation."
           lead="Research questions, engineering problems, and people with something worth building. Here is how to find me—and the full record to take with you."
@@ -151,7 +155,11 @@ export default function ConnectPage() {
           <span>The engineering notebook.</span>
           <span aria-hidden="true">↗</span>
         </Link>
-      </main>
+      </Frame>
     </StoryMotion>
   );
+}
+
+export default function ConnectPage() {
+  return <ConnectChapter />;
 }

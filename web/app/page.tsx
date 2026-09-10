@@ -1,134 +1,230 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
-import { StoryMotion } from "./components/story-motion";
-import { InkDrawing } from "./components/notebook-ui";
-import { ScrollNotebook } from "./components/scroll-notebook";
+import type { CSSProperties } from "react";
+import { BookExperience } from "./components/book-experience";
+import { BOOK_WORLDS } from "./book-data";
 import { CHAPTERS } from "./dossier-data";
+import { ProjectsChapter } from "./projects/page";
+import { ResearchChapter } from "./research/page";
+import { ExperienceChapter } from "./experience/page";
+import { EducationChapter } from "./education/page";
+import { CertificationsChapter } from "./certifications/page";
+import { AchievementsChapter } from "./achievements/page";
+import { ConnectChapter } from "./connect/page";
+import "./storybook.css";
 
-export default function Home() {
+function Foreword() {
   return (
-    <StoryMotion>
-      <main>
-        <section className="notebook-hero">
-          <div className="hero-meta">
-            <span>COMPUTER ENGINEERING / NUST CEME</span>
-            <span>PAKISTAN · OPEN NOTEBOOK № 01</span>
-          </div>
-          <div className="hero-layout">
-            <div className="hero-type">
-              <span className="hand-note">Curiosity, put to work.</span>
-              <h1>
-                <span>Muhammad</span>
-                <span>
-                  Taha <em>Bin Zaeem.</em>
+    <div className="foreword-leaves">
+      <section className="foreword-spread">
+        <div className="foreword-copy">
+          <p className="book-kicker">Foreword / Muhammad Taha Bin Zaeem</p>
+          <span className="hand-note">Curiosity, put to work.</span>
+          <h2>
+            A mind
+            <br />
+            between
+            <br />
+            <em>worlds.</em>
+          </h2>
+          <p>
+            Hardware. Software. The very human question of <em>what if?</em>
+          </p>
+          <span className="foreword-signature">Taha.</span>
+        </div>
+        <figure className="foreword-desk" data-book-drift>
+          <img
+            src="/art/notebook/workbench.svg"
+            width={960}
+            height={760}
+            alt="Pen-and-ink drawing of a workbench, circuit, pencil and an open notebook"
+          />
+          <figcaption>
+            Fig. 00 — Somewhere between an idea and a working thing.
+          </figcaption>
+        </figure>
+        <div className="foreword-margin">
+          <span>COMPUTER ENGINEERING / NUST CEME</span>
+          <span>PAKISTAN · FIELD NOTES IN PROGRESS</span>
+        </div>
+        <p className="foreword-scroll">
+          Let the page move you. <span>↓</span>
+        </p>
+      </section>
+      <section className="foreword-manifesto">
+        <figure className="book-portrait" data-paper>
+          <img
+            src="/media/identity/muhammad-taha-studio-portrait.webp"
+            width={988}
+            height={970}
+            alt="Muhammad Taha Bin Zaeem"
+            loading="lazy"
+          />
+          <figcaption>The person behind these pages.</figcaption>
+        </figure>
+        <div data-reveal>
+          <p className="book-kicker">A note in the margin</p>
+          <h2>
+            Build something.
+            <br />
+            <em>Then question it.</em>
+          </h2>
+          <p>
+            I’m a Computer Engineering undergraduate at NUST CEME, founder of{" "}
+            <a href="https://progeneda.app">ProGenEDA ↗</a> and{" "}
+            <a href="https://type2learn.tech">Type2Learn ↗</a>, and co-creator
+            of{" "}
+            <a href="https://github.com/MuhammadTahaBinZaeem/ParetCo">
+              ParetoCo ↗
+            </a>
+            .
+          </p>
+          <p>
+            My work moves between processors, applied AI, accessible learning,
+            and the evidence that makes a system worth trusting.
+          </p>
+          <p className="hand-note">
+            This isn’t a finished story.
+            <br />
+            That’s the interesting part.
+          </p>
+        </div>
+      </section>
+      <section className="foreword-instruction">
+        <span>fetch curiosity</span>
+        <span>decode possibility</span>
+        <span>execute an idea</span>
+        <span>repeat.</span>
+        <p>
+          Keep scrolling. The next leaf is already waiting. <b>↘</b>
+        </p>
+      </section>
+    </div>
+  );
+}
+function Atlas() {
+  return (
+    <section className="book-atlas">
+      <header className="atlas-heading">
+        <p className="book-kicker">The atlas / a few ways into my world</p>
+        <h2>
+          Which thread
+          <br />
+          will you <em>pull?</em>
+        </h2>
+        <p>
+          Follow every page, or open a world that catches your curiosity.
+          <br />
+          The book remembers the way back: just scroll upward.
+        </p>
+      </header>
+      <div className="atlas-leaves">
+        {CHAPTERS.map((chapter, index) => {
+          const world = BOOK_WORLDS[index + 2];
+          return (
+            <a
+              className={"atlas-leaf atlas-leaf-" + world.id}
+              href={"#" + world.id}
+              key={world.id}
+              data-book-leaf
+              style={
+                {
+                  "--leaf-paper": world.paper,
+                  "--leaf-ink": world.ink,
+                  "--leaf-accent": world.accent,
+                } as CSSProperties
+              }
+            >
+              <span className="atlas-leaf-number" aria-hidden="true">
+                {chapter.number}
+              </span>
+              <div className="atlas-leaf-copy">
+                <span className="book-kicker">
+                  {chapter.label} / {world.title}
                 </span>
-              </h1>
-              <p>
-                I build where <strong>hardware, software,</strong>
-                <br className="desktop-break" /> and human curiosity meet.
-              </p>
-              <div className="hero-actions">
-                <Link className="ink-button" href="/projects">
-                  Open the work <span>↗</span>
-                </Link>
-                <Link className="text-link" href="/research">
-                  Follow the questions ↗
-                </Link>
+                <h3>
+                  {chapter.title}
+                  <em>.</em>
+                </h3>
+                <p>
+                  {world.motif}
+                  {/[.!?]$/.test(world.motif) ? "" : "."}
+                </p>
+                <span className="atlas-invitation">
+                  Pull this thread <b aria-hidden="true">↗</b>
+                </span>
               </div>
+              <figure>
+                <img
+                  src={"/art/notebook/" + chapter.drawing + ".svg"}
+                  width={960}
+                  height={760}
+                  loading="lazy"
+                  alt=""
+                />
+                <span className="atlas-thread" aria-hidden="true" />
+              </figure>
+            </a>
+          );
+        })}
+      </div>
+      <p className="atlas-colophon">
+        Or keep going. We’ll begin in the workshop. <span>↓</span>
+      </p>
+    </section>
+  );
+}
+export default function Home() {
+  const chapters = [
+    <Foreword key="foreword" />,
+    <Atlas key="atlas" />,
+    <ProjectsChapter embedded key="projects" />,
+    <ResearchChapter embedded key="research" />,
+    <ExperienceChapter embedded key="experience" />,
+    <EducationChapter embedded key="education" />,
+    <CertificationsChapter embedded key="certifications" />,
+    <AchievementsChapter embedded key="achievements" />,
+    <ConnectChapter embedded key="connect" />,
+  ];
+  return (
+    <BookExperience>
+      {BOOK_WORLDS.map((world, index) => (
+        <section
+          className={"book-world world-" + world.id}
+          id={world.id}
+          key={world.id}
+          data-world={world.id}
+          aria-label={world.label}
+          style={
+            {
+              "--paper": world.paper,
+              "--ink": world.ink,
+              "--accent": world.accent,
+            } as CSSProperties
+          }
+        >
+          <div className="book-content">
+            <div className="world-marginalia" aria-hidden="true">
+              <span>
+                {world.number} / {world.title}
+              </span>
+              <span>Muhammad Taha Bin Zaeem</span>
             </div>
-            <figure className="hero-sketch">
-              <InkDrawing
-                name="workbench"
-                alt="Original ink-style drawing of an engineer’s desk: circuit monitor, notebook, and pencil"
-              />
-              <figcaption>
-                Fig. 01 — Make it real. Then make it reliable.
-              </figcaption>
-            </figure>
+            {chapters[index]}
+            <div className="world-last-line">
+              <span>
+                {world.motif}
+                {/[.!?]$/.test(world.motif) ? "" : "."}
+              </span>
+              <span>
+                {index < BOOK_WORLDS.length - 1
+                  ? "Scroll on. Turn the leaf. ↘"
+                  : "The next page is ours to write. ↗"}
+              </span>
+            </div>
           </div>
-          <div className="hero-footnote">
-            <p>
-              Founder, <a href="https://progeneda.app">ProGenEDA ↗</a> &{" "}
-              <a href="https://type2learn.tech">Type2Learn ↗</a>
-              <br />
-              Co-creator,{" "}
-              <a href="https://github.com/MuhammadTahaBinZaeem/ParetCo">
-                ParetoCo ↗
-              </a>
-            </p>
-            <span className="scroll-note">
-              A few pages from a work in progress ↓
-            </span>
-          </div>
+          <div className="page-turn-shade" aria-hidden="true" />
         </section>
-        <ScrollNotebook />
-        <section className="chapter-index page-width" id="chapters">
-          <div className="section-heading" data-reveal>
-            <p className="eyebrow">
-              The contents / choose your own way through
-            </p>
-            <h2>
-              There’s more
-              <br />
-              <em>between the lines.</em>
-            </h2>
-          </div>
-          <div className="chapter-grid">
-            {CHAPTERS.map((ch) => (
-              <Link
-                className="chapter-entry"
-                href={ch.href}
-                key={ch.number}
-                prefetch={false}
-                data-reveal
-              >
-                <span className="chapter-number">
-                  {ch.number} / {ch.label}
-                </span>
-                <h3>{ch.title}</h3>
-                <p>{ch.note}</p>
-                <span className="chapter-arrow" aria-hidden="true">
-                  ↗
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-        <section className="portrait-note page-width" data-reveal>
-          <figure data-paper>
-            <img
-              src="/media/identity/muhammad-taha-studio-portrait.webp"
-              width={988}
-              height={970}
-              alt="Muhammad Taha Bin Zaeem"
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption>A person behind the projects.</figcaption>
-          </figure>
-          <div>
-            <p className="eyebrow">A note from me</p>
-            <h2>
-              Still asking
-              <br />
-              <em>“what if?”</em>
-            </h2>
-            <p>
-              I’m a Computer Engineering undergraduate at NUST CEME. My work
-              moves between processors, research protocols, AI-assisted
-              engineering, and accessible learning.
-            </p>
-            <p>
-              I care about the part after the first impressive demo: the checks,
-              the evidence, and the people who actually use what we build.
-            </p>
-            <Link className="text-link" href="/experience">
-              Meet the builder ↗
-            </Link>
-            <span className="hand-note signature">Taha.</span>
-          </div>
-        </section>
-      </main>
-    </StoryMotion>
+      ))}
+    </BookExperience>
   );
 }

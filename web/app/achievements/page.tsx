@@ -14,11 +14,15 @@ export const metadata: Metadata = {
     "Muhammad Taha Bin Zaeem: P@SHA ICT Awards 2026 finalist with Type2Learn, SEMPEC second runner-up for the vector CPU, STEM 2024 runner-up, and academic honors.",
   alternates: { canonical: "/achievements" },
 };
-export default function AchievementsPage() {
+export function AchievementsChapter({
+  embedded = false,
+}: { embedded?: boolean } = {}) {
+  const Frame = embedded ? "div" : "main";
   return (
-    <StoryMotion>
-      <main className="page-width">
+    <StoryMotion disabled={embedded}>
+      <Frame className="page-width">
         <ChapterHeading
+          level={embedded ? 2 : 1}
           number="06 / Achievements"
           title="Milestones, earned."
           lead="The moments when an idea left the notebook and met a classroom, a judging panel, or a community."
@@ -93,7 +97,11 @@ export default function AchievementsPage() {
           ))}
         </div>
         <NextChapter href="/connect" />
-      </main>
+      </Frame>
     </StoryMotion>
   );
+}
+
+export default function AchievementsPage() {
+  return <AchievementsChapter />;
 }

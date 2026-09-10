@@ -20,10 +20,13 @@ export const metadata: Metadata = {
     "Explore every public GitHub repository and engineering project by Muhammad Taha Bin Zaeem, including ParetoCo, ProGenEDA, Type2Learn, a 20-bit CPU, and MIPS chess.",
   alternates: { canonical: "/projects" },
 };
-export default function ProjectsPage() {
+export function ProjectsChapter({
+  embedded = false,
+}: { embedded?: boolean } = {}) {
+  const Frame = embedded ? "div" : "main";
   return (
-    <StoryMotion>
-      <main className="page-width">
+    <StoryMotion disabled={embedded}>
+      <Frame className="page-width">
         <CollectionStructuredData
           path="/projects"
           name="Engineering projects by Muhammad Taha Bin Zaeem"
@@ -45,6 +48,7 @@ export default function ProjectsPage() {
           ]}
         />
         <ChapterHeading
+          level={embedded ? 2 : 1}
           number="01 / Projects"
           title="Things I build."
           lead="From a circuit on the bench to a platform in someone’s hands. The work, the decisions, and the evidence behind them."
@@ -174,7 +178,11 @@ export default function ProjectsPage() {
         </section>
         <RepositoryIndex />
         <NextChapter href="/research" />
-      </main>
+      </Frame>
     </StoryMotion>
   );
+}
+
+export default function ProjectsPage() {
+  return <ProjectsChapter />;
 }
