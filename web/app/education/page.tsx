@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { EDUCATION } from "../portfolio-data";
 import { SKILLS } from "../dossier-data";
+import { GalleryImage } from "../components/gallery-image";
 import { StoryMotion } from "../components/story-motion";
 import {
   ChapterHeading,
@@ -63,6 +64,10 @@ export function EducationChapter({
                   <li key={a}>{a}</li>
                 ))}
               </ul>
+              {e.media[0] && <figure className="education-evidence" data-paper>
+                <GalleryImage image={e.media[0]} images={e.media} title={e.institution} />
+                <figcaption>{e.media[0].alt}</figcaption>
+              </figure>}
             </div>
           </article>
         ))}

@@ -164,6 +164,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
           else element.dataset.smoothing = "idle";
         };
         const wakeScroll = () => {
+          if (document.documentElement.dataset.galleryOpen) return;
           if (!smoothFrame && !disposed) {
             // An idle gap must not be counted as the first animation delta.
             if (performance.now() - smoothTime > 80)
@@ -489,7 +490,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
           paint(Math.max(0, scrollY - startTop()));
         }
         function paint(position: number) {
-          if (disposed || printing || !segments.length) return;
+          if (disposed || printing || document.documentElement.dataset.galleryOpen || !segments.length) return;
           const opening = clamp(position / coverDistance);
           const showCover = opening < 1;
           if (sceneNode.inert === showCover) {
@@ -686,6 +687,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
             resumeNativeInput();
         };
         const onFocus = (e: FocusEvent) => {
+          if (document.documentElement.dataset.galleryOpen) return;
           const target = e.target as HTMLElement;
           const panel = target.closest<HTMLElement>(".book-world");
           if (!panel || jump) return;
@@ -704,8 +706,23 @@ export function BookExperience({ children }: { children: ReactNode }) {
           );
           paint(Math.max(0, scrollY - startTop()));
         };
-        const onHistory = () =>
-          go(decodeURIComponent(location.hash.slice(1)) || "cover", false);
+        const onHistory = () => {
+          if (!document.documentElement.dataset.galleryOpen)
+            go(decodeURIComponent(location.hash.slice(1)) || "cover", false);
+        };
+        const onGallery = (event: Event) => {
+          if ((event as CustomEvent<{ open: boolean }>).detail.open) {
+            resumeNativeInput();
+            smoother.stop();
+            cancelAnimationFrame(smoothFrame);
+            smoothFrame = 0;
+            element.dataset.smoothing = "idle";
+          } else {
+            smoother.start();
+            moveTo(scrollY, true);
+          }
+        };
+        addEventListener("notebook:gallery", onGallery);
         addEventListener("resize", resized);
         addEventListener("wheel", stopJump, { passive: true, capture: true });
         addEventListener("touchstart", resumeNativeInput, { passive: true });
@@ -734,6 +751,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
           removeEventListener("touchstart", resumeNativeInput);
           removeEventListener("keydown", onKey);
           removeEventListener("popstate", onHistory);
+          removeEventListener("notebook:gallery", onGallery);
           removeEventListener("beforeprint", preparePrint);
           removeEventListener("afterprint", finishPrint);
           element.removeEventListener("focusin", onFocus);

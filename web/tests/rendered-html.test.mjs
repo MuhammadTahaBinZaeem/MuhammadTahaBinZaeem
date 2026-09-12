@@ -234,6 +234,40 @@ test("sitemap, robots and machine-readable brief cover the complete site", async
     assert.ok(brief.includes("https://tahabinzaeem.tech" + path), path);
   for (const link of OFFICIAL) assert.ok(brief.includes(link), link);
 });
+test("related image galleries retain valid source URLs and dimensions in server HTML", async () => {
+  const html = await (await render("/")).text();
+  const galleries = Array.from(html.matchAll(/data-gallery="([^"]+)"/g), (match) => JSON.parse(match[1].replaceAll("&quot;", '"').replaceAll("&amp;", "&").replaceAll("&#x27;", "'").replaceAll("&lt;", "<").replaceAll("&gt;", ">")));
+  assert.ok(galleries.length >= 45);
+  const assets = new Map();
+  for (const gallery of galleries) {
+    assert.ok(gallery.title && gallery.items.length);
+    assert.equal(new Set(gallery.items.map((item) => item.src)).size, gallery.items.length);
+    for (const item of gallery.items) assets.set(item.src, item);
+  }
+  for (const [src, asset] of assets) {
+    assert.ok(src.startsWith("/"));
+    assert.ok((await stat(new URL("../public" + src, import.meta.url))).size > 0, src);
+    const metadata = await sharp(await readFile(new URL("../public" + src, import.meta.url))).metadata();
+    assert.equal(metadata.width, asset.width, src);
+    assert.equal(metadata.height, asset.height, src);
+  }
+  assert.equal(galleries.find((group) => group.title === "Pocket Engineer").items.length, 4);
+  assert.equal(galleries.find((group) => group.title === "ProGenEDA").items.length, 2);
+  assert.equal(galleries.find((group) => group.title === "Type2Learn").items.length, 2);
+  assert.equal(galleries.find((group) => group.title === "Duke University").items.length, 4);
+  assert.equal(galleries.find((group) => group.title.startsWith("Second Runner-Up")).items.length, 2);
+});
+
+test("project collaborators are credited without misclassifying the FOP project as a founder role", async () => {
+  const html = await (await render("/experience")).text();
+  for (const name of ["Alizay Hasan", "Lameea Mubashir Khan", "Idrees Babar", "Tooba Fatima", "Abdullah Ikram"]) assert.ok(html.includes(name));
+  for (const account of ["alizay-debug", "rosseaaq", "meidreesbabar-crypto"]) assert.ok(html.includes("https://github.com/" + account));
+  assert.ok(html.includes("https://www.linkedin.com/in/abdullah-ikram-"));
+  const founderWork = html.split('id="founder-work"')[1].split('id="internships"')[0];
+  assert.ok(founderWork.includes("ProGenEDA") && founderWork.includes("Type2Learn"));
+  assert.ok(!founderWork.includes("Pocket Engineer"));
+});
+
 test("transparent PNG animation and original artwork stay within delivery budgets", async () => {
   const manifest = JSON.parse(
     await source("../public/art/notebook/sequence.json"),

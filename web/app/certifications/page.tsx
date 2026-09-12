@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { CERTIFICATES } from "../portfolio-data";
@@ -11,6 +10,7 @@ import {
 } from "../components/notebook-ui";
 import { CollectionStructuredData } from "../seo-schema";
 import { SITE_ORIGIN } from "../site-config";
+import { GalleryImage } from "../components/gallery-image";
 export const metadata: Metadata = {
   title: "Certifications — The learning record",
   description:
@@ -128,21 +128,8 @@ export function CertificationsChapter({
                   data-paper
                 >
                   <figure>
-                    <a
-                      href={c.documentUrl || c.preview.src}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={"View original " + c.title}
-                    >
-                      <img
-                        src={c.preview.src}
-                        alt={c.preview.alt}
-                        width={c.preview.width}
-                        height={c.preview.height}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </a>
+                    <GalleryImage image={c.preview} title={g.name}
+                      images={CERTIFICATES.filter((entry) => g.filter(entry.id)).map((entry) => ({ ...entry.preview, caption: `${entry.title} · ${entry.issuer} · ${entry.issued}` }))} />
                   </figure>
                   <h3>{c.title}</h3>
                   <p>

@@ -1,24 +1,25 @@
-/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { CHAPTERS } from "../dossier-data";
+import { GalleryImage, type GalleryAsset } from "./gallery-image";
 export function InkDrawing({
   name,
   className = "",
   alt = "",
+  images,
+  title,
 }: {
   name: string;
   className?: string;
   alt?: string;
+  images?: readonly GalleryAsset[];
+  title?: string;
 }) {
   return (
-    <img
+    <GalleryImage
       className={`ink-drawing ${className}`}
-      src={`/art/notebook/${name}.svg`}
-      width={960}
-      height={760}
-      alt={alt}
-      loading="lazy"
-      decoding="async"
+      image={{ src: `/art/notebook/${name}.svg`, width: 960, height: 760, alt: alt || `${name} · pen-and-ink study` }}
+      images={images}
+      title={title || `${name.charAt(0).toUpperCase() + name.slice(1)} · notebook study`}
     />
   );
 }

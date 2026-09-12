@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { EXPERIENCE, FEATURED, LEADERSHIP } from "../dossier-data";
+import { COLLABORATORS } from "../collaborators-data";
 import {
   ChapterHeading,
   InkDrawing,
@@ -40,12 +41,30 @@ export function ExperienceChapter({
             alt="Hand-drawn workshop table with a shared circuit, tools, and notebooks"
           />
         </div>
+        <section id="project-teammates" className="collaborators-section">
+          <SectionHeading eyebrow="Shared work / project collaborators" title="Good work has more than one signature." />
+          <p>The people beside me on the build. Follow their work, and explore the projects we made together.</p>
+          <div className="collaborators-grid">
+            {COLLABORATORS.map((person, i) => <article className="collaborator" key={person.name} data-reveal>
+              <span className="collaborator-number" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{person.name}</h3>
+                <p>{person.note}</p>
+                <div className="collaborator-projects">{person.projects.map((project) => <Link key={project.href} href={project.href}>{project.name} ↗</Link>)}</div>
+                <div className="link-row">
+                  {person.profile && <ExternalLink href={person.profile}>{person.platform} profile</ExternalLink>}
+                  <ExternalLink href={person.source}>Project credit</ExternalLink>
+                </div>
+              </div>
+            </article>)}
+          </div>
+        </section>
         <section id="founder-work">
           <SectionHeading
             eyebrow="01 / Founder work"
             title="From intent to responsibility."
           />
-          {FEATURED.filter((p) => p.id !== "paretoco").map((p) => (
+          {FEATURED.filter((p) => p.id === "progeneda" || p.id === "type2learn").map((p) => (
             <article className="timeline-entry" key={p.id} data-reveal>
               <p className="timeline-date">July 2026–present</p>
               <div>

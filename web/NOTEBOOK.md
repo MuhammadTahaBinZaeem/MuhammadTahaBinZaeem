@@ -32,6 +32,8 @@ No DNS or production-domain changes are needed to review locally. The canonical 
 | Book worlds, names, colours and order                                                  | `app/book-data.ts`                     |
 | Cover, atlas, and chapter composition                                                  | `app/page.tsx`, `app/storybook.css`    |
 | Scroll-to-page mapping and chapter transitions                                         | `app/components/book-experience.tsx` |
+| Related application captures / gallery additions                                      | `app/project-galleries.ts`            |
+| Verified collaborators, profiles and project credits                                  | `app/collaborators-data.ts`             |
 | Site identity and structured data                                                     | `app/layout.tsx`, `app/seo-schema.tsx` |
 | Crawlable page list                                                                   | `app/sitemap.ts`                       |
 
@@ -40,6 +42,20 @@ Refresh all public repositories with `npm run sync:github`. The paginated GitHub
 The source-to-section audit is in [CONTENT-COVERAGE.md](CONTENT-COVERAGE.md). Keep unpublished studies, expected graduation, planned workshops, finalist selections, and applications distinct from completed outcomes.
 
 ## How the book moves
+
+### Image archive
+
+Content images now open a shared, accessible dialog over the current page. Galleries group project evidence (including collapsed build notes), institution-related certificates, achievement photographs, education evidence, and the two supplied portraits. Notebook drawings can also be enlarged. Illustrated atlas links retain their chapter-navigation action; they are navigation, not evidence thumbnails.
+
+Use the arrows, thumbnails, Left/Right keys, or a horizontal swipe to explore. Close, Escape, browser Back, a deliberate upward wheel gesture, or a downward image swipe returns to the saved reading position. Forward wheel input does not move the book behind the dialog. Pinch-to-zoom is left to the browser, and a full-resolution link remains available. Single-image groups use the same viewer without redundant arrows or thumbnails. PDFs and credential-verification links keep their original behavior.
+
+`GalleryImage` accepts one `image`, a complete `images` array, and a `title`. Add related assets to the existing item's `media` array, or to `PROJECT_GALLERIES` for flagship application captures. This keeps the grouped source URLs independent of the book's offscreen-image parking. Duplicate URLs within a group are removed. Assets are not fetched merely because their URLs appear in gallery metadata; the overlay mounts on demand and warms only the next large image. No gallery library, rendering loop, new generated image, or 3D dependency was added.
+
+The overlay uses a native modal dialog for background inertness and focus containment. It pauses Lenis without reinitializing the book. Same-URL history entries save the existing Vinext `__vinext_scrollX/Y` fields, so its router restores the reading position instead of jumping to the chapter hash. Keep this small integration covered when upgrading Vinext.
+
+Collaborator names and project relationships live in `collaborators-data.ts`, with evidence links. Tooba Fatima is credited, but her profile URL is intentionally `null` until confirmed; no namesake profile or inferred photo identity is substituted.
+
+### Scroll choreography
 
 One document scrollbar is the source of truth. The cover now fills the viewport edge to edge; chapter layouts use a shared fluid gutter rather than a narrow outer frame. The book stage stays in view while the current chapter's paper moves through it. Once the chapter has been read, a longer, eased scroll interval folds the leaf and tears open the next world. Scrolling backward reproduces the same fold and reseals the seam.
 

@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import { ACHIEVEMENTS } from "../portfolio-data";
+import { GalleryImage } from "../components/gallery-image";
 import { StoryMotion } from "../components/story-motion";
 import {
   ChapterHeading,
@@ -59,14 +59,7 @@ export function AchievementsChapter({
               data-reveal
             >
               <figure data-paper>
-                <img
-                  src={a.media[0].src}
-                  width={a.media[0].width}
-                  height={a.media[0].height}
-                  alt={a.media[0].alt}
-                  loading="lazy"
-                  decoding="async"
-                />
+                <GalleryImage image={a.media[0]} images={a.media} title={a.title} />
               </figure>
               <p className="eyebrow">
                 {a.kind === "photo-story" ? "From the archive" : "Recognition"}{" "}

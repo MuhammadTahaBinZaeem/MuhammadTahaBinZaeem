@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { BookExperience } from "./components/book-experience";
 import { BOOK_WORLDS } from "./book-data";
 import { CHAPTERS } from "./dossier-data";
+import { GalleryImage } from "./components/gallery-image";
 import { ProjectsChapter } from "./projects/page";
 import { ResearchChapter } from "./research/page";
 import { ExperienceChapter } from "./experience/page";
@@ -11,6 +12,11 @@ import { CertificationsChapter } from "./certifications/page";
 import { AchievementsChapter } from "./achievements/page";
 import { ConnectChapter } from "./connect/page";
 import "./storybook.css";
+
+const PORTRAITS = [
+  { src: "/media/identity/muhammad-taha-studio-portrait.webp", width: 988, height: 970, alt: "Muhammad Taha Bin Zaeem · studio portrait" },
+  { src: "/media/identity/muhammad-taha-mountain-field-note.webp", width: 1058, height: 1086, alt: "Muhammad Taha Bin Zaeem · in the mountains" },
+];
 
 function Foreword() {
   return (
@@ -32,12 +38,7 @@ function Foreword() {
           <span className="foreword-signature">Taha.</span>
         </div>
         <figure className="foreword-desk" data-book-drift>
-          <img
-            src="/art/notebook/workbench.svg"
-            width={960}
-            height={760}
-            alt="Pen-and-ink drawing of a workbench, circuit, pencil and an open notebook"
-          />
+          <GalleryImage title="The workbench" eager image={{ src: "/art/notebook/workbench.svg", width: 960, height: 760, alt: "Pen-and-ink drawing of a workbench, circuit, pencil and an open notebook" }} />
           <figcaption>
             Fig. 00 — Somewhere between an idea and a working thing.
           </figcaption>
@@ -52,13 +53,7 @@ function Foreword() {
       </section>
       <section className="foreword-manifesto">
         <figure className="book-portrait" data-paper>
-          <img
-            src="/media/identity/muhammad-taha-studio-portrait.webp"
-            width={988}
-            height={970}
-            alt="Muhammad Taha Bin Zaeem"
-            loading="lazy"
-          />
+          <GalleryImage title="Muhammad Taha Bin Zaeem" image={PORTRAITS[0]} images={PORTRAITS} />
           <figcaption>The person behind these pages.</figcaption>
         </figure>
         <div data-reveal>

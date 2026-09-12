@@ -1,8 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { PROJECTS, type ProjectStory } from "../portfolio-data";
 import { FEATURED } from "../dossier-data";
+import { PROJECT_GALLERIES } from "../project-galleries";
 import { StoryMotion } from "../components/story-motion";
 import {
   ChapterHeading,
@@ -14,11 +14,12 @@ import {
 import { RepositoryIndex } from "./repository-index";
 import { CollectionStructuredData } from "../seo-schema";
 import { SITE_ORIGIN } from "../site-config";
+import { GalleryImage, type GalleryAsset } from "../components/gallery-image";
 const ENGINEERING_PROJECTS = PROJECTS.filter((project) =>
   !FEATURED.some((featured) => "legacyId" in featured && featured.legacyId === project.id),
 );
 
-function BuildNotes({ project, legacy = false }: { project: ProjectStory; legacy?: boolean }) {
+function BuildNotes({ project, legacy = false, images = [...(PROJECT_GALLERIES[project.id] || []), ...project.media], title = project.title }: { project: ProjectStory; legacy?: boolean; images?: readonly GalleryAsset[]; title?: string }) {
   return (
     <details className={legacy ? "featured-origin" : undefined}>
       <summary>{legacy ? "From the original FOP solver · build notes & evidence" : "Read the build notes & see evidence"}</summary>
@@ -27,7 +28,7 @@ function BuildNotes({ project, legacy = false }: { project: ProjectStory; legacy
       <ul>{project.proof.map((item) => <li key={item}>{item}</li>)}</ul>
       {project.media.map((media) => (
         <figure key={media.src}>
-          <img src={media.src} width={media.width} height={media.height} alt={media.alt} loading="lazy" decoding="async" />
+          <GalleryImage image={media} images={images} title={title} />
           <figcaption>{media.alt}</figcaption>
         </figure>
       ))}
@@ -82,6 +83,8 @@ export function ProjectsChapter({
         </nav>
         {FEATURED.map((p, i) => {
           const legacy = "legacyId" in p ? PROJECTS.find((project) => project.id === p.legacyId) : undefined;
+          const cover = "image" in p ? p.image : { src: `/art/notebook/${p.drawing}.svg`, width: 960, height: 760, alt: p.title + " illustrated in pen and ink" };
+          const images = [cover, ...(PROJECT_GALLERIES[p.id] || []), ...(legacy?.media || [])];
           return (
           <article
             className="project-feature"
@@ -108,11 +111,9 @@ export function ProjectsChapter({
             </div>
             <figure className={`feature-art${"image" in p ? " project-screenshot" : ""}`} data-paper>
               {"image" in p ? <>
-                <a href={p.image.src} target="_blank" rel="noreferrer" aria-label={`Open the full-size ${p.title} screenshot`}>
-                  <img src={p.image.src} width={p.image.width} height={p.image.height} alt={p.image.alt} loading="lazy" decoding="async" />
-                </a>
+                <GalleryImage image={p.image} images={images} title={p.title} />
                 <figcaption>{p.image.caption}</figcaption>
-              </> : <InkDrawing name={p.drawing} alt={p.title + " illustrated in pen and ink"} />}
+              </> : <InkDrawing name={p.drawing} alt={cover.alt} images={images} title={p.title} />}
             </figure>
             <div>
               <ul className="project-details">
@@ -127,7 +128,7 @@ export function ProjectsChapter({
                   </ExternalLink>
                 ))}
               </div>
-              {legacy && <BuildNotes project={legacy} legacy />}
+              {legacy && <BuildNotes project={legacy} legacy images={images} title={p.title} />}
             </div>
           </article>
         );})}

@@ -81,10 +81,10 @@
 .book-world .credential-hero > .ink-drawing,
 .book-world .honor-feature > .ink-drawing,
 .book-world .connect-intro > .ink-drawing {
-  background: #f2ead8;
-  padding: 20px;
-  box-shadow: 7px 8px 0 color-mix(in srgb, var(--ink) 9%, transparent);
-  border-radius: 1px 11px 2px 3px;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  border-radius: 0;
 }
 .book-world .research-story > figure {
   position: static;
@@ -265,10 +265,10 @@
   align-items: center;
 }
 .book-portrait {
-  background: #e6ddc4;
-  padding: 16px;
+  background: transparent;
+  padding: 0;
   rotate: -3deg;
-  box-shadow: 5px 8px #b1ab8c55;
+  box-shadow: none;
 }
 .book-portrait img {
   width: 100%;
@@ -552,9 +552,9 @@
   gap: 65px 45px;
 }
 .world-achievements .honor-card > figure {
-  background: #eaddbc;
-  padding: 10px 10px 32px;
-  box-shadow: 7px 10px #080b064d;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
 }
 .world-achievements .honor-card h2 {
   font:
@@ -872,7 +872,7 @@ html:has(.living-book) {
   .book-world .credential-hero > .ink-drawing,
   .book-world .honor-feature > .ink-drawing,
   .book-world .connect-intro > .ink-drawing {
-    padding: 12px;
+    padding: 0;
   }
   .world-projects .project-feature {
     padding-block: 45px;

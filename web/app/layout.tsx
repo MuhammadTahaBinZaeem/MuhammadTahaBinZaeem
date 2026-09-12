@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { ExperienceShell } from "./components/experience-shell";
+import { ImageGallery } from "./components/image-gallery";
 import { PortfolioStructuredData } from "./seo-schema";
 import { SITE_ORIGIN } from "./site-config";
 import "./globals.css";
@@ -98,6 +99,7 @@ export default function RootLayout({
           <style>{`.sequence-chapter{height:auto!important}.sequence-sticky{position:relative!important;top:0!important;min-height:0!important;height:auto!important;padding-block:60px!important}.sequence-art canvas{display:none!important}.sequence-art>img{visibility:visible!important}`}</style>
         </noscript>
         <ExperienceShell>{children}</ExperienceShell>
+        <ImageGallery />
       </body>
     </html>
   );

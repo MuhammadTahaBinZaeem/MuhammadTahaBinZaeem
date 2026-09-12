@@ -7,6 +7,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { runBookChecks } from "./book-interactions.mjs";
 import { runPocketChecks } from "./pocket-engineer-checks.mjs";
+import { runGalleryChecks } from "./gallery-checks.mjs";
 
 // Uses an installed Chrome/Chromium; no extra browser dependency or download.
 const base = process.env.TEST_BASE_URL || "http://localhost:3000";
@@ -220,6 +221,7 @@ try {
         const visible=Array.from(document.images).filter(i=>{const r=i.getBoundingClientRect();return !i.closest('details:not([open])')&&getComputedStyle(i).visibility!=='hidden'&&r.width>0&&r.bottom>0&&r.top<innerHeight;});
         await Promise.all(visible.map(i=>i.decode()));
         await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+        await Promise.all((document.querySelector('.gallery-full-image')?.getAnimations()||[]).map(animation=>animation.finished));
       })()`);
     }
     const capture = await cdp.send("Page.captureScreenshot", {
@@ -233,9 +235,10 @@ try {
     report.screenshots.push(name + ".png");
   }
 
-  await runPocketChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
+  await runGalleryChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
+  if (!process.env.GALLERY_ONLY) await runPocketChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
 
-  for (const width of process.env.BOOK_ONLY || process.env.PROJECT_ONLY ? [] : [320, 390, 768, 1440]) {
+  for (const width of process.env.BOOK_ONLY || process.env.PROJECT_ONLY || process.env.GALLERY_ONLY ? [] : [320, 390, 768, 1440]) {
     await viewport(width);
     for (const route of routes) {
       await navigate(route);
@@ -253,12 +256,12 @@ try {
       await screenshot(`${route || "home"}-${width}`);
     }
   }
-  if (!process.env.BOOK_ONLY && !process.env.PROJECT_ONLY)
+  if (!process.env.BOOK_ONLY && !process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY)
     report.checks.push(
       "Eight routes at 320, 390, 768 and 1440 pixels; no overflow or broken images.",
     );
 
-  if (!process.env.PROJECT_ONLY) await runBookChecks({
+  if (!process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY) await runBookChecks({
     cdp,
     navigate,
     viewport,

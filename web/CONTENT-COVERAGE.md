@@ -40,6 +40,15 @@ Reviewed inputs: the two-page Applied AI CV dated 22 August 2026, two-page Mitac
 - Private repositories cannot be enumerated by the public API. The complete public snapshot is timestamped in `app/github-repositories.json`; it refreshes through `npm run sync:github`.
 - Forks are explicitly labeled. Public repository descriptions are sourced from GitHub; no description is invented for an undocumented repository.
 
+## Gallery and collaborator audit — 12 September 2026
+
+- Related images are exposed in an overlay in both the living book and reader editions. Pocket Engineer groups the current application capture with all three original FOP evidence images. ProGenEDA, Type2Learn and Debate Club include their existing archived live-site captures. Each achievement now exposes its entire media array, including the previously inaccessible second SEMPEC photograph. The education section now displays its existing archived evidence. Duke's four course credentials share an institution gallery; original PDFs remain separate downloads.
+- All source images retain their actual dimensions and aspect ratio. Padded decorative image mounts and fixed-height photograph/certificate boxes were removed. Image data stays in SSR HTML, separate from the book's parked image URLs.
+- [ParetoCo README](https://github.com/MuhammadTahaBinZaeem/ParetCo#team) and [Devpost](https://devpost.com/software/paretoco) explicitly identify Alizay Hasan, Lameea Mubashir Khan and Idrees Babar alongside Muhammad Taha Bin Zaeem. The README maps each name to their GitHub profile; those accounts were checked through GitHub's API.
+- [CS-117 project authors](https://github.com/MuhammadTahaBinZaeem/CS-117-Project#project-authors) explicitly credit Tooba Fatima and Lameea Mubashir Khan and list their module ownership. Tooba's name is included, with no guessed profile URL or student ID published. Her profile link has been requested from the portfolio owner.
+- [Abdullah Ikram's public LinkedIn profile](https://www.linkedin.com/in/abdullah-ikram-) describes Debate Club with Taha and Tooba, and the autonomous remote-controlled robot car with Taha. The Debate Club repository also records the `abdullahikram14` account's contribution; that GitHub profile names Abdullah Ikram. The site links the first-person LinkedIn profile. The `Dawdler-G` commit account is not mapped to a real name without further evidence.
+- Founder work is restricted to Type2Learn and ProGenEDA; adding Pocket Engineer to featured projects no longer accidentally creates a founder-role entry with an invented date.
+
 ## Pocket Engineer update — 12 September 2026
 
 The current `FOP-Project` README at revision `78380ea15a05f9f4ae99b503d4eb5337710b1587` identifies the application as **Pocket Engineer**. The featured description uses that current scope rather than the older C++17 algebra-only README. The live workbench at `https://pocket-engineer.onrender.com/` returned HTTP 200. GitHub reports the repository as private; the feature and source index explicitly label restricted source access. Repository visibility was not changed.
