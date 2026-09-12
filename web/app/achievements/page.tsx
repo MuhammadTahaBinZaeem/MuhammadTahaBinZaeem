@@ -96,7 +96,7 @@ export function AchievementsChapter({
             </article>
           ))}
         </div>
-        <NextChapter href="/connect" />
+        {!embedded && <NextChapter href="/connect" />}
       </Frame>
     </StoryMotion>
   );

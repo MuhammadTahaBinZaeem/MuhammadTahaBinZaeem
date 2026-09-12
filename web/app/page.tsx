@@ -94,9 +94,6 @@ function Foreword() {
         <span>decode possibility</span>
         <span>execute an idea</span>
         <span>repeat.</span>
-        <p>
-          Keep scrolling. The next leaf is already waiting. <b>↘</b>
-        </p>
       </section>
     </div>
   );
@@ -167,9 +164,6 @@ function Atlas() {
           );
         })}
       </div>
-      <p className="atlas-colophon">
-        Or keep going. We’ll begin in the workshop. <span>↓</span>
-      </p>
     </section>
   );
 }
@@ -203,17 +197,12 @@ export default function Home() {
           }
         >
           <div className="book-content">
-            <div className="world-marginalia" aria-hidden="true">
-              <span>
-                {world.number} / {world.title}
-              </span>
-              <span>Muhammad Taha Bin Zaeem</span>
-            </div>
             {chapters[index]}
             <div className="world-last-line">
               <span>
-                {world.motif}
-                {/[.!?]$/.test(world.motif) ? "" : "."}
+                {index < BOOK_WORLDS.length - 1
+                  ? "Next leaf / " + BOOK_WORLDS[index + 1].title
+                  : "End of this volume"}
               </span>
               <span>
                 {index < BOOK_WORLDS.length - 1

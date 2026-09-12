@@ -150,11 +150,13 @@ export function ConnectChapter({
             ))}
           </div>
         </section>
-        <Link href="/" className="next-chapter">
-          <span className="eyebrow">Back to the beginning</span>
-          <span>The engineering notebook.</span>
-          <span aria-hidden="true">↗</span>
-        </Link>
+        {!embedded && (
+          <Link href="/" className="next-chapter">
+            <span className="eyebrow">Back to the beginning</span>
+            <span>The engineering notebook.</span>
+            <span aria-hidden="true">↗</span>
+          </Link>
+        )}
       </Frame>
     </StoryMotion>
   );

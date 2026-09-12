@@ -177,7 +177,7 @@ export function ProjectsChapter({
           </div>
         </section>
         <RepositoryIndex />
-        <NextChapter href="/research" />
+        {!embedded && <NextChapter href="/research" />}
       </Frame>
     </StoryMotion>
   );

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { runPolishChecks } from "./book-polish-checks.mjs";
 
 // Tests use the real native scroll position, not a mocked animation clock.
 export async function runBookChecks({
@@ -44,8 +45,9 @@ export async function runBookChecks({
     await viewport(width, width < 500 ? 844 : 1000);
     await navigate("");
     assert.equal((await state()).chapter, "cover");
+    await screenshot("fullbleed-cover-" + width);
     const coverBounds = await cdp.evaluate(
-      `(()=>{const a=document.querySelector('.cover-face').getBoundingClientRect(),b=document.querySelector('.cover-invitation').getBoundingClientRect(),f=document.querySelector('.cover-foot').getBoundingClientRect();return{overlap:Math.min(a.right,b.right)>Math.max(a.left,b.left)&&Math.min(a.bottom,b.bottom)>Math.max(a.top,b.top),footInside:f.bottom<=a.bottom+10,ready:!document.querySelector('.cover-open-hit').disabled};})()`,
+      `(()=>{const a=document.querySelector('.cover-author').getBoundingClientRect(),b=document.querySelector('.cover-invitation').getBoundingClientRect(),f=document.querySelector('.cover-foot').getBoundingClientRect(),c=document.querySelector('.cover-face').getBoundingClientRect(),h=document.querySelector('#book-title').getBoundingClientRect();return{overlap:Math.min(a.right,b.right)>Math.max(a.left,b.left)&&Math.min(a.bottom,b.bottom)>Math.max(a.top,b.top),footInside:f.bottom<=c.bottom&&h.right<=innerWidth,fullBleed:c.left===0&&c.top===0&&Math.abs(c.width-innerWidth)<1&&Math.abs(c.height-innerHeight)<1,ready:!document.querySelector('.cover-open-hit').disabled};})()`,
     );
     assert.equal(
       coverBounds.overlap,
@@ -58,6 +60,11 @@ export async function runBookChecks({
       "Cover typography fits at " + width,
     );
     assert.equal(coverBounds.ready, true);
+    assert.equal(
+      coverBounds.fullBleed,
+      true,
+      "Cover fills the viewport at " + width,
+    );
     await cdp.evaluate(
       `window.__bookDocument='preserved';document.querySelector('.cover-open-hit').click()`,
     );
@@ -105,7 +112,7 @@ export async function runBookChecks({
   await screenshot("cover-landscape");
   assert.equal(
     await cdp.evaluate(
-      `(()=>{const a=document.querySelector('.closed-book').getBoundingClientRect(),b=document.querySelector('.cover-invitation').getBoundingClientRect();return a.right>b.left&&a.left<b.right&&a.bottom>b.top&&a.top<b.bottom;})()`,
+      `(()=>{const a=document.querySelector('.cover-author').getBoundingClientRect(),b=document.querySelector('.cover-invitation').getBoundingClientRect();return a.right>b.left&&a.left<b.right&&a.bottom>b.top&&a.top<b.bottom;})()`,
     ),
     false,
     "Landscape cover and invitation do not overlap",
@@ -234,12 +241,12 @@ export async function runBookChecks({
   const focused = await cdp.evaluate(
     `(()=>{const r=document.activeElement.getBoundingClientRect();return{top:r.top,bottom:r.bottom,chapter:document.activeElement.closest('.book-world')?.id};})()`,
   );
+  await screenshot("keyboard-certificate-focus");
   assert.equal(focused.chapter, "certifications");
   assert.ok(
     focused.top >= 0 && focused.top < 900,
-    "Offscreen keyboard focus scrolls its paper into view",
+    "Offscreen keyboard focus scrolls its paper into view: " + JSON.stringify(focused),
   );
-  await screenshot("keyboard-certificate-focus");
 
   await seek("research", 0.3);
   await viewport(390, 844);
@@ -261,6 +268,18 @@ export async function runBookChecks({
     statusContrast.length > 0 && statusContrast.every((ratio) => ratio >= 4.5),
     "Status labels, initiative note and CV cards meet 4.5:1 text contrast",
   );
+  await runPolishChecks({
+    cdp,
+    seek,
+    navigate,
+    viewport,
+    until,
+    sleep,
+    screenshot,
+    report,
+    worlds,
+  });
+  await seek("research", 0.48);
   const revision = await cdp.evaluate(
     `document.querySelector('.living-book').dataset.layoutRevision`,
   );
@@ -272,12 +291,43 @@ export async function runBookChecks({
     revision,
     "No idle resize/rebuild loop",
   );
+  const performanceStartRevision = await cdp.evaluate(
+    `Number(document.querySelector('.living-book').dataset.layoutRevision)`,
+  );
   report.performance = await cdp.evaluate(
     `new Promise(resolve=>{const e=document.getElementById('research'),top=Number(e.dataset.scrollStart),distance=Number(e.dataset.readDistance)+Number(e.dataset.turnDistance);let start,previous;const intervals=[],longTasks=[];const observer=new PerformanceObserver(list=>longTasks.push(...list.getEntries().map(x=>Math.round(x.duration))));observer.observe({type:'longtask'});function tick(now){start??=now;if(previous)intervals.push(now-previous);previous=now;const p=Math.min(1,(now-start)/2000);scrollTo({top:top+distance*p,behavior:'instant'});if(p<1)requestAnimationFrame(tick);else{observer.disconnect();intervals.sort((a,b)=>a-b);resolve({scope:'Local headless browser only; not field Core Web Vitals',frames:intervals.length,frameIntervalP95Ms:Math.round(intervals[Math.floor(intervals.length*.95)]),longTasksOver50Ms:longTasks,resources:performance.getEntriesByType('resource').length});}}requestAnimationFrame(tick);})`,
   );
 
+  report.performance.layoutRebuilds =
+    (await cdp.evaluate(`Number(document.querySelector('.living-book').dataset.layoutRevision)`)) - performanceStartRevision;
+
+  await navigate("#research");
+  await seek("research", 1, 0.45);
+  await cdp.evaluate(`dispatchEvent(new Event('beforeprint'))`);
+  await cdp.send("Emulation.setEmulatedMedia", { media: "print" });
+  await until(
+    `[...document.querySelectorAll('.book-world')].every(e=>{const s=getComputedStyle(e);return s.position==='static'&&s.opacity==='1'&&s.visibility==='visible';})`,
+    "All printed chapters remain visible after a page turn",
+  );
+  assert.equal(
+    await cdp.evaluate(`[...document.querySelectorAll('.book-world img')].some(i=>i.src.startsWith('data:'))`),
+    false,
+    "Print restores unvisited images",
+  );
+  await cdp.evaluate(`scrollTo({top:0,behavior:'instant'})`);
+  await screenshot("print-complete-archive");
+  await cdp.send("Emulation.setEmulatedMedia", { media: "screen" });
+  await cdp.evaluate(`dispatchEvent(new Event('afterprint'))`);
+  await until(
+    `document.querySelector('.living-book').dataset.chapter==='research' && Math.abs(Number(document.querySelector('.living-book').dataset.turn)-0.45)<0.01`,
+    "Closing print keeps the original chapter and page-turn position",
+  );
+  report.checks.push("Print restores every original image and makes all nine chapters visible, including previously faded paper.");
+
   await seek("research", 0.3);
-  await cdp.evaluate(`document.querySelector('.book-dock button').click()`);
+  await cdp.evaluate(
+    `document.querySelector('.book-dock button[aria-pressed]').click()`,
+  );
   await until(
     `document.querySelector('.living-book').dataset.mode==='reader'`,
     "reader mode",
@@ -303,12 +353,16 @@ export async function runBookChecks({
     "Reader mode keeps current chapter",
   );
   await screenshot("reader-mode-research");
-  await cdp.evaluate(`document.querySelector('.book-dock button').click()`);
+  await cdp.evaluate(
+    `document.querySelector('.book-dock button[aria-pressed]').click()`,
+  );
   await until(
     `document.querySelector('.living-book').dataset.mode==='book' && document.querySelector('.living-book').dataset.chapter==='research'`,
     "return to book",
   );
-  await cdp.evaluate(`document.querySelector('.book-dock button').click()`);
+  await cdp.evaluate(
+    `document.querySelector('.book-dock button[aria-pressed]').click()`,
+  );
   await navigate("");
   assert.equal((await state()).mode, "reader", "Saved reader preference");
   await cdp.evaluate(`localStorage.removeItem('mtbz:book-reader')`);

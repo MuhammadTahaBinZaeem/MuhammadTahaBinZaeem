@@ -169,6 +169,7 @@ try {
     cdp.send("Page.enable"),
     cdp.send("Runtime.enable"),
     cdp.send("Network.enable"),
+    cdp.send("Emulation.setFocusEmulationEnabled", { enabled: true }),
   ]);
 
   async function until(expression, label) {
@@ -179,7 +180,13 @@ try {
     throw new Error("Timed out: " + label);
   }
   async function navigate(route) {
-    await cdp.send("Page.navigate", { url: `${base}/${route}` });
+    // Leave the current document first. A hash-only Page.navigate followed by
+    // reload races the book's hash/history handler and can reload the old hash.
+    await cdp.send("Page.navigate", { url: "about:blank" });
+    await until(`location.href==='about:blank'`, "blank navigation bridge");
+    await cdp.send("Page.navigate", {
+      url: `${base}/${route}`,
+    });
     await until(
       `document.readyState==='complete' && location.pathname===${JSON.stringify("/" + route.split("#")[0])} && !!document.querySelector('main')`,
       route || "home",

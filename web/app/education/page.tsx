@@ -84,7 +84,7 @@ export function EducationChapter({
             ))}
           </div>
         </section>
-        <NextChapter href="/certifications" />
+        {!embedded && <NextChapter href="/certifications" />}
       </Frame>
     </StoryMotion>
   );

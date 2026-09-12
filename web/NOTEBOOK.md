@@ -41,9 +41,11 @@ The source-to-section audit is in [CONTENT-COVERAGE.md](CONTENT-COVERAGE.md). Ke
 
 ## How the book moves
 
-One native document scrollbar is the source of truth. The book stage stays in view while the current chapter's paper moves through it. Once the entire chapter has been read, the next stretch of scroll turns the paper around its spine. Scrolling backward reverses the same motion. Wheel, touch, Page Down, and arrow keys are not replaced by a custom scroll controller.
+One document scrollbar is the source of truth. The cover now fills the viewport edge to edge; chapter layouts use a shared fluid gutter rather than a narrow outer frame. The book stage stays in view while the current chapter's paper moves through it. Once the chapter has been read, a longer, eased scroll interval folds the leaf and tears open the next world. Scrolling backward reproduces the same fold and reseals the seam.
 
-The engine measures the real content height, so opening project evidence or filtering repositories changes that chapter's scroll distance. A dimension-guarded `ResizeObserver` recalculates the book without continuously rebuilding timelines. Distances use integer CSS pixels to avoid floating-point boundary artifacts. Inactive chapters are hidden and inert; only current/turning paper layers are composited. There is no perpetual rendering loop or React update on every frame.
+The already-installed Lenis library smooths wheel input and chapter jumps. Its frame loop wakes only for input or an intentional jump and sleeps once motion settles. Touch, scrollbar dragging and keyboard scrolling remain native. Reduced-motion/reader mode does not instantiate the smoothing engine. The integration follows [Lenis's documented GSAP synchronization](https://github.com/darkroomengineering/lenis#gsap-scrolltrigger), with demand-driven frames rather than an always-running ticker.
+
+The engine measures the real content height, so opening project evidence or filtering repositories changes that chapter's scroll distance. A dimension-guarded `ResizeObserver` recalculates the book without continuously rebuilding timelines. Distances use integer CSS pixels to avoid floating-point boundary artifacts. Inactive chapters and turning paper are inert. Only current/turning paper layers and their moving contents receive compositor hints; those hints are released when hidden. There is no perpetual rendering loop or React update on every frame.
 
 GSAP timelines are scrubbed by the chapter's reading distance:
 
@@ -59,7 +61,11 @@ GSAP timelines are scrubbed by the chapter's reading distance:
 | Achievements | Charcoal and brass; archival photographs fan into position |
 | Links & CVs | Forest correspondence; links and documents rise onto the page |
 
-Atlas links and page-edge tabs jump within this same document. Long jumps split a jagged paper seam outward, driven by the actual smooth-scroll distance. Wheel, touch, or Escape cancels that jump. Direct chapter and subsection hashes work, as does browser Back. Reader mode preserves the current chapter, remembers the preference, and is selected automatically for system reduced motion. Keyboard focus on an offscreen link brings its paper into view.
+Atlas links and a single bottom contents menu jump within the document. Side tabs, repeated name strips and duplicate embedded next-chapter cards are removed. The menu supports Escape/focus return, outside-click dismissal and its own native scrolling. Both ordinary chapter-boundary scrolling and long jumps split the paper seam outward, driven by actual scroll distance. Wheel, touch, or a navigation key cancels a jump. Direct chapter and subsection hashes work, as does browser Back. Reader mode preserves the current chapter, remembers the preference, and is selected automatically for system reduced motion. Keyboard focus on an offscreen link brings its paper into view.
+
+Hover feedback covers links, contents controls, evidence summaries, directory/CV cards, atlas illustrations and certificate previews. It uses independent CSS translate/scale properties rather than overwriting GSAP transforms; keyboard focus has an equivalent clear outline, and reduced-motion/reader mode removes transitions.
+
+After hydration, unvisited chapter image sources are temporarily parked behind a tiny inline transparent image, with their original aspect ratios retained. This prevents the shared absolute viewport from defeating native lazy loading. The active chapter restores its real sources; only the first three images in the upcoming chapter are warmed. Previously visited images remain available. All original URLs are retained in server-rendered HTML, and every source is restored for reader mode, printing and cleanup. Printing pauses the book layout engine, reveals all paper and returns to the original scroll position afterward. No new dependencies, remote runtime requests, model downloads or generated image sequences were added. The critical display font is preloaded; existing cache headers remain in place.
 
 ## Artwork
 

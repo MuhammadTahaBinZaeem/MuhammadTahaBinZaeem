@@ -112,7 +112,7 @@ export function ExperienceChapter({
             available in <Link href="/connect#cvs">Links & CVs</Link>.
           </p>
         </aside>
-        <NextChapter href="/education" />
+        {!embedded && <NextChapter href="/education" />}
       </Frame>
     </StoryMotion>
   );

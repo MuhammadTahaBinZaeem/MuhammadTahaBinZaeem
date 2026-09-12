@@ -115,7 +115,7 @@ export function ResearchChapter({
             architecture design-space exploration.
           </p>
         </section>
-        <NextChapter href="/experience" />
+        {!embedded && <NextChapter href="/experience" />}
       </Frame>
     </StoryMotion>
   );

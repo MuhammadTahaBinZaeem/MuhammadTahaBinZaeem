@@ -178,7 +178,7 @@ export function CertificationsChapter({
             </div>
           </section>
         ))}
-        <NextChapter href="/achievements" />
+        {!embedded && <NextChapter href="/achievements" />}
       </Frame>
     </StoryMotion>
   );

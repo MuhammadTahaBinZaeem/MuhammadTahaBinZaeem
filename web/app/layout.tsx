@@ -84,6 +84,13 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/art/favicon.png" type="image/png" />
+        <link
+          rel="preload"
+          href="/fonts/big-shoulders-stencil-display-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <PortfolioStructuredData />
       </head>
       <body>

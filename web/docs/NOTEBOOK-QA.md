@@ -1,6 +1,6 @@
 # Living Field Book — verification record
 
-Verified locally on 10 September 2026 using the built Cloudflare Vite preview and installed Chromium. These are development-machine results, not production field performance claims. Production hosting and DNS were not changed.
+Verified locally on 12 September 2026 using the built Cloudflare Vite preview and installed Chromium. These are development-machine results, not production field performance claims. Production hosting and DNS were not changed.
 
 ## Build and content
 
@@ -14,21 +14,26 @@ Verified locally on 10 September 2026 using the built Cloudflare Vite preview an
 
 ## Browser checks
 
-The full browser run captures **101 screenshots** under `qa-artifacts/book-browser/`:
+The full browser run captures **117 screenshots** under `qa-artifacts/book-browser/`:
 
 - Eight routes at 320, 390, 768 and 1440 pixels; no detected horizontal overflow or broken images.
-- Cover opening and all nine embedded worlds at the same four widths, plus desktop/mobile reading stages and a short landscape viewport.
+- Edge-to-edge cover bounds, non-overlapping invitation/author, cover opening and all nine embedded worlds at the same four widths, plus desktop/mobile reading stages and a short landscape viewport.
 - Every chapter's ending is reachable before its page turn starts.
 - Four forward page-turn positions match the corresponding reverse-scroll transforms.
+- All eight chapter boundaries tear during ordinary scrolling, not only navigation jumps; reverse scrolling reproduces the exact seam transform and opacity.
+- Real wheel events interpolate forward and backward, settle at the expected coordinate, reverse during motion, stop with Escape and produce no idle drift.
+- One contents menu replaces repeated side tabs and prompts. Escape returns focus to its toggle. Hidden menus and turning paper cannot receive keyboard focus.
+- Atlas and certificate hover transforms are checked and captured; independent CSS properties preserve their GSAP scroll animations.
 - Illustrated atlas leaves move with scroll; long chapter jumps tear outward inside the same document without a route reload.
 - Browser Back, direct chapter/subsection hashes, wheel cancellation of an in-flight jump, expandable project evidence, repository search, empty state and fork filtering pass.
 - Keyboard focus brings an offscreen certificate into view. Inactive worlds are inert and excluded from accessibility navigation.
 - Resizing preserves the chapter and updates the stage height. Idle layout observation does not continuously rebuild the animation timelines.
 - Reader mode retains the chapter, persists between visits and activates automatically for system reduced motion.
+- Print restores unvisited image sources, overrides faded page opacity and returns to the same chapter/turn position when closed.
 - Without JavaScript, all nine worlds are in normal document flow with usable cover instructions.
 - No runtime, console or HTTP errors in the final suite.
 
-Screenshots were visually inspected across the cover, atlas, all chapter worlds, intermediate reading positions, page turns, tearing transitions, certificate focus, mobile layout, reader mode and no-JavaScript view. The screenshot helper waits for visible images to decode and paint, not only for their network requests to complete.
+Screenshots were visually inspected across the cover, atlas, all chapter worlds, intermediate reading positions, page turns, tearing transitions, certificate focus, mobile layout, reader mode and no-JavaScript view. The screenshot helper waits for visible images to decode and paint, not only for their network requests to complete. Fresh-load tests leave the old document before navigating, avoiding a hash/reload race in the harness. Headless focus emulation is explicitly enabled so focus events match an active browser tab.
 
 ## Corrections made during visual review
 
@@ -39,10 +44,18 @@ Screenshots were visually inspected across the cover, atlas, all chapter worlds,
 - Made certificate preview links block-level so keyboard focus has a useful visible target.
 - Added bounded chapter-image look-ahead and decoding instead of downloading the entire archive eagerly.
 - Scoped the continuously changing reading-progress style to the small bottom control instead of the ancestor of every chapter.
+- Expanded the cover and chapter canvas, removed duplicate name strips and embedded next-chapter cards, and consolidated navigation without removing content or reader-edition links.
+- Replaced coarse sawtooth tears with finer irregular paper edges, removed repetitive transition lettering during ordinary turns, and faded outgoing content before it could overlap the incoming chapter.
+- Parked inactive image sources after hydration to prevent absolute-positioned chapters from defeating native lazy loading. Server-rendered URLs, original aspect ratios and reader-mode restoration remain intact.
+- Synchronized the existing Lenis smoother with ScrollTrigger using input-driven frames. Keyboard/touch can cancel residual wheel momentum, and the smoother sleeps at rest.
 
 ## Performance and limitations
 
 The final machine-readable report records a two-second local scrolling sample, including frame intervals and tasks over 50 ms. This is a headless Chromium diagnostic, **not** a field Core Web Vitals measurement or a guarantee for every device. Only current/turning chapter layers are composited; there is no perpetual rendering loop or per-frame React state update.
+
+The final fresh-document trace recorded 20 subresource requests, approximately 667 KB of decoded subresources plus 298 KB of HTML (965 KB combined, **not compressed transfer size**). Only the portrait appeared in initial image requests; the archived evidence and unused frame sequence were not eagerly downloaded. All three local fonts loaded, with the display face preloaded.
+
+The final two-second scroll sample recorded 87 frame intervals, a 33 ms P95, zero layout/timeline rebuilds, and two tasks over 50 ms (155 ms and 81 ms). A preceding run of the compositor optimization recorded 109 intervals and no tasks over 50 ms. These variable headless results mean this pass must **not** be described as universally lag-free. Physical-device profiling is still needed to characterize remaining frame spikes; the reproducible resource deferral, bounded compositing and idle-loop improvements are retained.
 
 The original 40-frame transparent PNG sequence (approximately 608 KB total) is retained as an optional source asset, but is not mounted or downloaded by the current book. The book uses lightweight flat paper layers and GSAP; no WebGL models or generated decorative images are mounted.
 

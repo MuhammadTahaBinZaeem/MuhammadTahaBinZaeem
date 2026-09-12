@@ -44,7 +44,7 @@ test("home is one complete, progressively enhanced book; reader editions remain 
   assert.equal((html.match(/class="atlas-leaf atlas-leaf-/g) || []).length, 7);
   assert.doesNotMatch(
     html,
-    /class="(?:top-bar|notebook-header|chapter-grid|quick-nav)"/,
+    /class="(?:top-bar|notebook-header|chapter-grid|quick-nav|next-chapter|book-edge-tabs|world-marginalia)"/,
   );
   for (const id of [
     "foreword",
@@ -69,6 +69,8 @@ test("home is one complete, progressively enhanced book; reader editions remain 
   assert.match(engine, /ScrollTrigger\.create/);
   assert.match(engine, /ResizeObserver/);
   assert.match(engine, /prefers-reduced-motion/);
+  assert.match(engine, /autoRaf: false/);
+  assert.match(engine, /parkedImages/);
   assert.doesNotMatch(
     engine,
     /setInterval|setTimeout|WebGL|requestAnimationFrame\(tick/,
