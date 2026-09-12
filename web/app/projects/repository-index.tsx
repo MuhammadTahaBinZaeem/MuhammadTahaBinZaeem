@@ -63,7 +63,7 @@ export function RepositoryIndex() {
                 </a>
               </h3>
               <span className="repo-meta">
-                {repo.fork ? "Fork / upstream-derived" : "Source repository"} ·{" "}
+                {repo.private ? "Private / access required" : repo.fork ? "Fork / upstream-derived" : "Source repository"} ·{" "}
                 {repo.language ?? "Mixed / unclassified"}
                 {repo.archived ? " · Archived" : ""}
               </span>
@@ -73,7 +73,7 @@ export function RepositoryIndex() {
                 "Explore the source, README, and project history on GitHub."}
             </p>
             <div className="link-row">
-              <ExternalLink href={repo.url}>Source</ExternalLink>
+              <ExternalLink href={repo.url}>{repo.private ? "Private source" : "Source"}</ExternalLink>
               {repo.homepage && /^https?:\/\//.test(repo.homepage) && (
                 <ExternalLink href={repo.homepage}>Website</ExternalLink>
               )}

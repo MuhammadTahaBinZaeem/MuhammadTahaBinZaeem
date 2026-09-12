@@ -26,7 +26,10 @@ export function GET() {
     `## Official public profiles and ventures\n\n${verifiedProfiles}\n` +
     `- ParetoCo: https://devpost.com/software/paretoco\n` +
     `- ProGenEDA source: https://github.com/ProGenEDA\n` +
-    `- Type2Learn source: https://github.com/Type2Learn\n\n` +
+    `- Type2Learn source: https://github.com/Type2Learn\n` +
+    `- Pocket Engineer: https://pocket-engineer.onrender.com/\n` +
+    `- Pocket Engineer source (private; access required): https://github.com/MuhammadTahaBinZaeem/FOP-Project\n\n` +
+    `Pocket Engineer is a local C++20 engineering workbench for web/WASM and Android. Its 55 bounded problem types have explicit support limits. Offline web use requires completing preparation first. Regression snapshots are not independent correctness proofs.\n\n` +
     `Type2Learn is recorded as a P@SHA ICT Awards 2026 finalist, not a Gold winner. Both independent research studies are unpublished and ongoing. Workshop targets are planned, not completed.\n`;
 
   return new Response(body, {

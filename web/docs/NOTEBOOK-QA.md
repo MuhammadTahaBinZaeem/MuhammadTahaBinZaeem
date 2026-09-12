@@ -5,7 +5,7 @@ Verified locally on 12 September 2026 using the built Cloudflare Vite preview an
 ## Build and content
 
 - TypeScript, ESLint and production build: passed.
-- Rendered-HTML/content tests: 8 passed.
+- Rendered-HTML/content tests: 9 passed, including the Pocket Engineer promotion.
 - The landing page contains one main landmark, one primary heading and nine complete worlds: foreword, atlas, projects, research, experience, education, certifications, achievements, and links/CVs.
 - The seven existing chapter routes remain standalone reader editions with their metadata and canonical links.
 - The 23-repository snapshot, 14 certificate entries, original evidence and all three CV downloads remain included. Planned work, applications, unpublished research and finalist selections retain their factual qualifiers.
@@ -14,7 +14,7 @@ Verified locally on 12 September 2026 using the built Cloudflare Vite preview an
 
 ## Browser checks
 
-The full browser run captures **117 screenshots** under `qa-artifacts/book-browser/`:
+The book-motion baseline (`2dafb10`) captured **117 screenshots** under `qa-artifacts/book-browser/`. The current full command adds eight Pocket Engineer views, for 125 screenshots:
 
 - Eight routes at 320, 390, 768 and 1440 pixels; no detected horizontal overflow or broken images.
 - Edge-to-edge cover bounds, non-overlapping invitation/author, cover opening and all nine embedded worlds at the same four widths, plus desktop/mobile reading stages and a short landscape viewport.
@@ -48,6 +48,12 @@ Screenshots were visually inspected across the cover, atlas, all chapter worlds,
 - Replaced coarse sawtooth tears with finer irregular paper edges, removed repetitive transition lettering during ordinary turns, and faded outgoing content before it could overlap the incoming chapter.
 - Parked inactive image sources after hydration to prevent absolute-positioned chapters from defeating native lazy loading. Server-rendered URLs, original aspect ratios and reader-mode restoration remain intact.
 - Synchronized the existing Lenis smoother with ScrollTrigger using input-driven frames. Keyboard/touch can cancel residual wheel momentum, and the smoother sleeps at rest.
+
+## Pocket Engineer addition — targeted verification
+
+The featured-project update passed TypeScript, ESLint, the production build and all nine content tests. Its focused browser run (`PROJECT_ONLY=1`) captured nine screenshots: reader and book views at 320/390/1440 pixels, expanded original FOP evidence, the preserved legacy deep link, and the no-JavaScript page. Title bounds, four-project ordering, source-image dimensions, evidence-driven chapter remeasurement, PDF delivery and runtime/HTTP checks passed. Desktop, narrow-phone and expanded-evidence screenshots were visually inspected.
+
+The actual app screenshot is 1440 × 1031, un-cropped and 46,814 bytes; tests enforce a 70 KB budget and lazy loading. Repository scope, private-source labeling and media provenance are recorded in [CONTENT-COVERAGE.md](../CONTENT-COVERAGE.md). This focused content pass does not constitute a fresh performance benchmark; the measurements below belong to the book-motion baseline.
 
 ## Performance and limitations
 

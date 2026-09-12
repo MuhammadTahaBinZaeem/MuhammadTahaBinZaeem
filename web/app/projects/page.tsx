@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
-import { PROJECTS } from "../portfolio-data";
+import { PROJECTS, type ProjectStory } from "../portfolio-data";
 import { FEATURED } from "../dossier-data";
 import { StoryMotion } from "../components/story-motion";
 import {
@@ -14,10 +14,31 @@ import {
 import { RepositoryIndex } from "./repository-index";
 import { CollectionStructuredData } from "../seo-schema";
 import { SITE_ORIGIN } from "../site-config";
+const ENGINEERING_PROJECTS = PROJECTS.filter((project) =>
+  !FEATURED.some((featured) => "legacyId" in featured && featured.legacyId === project.id),
+);
+
+function BuildNotes({ project, legacy = false }: { project: ProjectStory; legacy?: boolean }) {
+  return (
+    <details className={legacy ? "featured-origin" : undefined}>
+      <summary>{legacy ? "From the original FOP solver · build notes & evidence" : "Read the build notes & see evidence"}</summary>
+      {legacy && <p className="eyebrow">Archive / the original algebraic expression solver</p>}
+      <p>{project.story}</p>
+      <ul>{project.proof.map((item) => <li key={item}>{item}</li>)}</ul>
+      {project.media.map((media) => (
+        <figure key={media.src}>
+          <img src={media.src} width={media.width} height={media.height} alt={media.alt} loading="lazy" decoding="async" />
+          <figcaption>{media.alt}</figcaption>
+        </figure>
+      ))}
+    </details>
+  );
+}
+
 export const metadata: Metadata = {
   title: "Projects — Products, processors & public source",
   description:
-    "Explore every public GitHub repository and engineering project by Muhammad Taha Bin Zaeem, including ParetoCo, ProGenEDA, Type2Learn, a 20-bit CPU, and MIPS chess.",
+    "Explore Muhammad Taha Bin Zaeem’s projects: ParetoCo, ProGenEDA, Type2Learn, Pocket Engineer, a 20-bit CPU, MIPS chess, and the complete source index.",
   alternates: { canonical: "/projects" },
 };
 export function ProjectsChapter({
@@ -39,7 +60,7 @@ export function ProjectsChapter({
               type: "CreativeWork",
               sameAs: p.links.map((l) => l.href),
             })),
-            ...PROJECTS.map((p) => ({
+            ...ENGINEERING_PROJECTS.map((p) => ({
               name: p.title,
               description: p.logline,
               url: SITE_ORIGIN + "/projects#project-" + p.id,
@@ -59,7 +80,9 @@ export function ProjectsChapter({
           <a href="#engineering">Engineering projects ↓</a>
           <a href="#repositories">Complete GitHub index ↓</a>
         </nav>
-        {FEATURED.map((p, i) => (
+        {FEATURED.map((p, i) => {
+          const legacy = "legacyId" in p ? PROJECTS.find((project) => project.id === p.legacyId) : undefined;
+          return (
           <article
             className="project-feature"
             id={p.id}
@@ -70,7 +93,7 @@ export function ProjectsChapter({
               } as CSSProperties
             }
           >
-            <div data-reveal>
+            <div data-reveal id={legacy ? "project-" + legacy.id : undefined}>
               <p className="eyebrow">
                 0{i + 1} / {p.category}
               </p>
@@ -83,11 +106,13 @@ export function ProjectsChapter({
                 ))}
               </div>
             </div>
-            <figure className="feature-art" data-paper>
-              <InkDrawing
-                name={p.drawing}
-                alt={p.title + " illustrated in pen and ink"}
-              />
+            <figure className={`feature-art${"image" in p ? " project-screenshot" : ""}`} data-paper>
+              {"image" in p ? <>
+                <a href={p.image.src} target="_blank" rel="noreferrer" aria-label={`Open the full-size ${p.title} screenshot`}>
+                  <img src={p.image.src} width={p.image.width} height={p.image.height} alt={p.image.alt} loading="lazy" decoding="async" />
+                </a>
+                <figcaption>{p.image.caption}</figcaption>
+              </> : <InkDrawing name={p.drawing} alt={p.title + " illustrated in pen and ink"} />}
             </figure>
             <div>
               <ul className="project-details">
@@ -102,9 +127,10 @@ export function ProjectsChapter({
                   </ExternalLink>
                 ))}
               </div>
+              {legacy && <BuildNotes project={legacy} legacy />}
             </div>
           </article>
-        ))}
+        );})}
         <section className="small-work" id="engineering">
           <SectionHeading
             eyebrow="On the bench / engineering foundations"
@@ -116,7 +142,7 @@ export function ProjectsChapter({
             and top-level logic.
           </p>
           <div className="small-work-grid">
-            {PROJECTS.map((p) => (
+            {ENGINEERING_PROJECTS.map((p) => (
               <article
                 className="work-card"
                 id={"project-" + p.id}
@@ -137,28 +163,7 @@ export function ProjectsChapter({
                     <span key={s}>{s}</span>
                   ))}
                 </div>
-                <details>
-                  <summary>Read the build notes & see evidence</summary>
-                  <p>{p.story}</p>
-                  <ul>
-                    {p.proof.map((x) => (
-                      <li key={x}>{x}</li>
-                    ))}
-                  </ul>
-                  {p.media.map((m) => (
-                    <figure key={m.src}>
-                      <img
-                        src={m.src}
-                        width={m.width}
-                        height={m.height}
-                        alt={m.alt}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                      <figcaption>{m.alt}</figcaption>
-                    </figure>
-                  ))}
-                </details>
+                <BuildNotes project={p} />
                 <div className="link-row">
                   {Object.entries(p.links)
                     .filter(([, href]) => href)

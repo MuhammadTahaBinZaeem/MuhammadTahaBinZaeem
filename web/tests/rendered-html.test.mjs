@@ -113,6 +113,30 @@ test("every public repository is visible without JavaScript, with correct fork p
   assert.ok(html.includes("1,000 verified"));
   assert.ok(html.includes("13 interview scripts"));
 });
+test("Pocket Engineer is the fourth flagship, with current scope and preserved FOP evidence", async () => {
+  for (const path of ["/", "/projects"]) {
+    const html = await (await render(path)).text();
+    assert.equal((html.match(/class="project-feature"/g) || []).length, 4);
+    const order = ["paretoco", "progeneda", "type2learn", "pocket-engineer"]
+      .map((id) => html.indexOf(`id="${id}"`));
+    assert.ok(order.every((position, i) => position >= 0 && (i === 0 || position > order[i - 1])));
+    assert.ok(html.includes("55 bounded problem types"));
+    assert.ok(html.includes("C++20"));
+    assert.ok(html.includes("825,000 stored regression cases"));
+    assert.ok(html.includes("https://pocket-engineer.onrender.com/"));
+    assert.ok(html.includes("GitHub · private repository"));
+    assert.equal((html.match(/id="project-algebraic-expression-solver"/g) || []).length, 1);
+    assert.ok(html.includes("algebraic-expression-solver-curve-one.webp"));
+    assert.ok(html.includes("From the original FOP solver"));
+    assert.match(html, /pocket-engineer-workbench[.]webp[^>]*loading="lazy"/);
+  }
+  const imagePath = new URL("../public/media/projects/pocket-engineer-workbench.webp", import.meta.url);
+  const image = await sharp(await readFile(imagePath)).metadata();
+  assert.equal(image.width, 1440);
+  assert.equal(image.height, 1031);
+  assert.ok((await stat(imagePath)).size < 70000, "Project screenshot stays under 70 KB");
+  assert.match(await (await render("/llms.txt")).text(), /Pocket Engineer/);
+});
 test("CV facts have dedicated sections and retain status boundaries", async () => {
   const research = await (await render("/research")).text();
   for (const term of [

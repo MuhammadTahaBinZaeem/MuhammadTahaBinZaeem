@@ -631,6 +631,37 @@ em {
 .project-feature:nth-of-type(3n + 2) .feature-art {
   background: #e1e4d9;
 }
+.project-feature .project-screenshot a {
+  display: block;
+}
+.project-feature .project-screenshot img {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+}
+.project-screenshot figcaption {
+  padding: 12px;
+  font: 500 10px/1.6 var(--font-mono);
+  color: var(--muted);
+}
+.featured-origin {
+  margin-top: 26px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  font-size: 14px;
+}
+.featured-origin summary {
+  cursor: pointer;
+  line-height: 1.7;
+}
+.featured-origin figure {
+  margin-top: 18px;
+}
+.featured-origin img {
+  width: 100%;
+  height: auto;
+}
 .project-details {
   font-size: 14px;
   color: var(--muted);

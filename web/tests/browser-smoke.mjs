@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { runBookChecks } from "./book-interactions.mjs";
+import { runPocketChecks } from "./pocket-engineer-checks.mjs";
 
 // Uses an installed Chrome/Chromium; no extra browser dependency or download.
 const base = process.env.TEST_BASE_URL || "http://localhost:3000";
@@ -232,7 +233,9 @@ try {
     report.screenshots.push(name + ".png");
   }
 
-  for (const width of process.env.BOOK_ONLY ? [] : [320, 390, 768, 1440]) {
+  await runPocketChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
+
+  for (const width of process.env.BOOK_ONLY || process.env.PROJECT_ONLY ? [] : [320, 390, 768, 1440]) {
     await viewport(width);
     for (const route of routes) {
       await navigate(route);
@@ -250,12 +253,12 @@ try {
       await screenshot(`${route || "home"}-${width}`);
     }
   }
-  if (!process.env.BOOK_ONLY)
+  if (!process.env.BOOK_ONLY && !process.env.PROJECT_ONLY)
     report.checks.push(
       "Eight routes at 320, 390, 768 and 1440 pixels; no overflow or broken images.",
     );
 
-  await runBookChecks({
+  if (!process.env.PROJECT_ONLY) await runBookChecks({
     cdp,
     navigate,
     viewport,

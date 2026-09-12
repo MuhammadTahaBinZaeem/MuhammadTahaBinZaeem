@@ -232,6 +232,34 @@ export const FEATURED = [
       { label: "GitHub organization", href: "https://github.com/Type2Learn" },
     ],
   },
+  {
+    id: "pocket-engineer",
+    legacyId: "algebraic-expression-solver",
+    title: "Pocket Engineer",
+    category: "Engineering / Local-first software",
+    role: "FOP project · C++ engineering workbench",
+    summary:
+      "A pocket-sized engineering workbench: ask a supported question, follow the working, and keep solving without a cloud connection.",
+    details: [
+      "A shared C++20 engine powers the web through WebAssembly in a Web Worker, and Android through an asynchronous native JNI bridge. No account, API key, or cloud calculation is required.",
+      "55 bounded problem types span algebra, calculus, linear algebra, differential equations, digital logic, circuit analysis, signals and transforms, programming, and units. Visual labs include circuit schematics, K-maps, state machines, and signal analysis.",
+      "Numbered calculation steps, explicit assumptions, warnings, numerical checks, sampled charts, and device-only history make the reasoning inspectable. Natural-input interpretation is shown rather than silently assumed.",
+      "The web interface and solver work offline after preparation confirms Ready offline. The Android app has no INTERNET permission. First-time offline visits and cleared browser storage are explicit limits.",
+      "825,000 stored regression cases help detect changes; independent and edge-case checks are tracked separately. The project does not claim to solve every engineering problem or prove every answer correct.",
+    ],
+    facts: ["C++20 · WASM · Android", "55 bounded problem types", "Offline after setup"],
+    image: {
+      src: "/media/projects/pocket-engineer-workbench.webp",
+      width: 1440,
+      height: 1031,
+      alt: "Pocket Engineer’s actual workbench, with subject selection, a question editor, and step-by-step solution controls",
+      caption: "The working application · repository capture, September 2026",
+    },
+    links: [
+      { label: "Open the workbench", href: "https://pocket-engineer.onrender.com/" },
+      { label: "GitHub · private repository", href: "https://github.com/MuhammadTahaBinZaeem/FOP-Project" },
+    ],
+  },
 ] as const;
 
 export const EXPERIENCE = [
@@ -373,7 +401,16 @@ export const SKILLS = [
   },
 ] as const;
 
-export const PUBLIC_REPOSITORIES = github.repositories;
+export const PUBLIC_REPOSITORIES = github.repositories.map((repo) => ({
+  ...repo,
+  // This entry was public in the original snapshot; visibility was rechecked
+  // while promoting Pocket Engineer on 12 September 2026.
+  private: repo.name === "FOP-Project",
+  ...(repo.name === "FOP-Project" ? {
+    description: "Pocket Engineer — local C++20 engineering workbench for web/WASM and Android. Source now private; the live workbench remains available.",
+    homepage: "https://pocket-engineer.onrender.com/",
+  } : {}),
+}));
 export const GITHUB_CHECKED = github.checkedAt;
 export const ALL_LINKS = [
   ...SOCIAL_LINKS.filter((link) => link.href).map((link) => ({
@@ -407,6 +444,11 @@ export const ALL_LINKS = [
     note: "Learning platform organization.",
   },
   {
+    label: "Pocket Engineer",
+    href: "https://pocket-engineer.onrender.com/",
+    note: "Local-first engineering workbench · C++20, web/WASM and Android.",
+  },
+  {
     label: "LinkedIn profile ID",
     href: "https://www.linkedin.com/in/muhammad-taha-bin-zaeem-a29524377/",
     note: "Alternate profile URL listed in the GitHub README.",
@@ -415,7 +457,9 @@ export const ALL_LINKS = [
     Object.entries(project.links)
       .filter(([, href]) => href && /^https:\/\//.test(href))
       .map(([type, href]) => ({
-        label: `${project.shortTitle} · ${type}`,
+        label: project.id === "algebraic-expression-solver"
+          ? "Pocket Engineer · private source"
+          : `${project.shortTitle} · ${type}`,
         href: href!,
         note: project.discipline,
       })),
