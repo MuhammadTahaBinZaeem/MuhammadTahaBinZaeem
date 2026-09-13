@@ -67,11 +67,11 @@ Gallery source URLs, dimensions, deduplication, collaborator profile links and f
 
 Tooba Fatima's contribution is credited from explicit project records, but her personal profile URL remains pending confirmation. No namesake link is substituted. Physical Safari/iOS testing is still outside this headless Chromium pass.
 
-## Performance and limitations
-
 ## SEO regression — 13 September 2026
 
 The name/entity and crawlability pass passed TypeScript, ESLint, the production build and all **15 rendered-HTML/content tests**. The new checks cover unique metadata on all eight canonicals, exact Open Graph/Twitter alignment, a single current-page schema entity, personal-profile versus organization identity, credential issuer semantics, HTTPS/trailing-slash redirects, 404 status and evidence-image sitemap coverage. The read-only local endpoint audit passed for all eight pages and **51 distinct evidence images**.
+
+The same endpoint audit passed against the public Cloudflare domain after `fec0546` deployed; GitHub CI and Cloudflare Workers Builds both reported success. The live HTTPS redirect, page-specific social URLs and all 51 indexed image responses were checked, not inferred from the local build.
 
 The complete browser suite was rerun successfully with **155 screenshots** and zero detected runtime/HTTP errors. The updated foreword/profile row, mobile atlas and chapter transition screenshots were visually inspected. Changing atlas hrefs to real reader URLs preserves the existing in-book tear animation, browser Back and no-reload navigation; these are explicitly tested. Existing gallery, reduced-motion, print and no-JavaScript checks still pass.
 

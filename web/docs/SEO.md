@@ -17,6 +17,8 @@ The canonical site is **https://tahabinzaeem.tech/**. Local preview remains **ht
 
 During the audit, the live apex domain served complete portfolio HTML, a real sitemap, robots.txt and real HTTP 404 responses. A search query returned the portfolio. The Google DNS verification TXT record was present; there is no need to add it again. Search-result discovery is not proof of Google coverage for all eight pages or first-place ranking for any query. Search Console performance/indexing data were not available to this agent.
 
+After commit `fec0546`, both GitHub validation and the existing Cloudflare Workers build reported success. The post-deployment `seo:audit` against **https://tahabinzaeem.tech** passed for all eight pages, all **51 distinct sitemap images**, per-page metadata, identity/profile links, robots, the live permanent HTTPS redirect, and 404 behavior. Local preview also remained HTTP 200. This verifies the deployed implementation, not search-engine rankings.
+
 Cloudflare prepends a managed robots policy to the application's robots.txt. At audit time it allowed search while disallowing several training crawlers. This pass removes contradictory application-level GPTBot/ClaudeBot Allow groups; it does not change your Cloudflare bot policy. Training-crawler access is not a Google Search ranking requirement. See [Cloudflare's managed robots documentation](https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/).
 
 ## Search Console: the next external step
