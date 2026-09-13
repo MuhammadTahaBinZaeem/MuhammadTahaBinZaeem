@@ -301,6 +301,19 @@
 .foreword-manifesto a {
   border-bottom: 1px solid var(--line);
 }
+.foreword-profiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 22px;
+  font: 500 13px/1.5 var(--font-mono);
+  letter-spacing: 0.025em;
+}
+.foreword-profiles a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 .foreword-manifesto p.hand-note {
   font-size: 26px;
   margin-top: 32px;

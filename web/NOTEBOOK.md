@@ -19,6 +19,8 @@ For editing, use `npm run dev -- --port 3000`. Stop the preview first, or choose
 
 No DNS or production-domain changes are needed to review locally. The canonical domain remains `https://tahabinzaeem.tech`.
 
+For search metadata, the image sitemap, read-only live auditing and the existing Google verification / Search Console handoff, see [docs/SEO.md](docs/SEO.md). Run `npm run seo:audit` against the local preview, or set `SEO_AUDIT_ORIGIN=https://tahabinzaeem.tech` after deployment.
+
 ## Change content
 
 | Content                                                                               | Source                                 |

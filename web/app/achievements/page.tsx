@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../seo";
+import { PageStructuredData } from "../seo-schema";
 import { ACHIEVEMENTS } from "../portfolio-data";
 import { GalleryImage } from "../components/gallery-image";
 import { StoryMotion } from "../components/story-motion";
@@ -8,12 +9,7 @@ import {
   NextChapter,
   ExternalLink,
 } from "../components/notebook-ui";
-export const metadata: Metadata = {
-  title: "Achievements — Milestones, earned",
-  description:
-    "Muhammad Taha Bin Zaeem: P@SHA ICT Awards 2026 finalist with Type2Learn, SEMPEC second runner-up for the vector CPU, STEM 2024 runner-up, and academic honors.",
-  alternates: { canonical: "/achievements" },
-};
+export const metadata = pageMetadata("/achievements");
 export function AchievementsChapter({
   embedded = false,
 }: { embedded?: boolean } = {}) {
@@ -21,6 +17,7 @@ export function AchievementsChapter({
   return (
     <StoryMotion disabled={embedded}>
       <Frame className="page-width">
+        {!embedded && <PageStructuredData path="/achievements" />}
         <ChapterHeading
           level={embedded ? 2 : 1}
           number="06 / Achievements"

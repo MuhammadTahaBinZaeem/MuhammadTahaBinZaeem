@@ -29,6 +29,19 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
+    // Consolidate production URLs without redirecting local/preview hosts.
+    // A www binding, if added in Cloudflare later, receives the same redirect.
+    if (["tahabinzaeem.tech", "www.tahabinzaeem.tech"].includes(url.hostname)) {
+      const canonical = new URL(url);
+      canonical.protocol = "https:";
+      canonical.hostname = "tahabinzaeem.tech";
+      canonical.port = "";
+      if (/^\/(projects|research|experience|education|certifications|achievements|connect)\/$/.test(canonical.pathname)) {
+        canonical.pathname = canonical.pathname.slice(0, -1);
+      }
+      if (canonical.href !== url.href) return Response.redirect(canonical.href, 308);
+    }
+
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
       return handleImageOptimization(request, {

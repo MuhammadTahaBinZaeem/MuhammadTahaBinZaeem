@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../seo";
+import { PageStructuredData } from "../seo-schema";
 import { DOSSIER, RESEARCH } from "../dossier-data";
 import {
   ChapterHeading,
@@ -9,12 +10,7 @@ import {
 import { StoryMotion } from "../components/story-motion";
 import { CollectionStructuredData } from "../seo-schema";
 import { SITE_ORIGIN } from "../site-config";
-export const metadata: Metadata = {
-  title: "Research — LLM evaluation & trustworthy engineering",
-  description:
-    "Independent research by Muhammad Taha Bin Zaeem: authorial style in LLM-rewritten fiction and semantic change attribution in EDA files. Work in progress, not published results.",
-  alternates: { canonical: "/research" },
-};
+export const metadata = pageMetadata("/research");
 export function ResearchChapter({
   embedded = false,
 }: { embedded?: boolean } = {}) {
@@ -22,6 +18,7 @@ export function ResearchChapter({
   return (
     <StoryMotion disabled={embedded}>
       <Frame className="page-width">
+        {!embedded && <PageStructuredData path="/research" />}
         <CollectionStructuredData
           path="/research"
           name="Research in progress"

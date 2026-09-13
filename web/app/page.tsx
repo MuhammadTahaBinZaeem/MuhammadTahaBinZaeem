@@ -3,6 +3,8 @@ import type { CSSProperties } from "react";
 import { BookExperience } from "./components/book-experience";
 import { BOOK_WORLDS } from "./book-data";
 import { CHAPTERS } from "./dossier-data";
+import { IDENTITY_LINKS } from "./seo";
+import { PageStructuredData } from "./seo-schema";
 import { GalleryImage } from "./components/gallery-image";
 import { ProjectsChapter } from "./projects/page";
 import { ResearchChapter } from "./research/page";
@@ -64,7 +66,8 @@ function Foreword() {
             <em>Then question it.</em>
           </h2>
           <p>
-            I’m a Computer Engineering undergraduate at NUST CEME, founder of{" "}
+            I’m Muhammad Taha Bin Zaeem — Taha Zaeem for short. A Computer
+            Engineering undergraduate at NUST CEME, founder of{" "}
             <a href="https://progeneda.app">ProGenEDA ↗</a> and{" "}
             <a href="https://type2learn.tech">Type2Learn ↗</a>, and co-creator
             of{" "}
@@ -77,6 +80,11 @@ function Foreword() {
             My work moves between processors, applied AI, accessible learning,
             and the evidence that makes a system worth trusting.
           </p>
+          <nav className="foreword-profiles" aria-label="Muhammad Taha Bin Zaeem’s official profiles">
+            {IDENTITY_LINKS.map((link) => (
+              <a key={link.id} href={link.href} rel="me">{link.label} ↗</a>
+            ))}
+          </nav>
           <p className="hand-note">
             This isn’t a finished story.
             <br />
@@ -115,7 +123,7 @@ function Atlas() {
           return (
             <a
               className={"atlas-leaf atlas-leaf-" + world.id}
-              href={"#" + world.id}
+              href={chapter.href}
               key={world.id}
               data-book-leaf
               style={
@@ -175,6 +183,8 @@ export default function Home() {
     <ConnectChapter embedded key="connect" />,
   ];
   return (
+    <>
+    <PageStructuredData path="/" />
     <BookExperience>
       {BOOK_WORLDS.map((world, index) => (
         <section
@@ -210,5 +220,6 @@ export default function Home() {
         </section>
       ))}
     </BookExperience>
+    </>
   );
 }

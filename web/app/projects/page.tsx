@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../seo";
+import { PageStructuredData } from "../seo-schema";
 import type { CSSProperties } from "react";
 import { PROJECTS, type ProjectStory } from "../portfolio-data";
 import { FEATURED } from "../dossier-data";
@@ -36,12 +37,7 @@ function BuildNotes({ project, legacy = false, images = [...(PROJECT_GALLERIES[p
   );
 }
 
-export const metadata: Metadata = {
-  title: "Projects — Products, processors & public source",
-  description:
-    "Explore Muhammad Taha Bin Zaeem’s projects: ParetoCo, ProGenEDA, Type2Learn, Pocket Engineer, a 20-bit CPU, MIPS chess, and the complete source index.",
-  alternates: { canonical: "/projects" },
-};
+export const metadata = pageMetadata("/projects");
 export function ProjectsChapter({
   embedded = false,
 }: { embedded?: boolean } = {}) {
@@ -49,6 +45,7 @@ export function ProjectsChapter({
   return (
     <StoryMotion disabled={embedded}>
       <Frame className="page-width">
+        {!embedded && <PageStructuredData path="/projects" />}
         <CollectionStructuredData
           path="/projects"
           name="Engineering projects by Muhammad Taha Bin Zaeem"

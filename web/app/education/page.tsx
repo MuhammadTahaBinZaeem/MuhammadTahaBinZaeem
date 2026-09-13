@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../seo";
+import { PageStructuredData } from "../seo-schema";
 import { EDUCATION } from "../portfolio-data";
 import { SKILLS } from "../dossier-data";
 import { GalleryImage } from "../components/gallery-image";
@@ -9,12 +10,7 @@ import {
   NextChapter,
   SectionHeading,
 } from "../components/notebook-ui";
-export const metadata: Metadata = {
-  title: "Education & skills — Where it began",
-  description:
-    "Muhammad Taha Bin Zaeem: B.E. Computer Engineering at NUST CEME, GCU Lahore, Qazi Grammar, and a complete engineering and research skill set.",
-  alternates: { canonical: "/education" },
-};
+export const metadata = pageMetadata("/education");
 export function EducationChapter({
   embedded = false,
 }: { embedded?: boolean } = {}) {
@@ -22,6 +18,7 @@ export function EducationChapter({
   return (
     <StoryMotion disabled={embedded}>
       <Frame className="page-width">
+        {!embedded && <PageStructuredData path="/education" />}
         <ChapterHeading
           level={embedded ? 2 : 1}
           number="04 / Education"

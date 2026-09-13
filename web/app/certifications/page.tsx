@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../seo";
+import { PageStructuredData } from "../seo-schema";
 import type { CSSProperties } from "react";
 import { CERTIFICATES } from "../portfolio-data";
 import { StoryMotion } from "../components/story-motion";
@@ -11,12 +12,7 @@ import {
 import { CollectionStructuredData } from "../seo-schema";
 import { SITE_ORIGIN } from "../site-config";
 import { GalleryImage } from "../components/gallery-image";
-export const metadata: Metadata = {
-  title: "Certifications — The learning record",
-  description:
-    "Original credentials of Muhammad Taha Bin Zaeem: machine learning, Duke logic and critical thinking, Stanford / UBC game theory, cybersecurity, and AI hackathons.",
-  alternates: { canonical: "/certifications" },
-};
+export const metadata = pageMetadata("/certifications");
 const groups = [
   {
     id: "stanford",
@@ -67,6 +63,7 @@ export function CertificationsChapter({
   return (
     <StoryMotion disabled={embedded}>
       <Frame className="page-width">
+        {!embedded && <PageStructuredData path="/certifications" />}
         <CollectionStructuredData
           name="Muhammad Taha Bin Zaeem credentials"
           description="Original certificates with issuer, date, document and verification links."
@@ -76,6 +73,9 @@ export function CertificationsChapter({
             description: c.issuer + " · " + c.issued,
             url: SITE_ORIGIN + "/certifications#certificate-" + c.id,
             type: "EducationalOccupationalCredential",
+            issuer: c.issuer,
+            image: c.preview.src,
+            sameAs: c.credentialUrl ? [c.credentialUrl] : [],
           }))}
         />
         <ChapterHeading

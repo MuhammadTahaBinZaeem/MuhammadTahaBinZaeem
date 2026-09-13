@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../seo";
+import { PageStructuredData } from "../seo-schema";
 import Link from "next/link";
 import { EXPERIENCE, FEATURED, LEADERSHIP } from "../dossier-data";
 import { COLLABORATORS } from "../collaborators-data";
@@ -10,12 +11,7 @@ import {
   ExternalLink,
 } from "../components/notebook-ui";
 import { StoryMotion } from "../components/story-motion";
-export const metadata: Metadata = {
-  title: "Experience & Community — Founder work, internships, leadership",
-  description:
-    "Muhammad Taha Bin Zaeem’s founder roles at Type2Learn and ProGenEDA, software internships, NUST workshops, and student-society leadership.",
-  alternates: { canonical: "/experience" },
-};
+export const metadata = pageMetadata("/experience");
 export function ExperienceChapter({
   embedded = false,
 }: { embedded?: boolean } = {}) {
@@ -23,6 +19,7 @@ export function ExperienceChapter({
   return (
     <StoryMotion disabled={embedded}>
       <Frame className="page-width">
+        {!embedded && <PageStructuredData path="/experience" />}
         <ChapterHeading
           level={embedded ? 2 : 1}
           number="03 / Experience & community"

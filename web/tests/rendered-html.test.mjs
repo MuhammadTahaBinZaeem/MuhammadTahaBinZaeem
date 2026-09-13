@@ -4,14 +4,14 @@ import test from "node:test";
 import sharp from "sharp";
 
 let workerPromise;
-async function render(pathname = "/") {
+async function render(pathname = "/", headers = {}) {
   workerPromise ??= import(
     new URL("../dist/server/index.js", import.meta.url).href
   ).then((module) => module.default);
   const worker = await workerPromise;
   return worker.fetch(
-    new Request("http://localhost" + pathname, {
-      headers: { accept: "text/html" },
+    new Request(pathname.startsWith("http") ? pathname : "http://localhost" + pathname, {
+      headers: { accept: "text/html", ...headers },
     }),
     {
       ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) },
@@ -36,6 +36,120 @@ const OFFICIAL = [
   "https://devpost.com/MuhammadTahaBinZaeem",
   "https://lablab.ai/u/%40taha_zaeem65",
 ];
+const decodeHtml = (value) => value.replaceAll("&quot;", '"').replaceAll("&amp;", "&").replaceAll("&#x27;", "'").replaceAll("&lt;", "<").replaceAll("&gt;", ">");
+const schemaNodes = (html) => [...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)]
+  .flatMap((match) => { const schema = JSON.parse(match[1]); return schema["@graph"] || [schema]; });
+
+test("every canonical has unique, consistent search and social metadata", async () => {
+  const titles = new Set();
+  const descriptions = new Set();
+  for (const [path] of ROUTES) {
+    const html = await (await render(path)).text();
+    const canonical = "https://tahabinzaeem.tech" + (path === "/" ? "/" : path);
+    const titleTags = [...html.matchAll(/<title>([^<]+)<\/title>/g)];
+    assert.equal(titleTags.length, 1, path + " one title");
+    const title = decodeHtml(titleTags[0][1]);
+    const meta = (name) => {
+      const tags = [...html.matchAll(new RegExp(`<meta (?:name|property)="${name}" content="([^"]*)"`, "g"))];
+      assert.equal(tags.length, 1, path + " one " + name);
+      return decodeHtml(tags[0][1]);
+    };
+    assert.ok(title.includes("Muhammad Taha Bin Zaeem"));
+    assert.ok(title.length <= 70, "Concise page title: " + title);
+    assert.ok(!titles.has(title), "Distinct title for " + path);
+    titles.add(title);
+    const description = meta("description");
+    assert.ok(description.includes("Muhammad Taha Bin Zaeem"));
+    assert.ok(!descriptions.has(description), "Distinct description for " + path);
+    descriptions.add(description);
+    assert.equal(meta("og:url"), canonical);
+    assert.equal(meta("og:title"), title);
+    assert.equal(meta("twitter:title"), title);
+    assert.equal(meta("og:description"), description);
+    assert.equal(meta("twitter:description"), description);
+    assert.equal(meta("og:image"), "https://tahabinzaeem.tech/og.png");
+    assert.equal(meta("twitter:card"), "summary_large_image");
+    const canonicals = [...html.matchAll(/<link rel="canonical" href="([^"]+)"/g)];
+    assert.equal(canonicals.length, 1);
+    assert.equal(canonicals[0][1], canonical);
+    assert.match(meta("robots"), /index.*follow/);
+    assert.doesNotMatch(meta("robots"), /noindex|nofollow/);
+  }
+});
+
+test("entity graph identifies the person, not their companies or credential issuers", async () => {
+  for (const [path] of ROUTES) {
+    const nodes = schemaNodes(await (await render(path)).text());
+    const person = nodes.find((node) => node["@type"] === "Person");
+    assert.deepEqual([...person.sameAs].sort(), [...OFFICIAL].sort());
+    for (const name of ["Taha Zaeem", "Taha Bin Zaeem", "tahabinzaeem"]) assert.ok(person.alternateName.includes(name));
+    assert.equal(person.hasCredential.length, 14);
+    assert.equal(nodes.filter((node) => node["@type"] === "Organization").length, 2);
+    const pages = nodes.filter((node) => ["WebPage", "ProfilePage", "ContactPage", "CollectionPage"].includes(node["@type"]));
+    assert.equal(pages.length, 1, path + " one current-page entity");
+    assert.equal(pages[0].url, "https://tahabinzaeem.tech" + path);
+    assert.equal(pages[0].dateModified, "2026-09-13");
+    if (path === "/") {
+      assert.equal(pages[0]["@type"], "ProfilePage");
+      assert.equal(pages[0].mainEntity["@id"], person["@id"]);
+    } else {
+      const crumbs = nodes.find((node) => node["@type"] === "BreadcrumbList");
+      assert.equal(crumbs.itemListElement[1].item, pages[0].url);
+    }
+  }
+  const nodes = schemaNodes(await (await render("/certifications")).text());
+  const credentials = nodes.find((node) => node["@type"] === "ItemList").itemListElement.map((entry) => entry.item);
+  assert.equal(credentials.length, 14);
+  for (const credential of credentials) {
+    assert.equal(credential["@type"], "EducationalOccupationalCredential");
+    assert.ok(credential.recognizedBy.name);
+    assert.ok(credential.image.startsWith("https://tahabinzaeem.tech/"));
+    assert.ok(!credential.creator, "Receiving a certificate does not make its holder the issuer");
+  }
+});
+
+test("production redirects consolidate HTTPS and trailing slashes without affecting localhost", async () => {
+  for (const [from, to] of [
+    ["http://tahabinzaeem.tech/", "https://tahabinzaeem.tech/"],
+    ["http://tahabinzaeem.tech/projects/?ref=profile", "https://tahabinzaeem.tech/projects?ref=profile"],
+    ["https://tahabinzaeem.tech/certifications/", "https://tahabinzaeem.tech/certifications"],
+    ["https://www.tahabinzaeem.tech/research", "https://tahabinzaeem.tech/research"],
+  ]) {
+    const response = await render(from);
+    assert.equal(response.status, 308);
+    assert.equal(response.headers.get("location"), to);
+  }
+  assert.equal((await render("/")).status, 200);
+  assert.equal((await render("http://localhost:3000/projects")).status, 200);
+  assert.equal((await render("https://tahabinzaeem.tech/projects")).status, 200);
+  assert.equal((await render("/does-not-exist")).status, 404);
+});
+
+test("image sitemap uses real evidence, exact canonicals and truthful editorial dates", async () => {
+  const response = await render("/sitemap.xml");
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type"), /xml/);
+  const xml = await response.text();
+  assert.ok(xml.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"'));
+  const pages = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+  assert.deepEqual(pages.sort(), ROUTES.map(([path]) => "https://tahabinzaeem.tech" + path).sort());
+  assert.equal((xml.match(/<lastmod>2026-09-13<\/lastmod>/g) || []).length, 8);
+  const images = new Set([...xml.matchAll(/<image:loc>([^<]+)<\/image:loc>/g)].map((match) => match[1]));
+  assert.ok(images.size >= 35, "Project, credential, education and achievement galleries are discoverable");
+  for (const image of images) {
+    const url = new URL(image);
+    assert.equal(url.origin, "https://tahabinzaeem.tech");
+    assert.ok((await stat(new URL("../public" + url.pathname, import.meta.url))).size > 0);
+  }
+  const home = await (await render("/")).text();
+  const atlas = home.split('class="atlas-leaves"')[1].split('class="world-last-line"')[0];
+  for (const [route] of ROUTES.slice(1)) assert.ok(atlas.includes(`href="${route}"`), route + " crawlable atlas link");
+  const foreword = home.split('class="foreword-profiles"')[1].split("</nav>")[0];
+  for (const profile of OFFICIAL) assert.ok(foreword.includes(profile));
+  const botHtml = await (await render("/", { "user-agent": "Googlebot" })).text();
+  assert.ok(botHtml.includes("class=\"foreword-profiles\""));
+  for (const [route] of ROUTES.slice(1)) assert.ok(botHtml.includes(`href="${route}"`));
+});
 test("home is one complete, progressively enhanced book; reader editions remain available", async () => {
   const html = await (await render("/")).text();
   assert.equal((html.match(/<main\b/g) || []).length, 1);

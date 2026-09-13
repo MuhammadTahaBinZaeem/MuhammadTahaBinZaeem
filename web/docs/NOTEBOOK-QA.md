@@ -69,6 +69,16 @@ Tooba Fatima's contribution is credited from explicit project records, but her p
 
 ## Performance and limitations
 
+## SEO regression — 13 September 2026
+
+The name/entity and crawlability pass passed TypeScript, ESLint, the production build and all **15 rendered-HTML/content tests**. The new checks cover unique metadata on all eight canonicals, exact Open Graph/Twitter alignment, a single current-page schema entity, personal-profile versus organization identity, credential issuer semantics, HTTPS/trailing-slash redirects, 404 status and evidence-image sitemap coverage. The read-only local endpoint audit passed for all eight pages and **51 distinct evidence images**.
+
+The complete browser suite was rerun successfully with **155 screenshots** and zero detected runtime/HTTP errors. The updated foreword/profile row, mobile atlas and chapter transition screenshots were visually inspected. Changing atlas hrefs to real reader URLs preserves the existing in-book tear animation, browser Back and no-reload navigation; these are explicitly tested. Existing gallery, reduced-motion, print and no-JavaScript checks still pass.
+
+This run's initial-load trace recorded the same **22 subresource requests**, 681,181 decoded subresource bytes and 445,112 decoded document bytes; only the portrait was requested initially. The additional schema/text adds about 10 KB of uncompressed HTML, not additional image downloads. The local two-second scroll trace recorded 84 intervals, a 33 ms P95, no tasks over 50 ms and no layout/timeline rebuilds. These are local diagnostics, not field Core Web Vitals or ranking measurements. See [SEO.md](SEO.md) for verification boundaries and the Search Console handoff.
+
+## Performance and limitations (book baseline)
+
 The machine-readable report records a two-second local scrolling sample, including frame intervals and tasks over 50 ms. This is a headless Chromium diagnostic, **not** a field Core Web Vitals measurement or a guarantee for every device. Only current/turning chapter layers are composited; there is no perpetual rendering loop or per-frame React state update.
 
 The earlier book-motion baseline recorded 20 subresource requests, approximately 667 KB of decoded subresources plus 298 KB of HTML (965 KB combined, **not compressed transfer size**). The gallery integration's first full trace recorded 22 requests, approximately 681 KB of decoded subresources plus 435 KB of HTML. Gallery metadata increases the server-rendered document size, but only the portrait appeared in initial image requests: archived evidence and unused frame sequences are still deferred. All three local fonts loaded, with the display face preloaded.

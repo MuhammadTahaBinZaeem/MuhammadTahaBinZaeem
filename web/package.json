@@ -12,6 +12,7 @@
     "art:build": "node scripts/build-notebook-art.mjs",
     "sync:github": "node ../tools/sync-public-projects.mjs",
     "test:browser": "node tests/browser-smoke.mjs",
+    "seo:audit": "node scripts/audit-seo.mjs",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
     "lint": "eslint app db worker tests \"scripts/*.mjs\" \"*.ts\" \"*.mjs\"",
     "typecheck": "tsc --noEmit --incremental false",

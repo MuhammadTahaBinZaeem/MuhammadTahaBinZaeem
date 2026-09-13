@@ -1,5 +1,6 @@
-import { PROFILE, SOCIAL_LINKS } from "./portfolio-data";
+import { PROFILE, SOCIAL_LINKS, CERTIFICATES } from "./portfolio-data";
 import { SITE_ORIGIN } from "./site-config";
+import { AUTHOR_NAME, IDENTITY_LINKS, NAME_VARIANTS, SEO_PAGES, canonicalUrl, type SeoPath } from "./seo";
 
 type SchemaItem = Readonly<{
   name: string;
@@ -7,6 +8,8 @@ type SchemaItem = Readonly<{
   url: string;
   type: string;
   sameAs?: readonly string[];
+  issuer?: string;
+  image?: string;
 }>;
 
 function JsonLd({ value }: { value: unknown }) {
@@ -15,7 +18,7 @@ function JsonLd({ value }: { value: unknown }) {
 }
 
 const PERSON_ID = `${SITE_ORIGIN}/#muhammad-taha-bin-zaeem`;
-const profileUrls = SOCIAL_LINKS.flatMap((link) => (link.href ? [link.href] : []));
+const profileUrls = IDENTITY_LINKS.map((link) => link.href);
 
 export function PortfolioStructuredData() {
   return (
@@ -28,25 +31,17 @@ export function PortfolioStructuredData() {
             "@id": `${SITE_ORIGIN}/#website`,
             url: SITE_ORIGIN,
             name: "Muhammad Taha Bin Zaeem",
-            alternateName: ["Taha Zaeem", "Taha Bin Zaeem", "tahabinzaeem"],
+            alternateName: NAME_VARIANTS,
             description:
               "The official portfolio of Muhammad Taha Bin Zaeem, a Computer Engineering undergraduate researching applied AI and building engineering systems.",
             inLanguage: "en-PK",
             publisher: { "@id": PERSON_ID },
           },
           {
-            "@type": "ProfilePage",
-            "@id": `${SITE_ORIGIN}/#profile`,
-            url: SITE_ORIGIN,
-            name: "Muhammad Taha Bin Zaeem | Engineering & Applied AI",
-            mainEntity: { "@id": PERSON_ID },
-            isPartOf: { "@id": `${SITE_ORIGIN}/#website` },
-          },
-          {
             "@type": "Person",
             "@id": PERSON_ID,
             name: PROFILE.name,
-            alternateName: ["Muhammad Taha", "Taha Zaeem", "Taha Bin Zaeem", "tahabinzaeem"],
+            alternateName: NAME_VARIANTS,
             url: SITE_ORIGIN,
             image: `${SITE_ORIGIN}${PROFILE.portrait.src}`,
             jobTitle: "Computer Engineering Undergraduate; Founder",
@@ -56,6 +51,14 @@ export function PortfolioStructuredData() {
               name: "Lahore, Punjab, Pakistan",
             },
             sameAs: profileUrls,
+            mainEntityOfPage: { "@id": `${SITE_ORIGIN}/#webpage` },
+            affiliation: {
+              "@type": "CollegeOrUniversity",
+              name: "National University of Sciences and Technology (NUST) · CEME",
+            },
+            hasCredential: CERTIFICATES.map((c) => ({
+              "@id": `${SITE_ORIGIN}/certifications#certificate-${c.id}`,
+            })),
             knowsAbout: [
               "Computer engineering",
               "Verilog",
@@ -77,10 +80,51 @@ export function PortfolioStructuredData() {
               },
             },
           },
+          ...SOCIAL_LINKS.filter((link) => link.kind === "product").map((link) => ({
+            "@type": "Organization",
+            "@id": `${link.href}/#organization`,
+            name: link.label,
+            url: link.href,
+            description: link.note,
+            founder: { "@id": PERSON_ID },
+          })),
         ],
       }}
     />
   );
+}
+
+// One current-page entity per document; embedded book chapters are not new pages.
+export function PageStructuredData({ path }: { path: SeoPath }) {
+  const page = SEO_PAGES[path];
+  const url = canonicalUrl(path);
+  const collection = ["/projects", "/research", "/certifications"].includes(path);
+  return <JsonLd value={{
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": path === "/" ? "ProfilePage" : path === "/connect" ? "ContactPage" : collection ? "CollectionPage" : "WebPage",
+        "@id": `${url}#webpage`,
+        url,
+        name: page.title,
+        description: page.description,
+        dateModified: page.modified,
+        inLanguage: "en-PK",
+        isPartOf: { "@id": `${SITE_ORIGIN}/#website` },
+        about: { "@id": PERSON_ID },
+        mainEntity: { "@id": collection ? `${url}#items` : PERSON_ID },
+        ...(path === "/" ? {} : { breadcrumb: { "@id": `${url}#breadcrumbs` } }),
+      },
+      ...(path === "/" ? [] : [{
+        "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumbs`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: AUTHOR_NAME, item: canonicalUrl("/") },
+          { "@type": "ListItem", position: 2, name: page.label, item: url },
+        ],
+      }]),
+    ],
+  }} />;
 }
 
 export function CollectionStructuredData({
@@ -102,19 +146,10 @@ export function CollectionStructuredData({
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@type": "CollectionPage",
-            "@id": `${pageUrl}#collection`,
-            url: pageUrl,
-            name,
-            description,
-            isPartOf: { "@id": `${SITE_ORIGIN}/#website` },
-            about: { "@id": PERSON_ID },
-            mainEntity: { "@id": `${pageUrl}#items` },
-          },
-          {
             "@type": "ItemList",
             "@id": `${pageUrl}#items`,
             name,
+            description,
             numberOfItems: items.length,
             itemListElement: items.map((item, index) => ({
               "@type": "ListItem",
@@ -126,7 +161,13 @@ export function CollectionStructuredData({
                 description: item.description,
                 url: item.url,
                 ...(item.sameAs?.length ? { sameAs: item.sameAs } : {}),
-                creator: { "@id": PERSON_ID },
+                ...(item.image ? { image: `${SITE_ORIGIN}${item.image}` } : {}),
+                ...(item.type === "EducationalOccupationalCredential"
+                  ? {
+                    credentialCategory: "Certificate",
+                    ...(item.issuer ? { recognizedBy: { "@type": "Organization", name: item.issuer } } : {}),
+                  }
+                  : { creator: { "@id": PERSON_ID } }),
               },
             })),
           },

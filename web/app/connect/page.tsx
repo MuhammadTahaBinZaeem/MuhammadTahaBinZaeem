@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "../seo";
+import { PageStructuredData } from "../seo-schema";
 import Link from "next/link";
 import { ALL_LINKS, CVS, DOSSIER, PUBLIC_REPOSITORIES } from "../dossier-data";
 import {
@@ -7,12 +8,7 @@ import {
   SectionHeading,
 } from "../components/notebook-ui";
 import { StoryMotion } from "../components/story-motion";
-export const metadata: Metadata = {
-  title: "Links, Contact & CVs",
-  description:
-    "All official profiles, project links, public repositories, contact details, and three downloadable CVs for Muhammad Taha Bin Zaeem.",
-  alternates: { canonical: "/connect" },
-};
+export const metadata = pageMetadata("/connect");
 const destinations = [
   ...ALL_LINKS,
   ...PUBLIC_REPOSITORIES.flatMap((r) =>
@@ -37,6 +33,7 @@ export function ConnectChapter({
   return (
     <StoryMotion disabled={embedded}>
       <Frame className="page-width">
+        {!embedded && <PageStructuredData path="/connect" />}
         <ChapterHeading
           level={embedded ? 2 : 1}
           number="07 / Links & CVs"
