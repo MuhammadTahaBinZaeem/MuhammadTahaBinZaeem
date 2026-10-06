@@ -191,11 +191,14 @@ export async function runBookChecks({
   const initialHeight = await cdp.evaluate(
     `Number(document.getElementById('projects').dataset.readDistance)`,
   );
+  const initialRevision = await cdp.evaluate(
+    `Number(document.querySelector('.living-book').dataset.layoutRevision)`,
+  );
   await cdp.evaluate(
     `document.querySelector('#engineering details').open=true`,
   );
   await until(
-    `Number(document.getElementById('projects').dataset.readDistance)>${initialHeight}`,
+    `Number(document.querySelector('.living-book').dataset.layoutRevision)>${initialRevision} && Number(document.getElementById('projects').dataset.readDistance)!==${initialHeight} && document.querySelector('#engineering details').open && document.querySelector('#engineering [data-scroll-scene]').dataset.sceneReady==='natural'`,
     "expanded content remeasured",
   );
   assert.equal((await state()).chapter, "projects");

@@ -264,8 +264,8 @@ try {
     report.screenshots.push(name + ".png");
   }
 
-  if (!process.env.POCKET_ONLY) await runGalleryChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
-  if (!process.env.GALLERY_ONLY) await runPocketChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
+  if (!process.env.POCKET_ONLY && !process.env.BOOK_ONLY) await runGalleryChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
+  if (!process.env.GALLERY_ONLY && !process.env.BOOK_ONLY) await runPocketChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
 
   for (const width of process.env.BOOK_ONLY || process.env.PROJECT_ONLY || process.env.GALLERY_ONLY || process.env.POCKET_ONLY ? [] : [320, 390, 768, 1440]) {
     await viewport(width);

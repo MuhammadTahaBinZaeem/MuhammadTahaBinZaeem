@@ -20,6 +20,7 @@ import {
 
 type Segment = { start: number; read: number; turn: number; height: number };
 type Jump = {
+  id: string;
   from: number;
   to: number;
   index: number;
@@ -428,10 +429,14 @@ export function BookExperience({ children }: { children: ReactNode }) {
           trigger.current?.refresh();
           if (pendingJump) {
             const destination = segments[pendingJump.index];
+            const target = document.getElementById(pendingJump.id);
+            const local = target && target !== panels[pendingJump.index]
+              ? targetPosition(target, pendingJump.index)
+              : pendingJump.local;
             moveTo(
               startTop() +
                 destination.start +
-                Math.min(pendingJump.local, destination.read),
+                Math.min(local, destination.read),
               true,
             );
           } else if (reflowAnchor?.node.isConnected) {
@@ -579,6 +584,9 @@ export function BookExperience({ children }: { children: ReactNode }) {
         }
         function go(id: string, addHistory = true) {
           if (id === "chapters") id = "atlas";
+          // A disclosure can change the rail's layout immediately before a
+          // chapter link is clicked. Resolve that layout before its target.
+          measure();
           if (id === "cover") {
             jump = undefined;
             moveTo(startTop(), !addHistory);
@@ -599,6 +607,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
           if (addHistory) history.pushState(null, "", "#" + id);
           if (Math.abs(to - from) > vh * 1.5) {
             jump = {
+              id,
               from,
               to,
               index,
