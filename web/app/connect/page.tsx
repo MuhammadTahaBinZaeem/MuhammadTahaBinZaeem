@@ -8,6 +8,7 @@ import {
   SectionHeading,
 } from "../components/notebook-ui";
 import { StoryMotion } from "../components/story-motion";
+import { EntryGallery } from "../components/gallery-image";
 export const metadata = pageMetadata("/connect");
 const destinations = [
   ...ALL_LINKS,
@@ -73,6 +74,7 @@ export function ConnectChapter({
                 </p>
                 <h3>{cv.title}</h3>
                 <p>{cv.description}</p>
+                <EntryGallery entry={cv} title={cv.title} />
                 <div className="link-row">
                   <a
                     className="text-link"

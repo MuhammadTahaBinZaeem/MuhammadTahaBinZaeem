@@ -109,56 +109,94 @@ export async function runPolishChecks({
       deltaX: 0,
       deltaY,
     });
+  assert.equal(
+    await cdp.evaluate(`document.querySelector('.living-book').dataset.smoothing`),
+    "native",
+    "The browser owns document scrolling",
+  );
+  await cdp.evaluate(`window.__portfolioWheelPrevented = false; document.addEventListener('wheel', event => { window.__portfolioWheelPrevented ||= event.defaultPrevented; }, { passive: true });`);
   await wheel(650);
-  await sleep(80);
-  const during = await cdp.evaluate("scrollY");
-  assert.ok(
-    during > before && during < before + 650 * 0.85,
-    "Wheel input is interpolated, not jumped",
-  );
   await until(
-    `document.querySelector('.living-book').dataset.smoothing==='idle'`,
-    "wheel settles",
+    `Math.abs(scrollY - ${before + 650}) < 3`,
+    "native forward wheel reaches unmodified destination",
   );
-  const after = await cdp.evaluate("scrollY");
-  assert.ok(
-    Math.abs(after - before - 650 * 0.85) < 3,
-    "Forward wheel destination is controlled",
+  assert.equal(
+    await cdp.evaluate("window.__portfolioWheelPrevented"),
+    false,
+    "Portfolio motion does not prevent the native wheel event",
   );
   await wheel(-650);
   await until(
-    `document.querySelector('.living-book').dataset.smoothing==='idle'`,
-    "reverse wheel settles",
-  );
-  assert.ok(
-    Math.abs((await cdp.evaluate("scrollY")) - before) < 3,
-    "Reverse wheel returns to same coordinate",
+    `Math.abs(scrollY - ${before}) < 3`,
+    "native reverse wheel returns to the same coordinate",
   );
   await wheel(750);
-  await sleep(85);
-  const reversalStart = await cdp.evaluate("scrollY");
+  await until(`Math.abs(scrollY - ${before + 750}) < 3`, "native forward gesture");
   await wheel(-1100);
-  await until(
-    `document.querySelector('.living-book').dataset.smoothing==='idle'`,
-    "mid-flight reversal settles",
-  );
-  assert.ok(
-    (await cdp.evaluate("scrollY")) < reversalStart,
-    "Opposite input reverses momentum",
-  );
+  await until(`Math.abs(scrollY - ${before - 350}) < 3`, "native direction reversal");
   const idle = await cdp.evaluate("scrollY");
   await sleep(250);
-  assert.equal(await cdp.evaluate("scrollY"), idle, "No idle scroll drift");
-  await wheel(750);
-  await sleep(85);
-  await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", key: "Escape", code: "Escape" });
-  await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", key: "Escape", code: "Escape" });
-  const cancelled = await cdp.evaluate("scrollY");
-  await sleep(250);
-  assert.equal(await cdp.evaluate("scrollY"), cancelled, "Escape stops pending wheel momentum");
+  assert.equal(await cdp.evaluate("scrollY"), idle, "No scripted idle scroll drift");
   report.checks.push(
-    "Real wheel input smooths forward and backward, reverses mid-flight, reaches the requested coordinate and sleeps without idle drift; Escape cancels pending momentum.",
+    "Wheel input remains native: no prevented events, no changed wheel multiplier, reversible vertical coordinates and no scripted idle drift.",
   );
+
+  await seek("projects");
+  const rail = await cdp.evaluate(`(()=>{const scene=document.querySelector('#projects [data-scroll-scene="horizontal"]');if(!scene||scene.dataset.sceneReady!=='book')return null;const body=scene.closest('.book-content'),world=scene.closest('.book-world'),viewport=scene.querySelector('[data-scroll-viewport]'),track=scene.querySelector('[data-scroll-track]');return{top:scene.getBoundingClientRect().top-body.getBoundingClientRect().top,start:Number(world.dataset.scrollStart),distance:scene.offsetHeight-viewport.offsetHeight,travel:track.scrollWidth-viewport.clientWidth};})()`);
+  if (rail) {
+    const at = rail.start + rail.top;
+    await cdp.evaluate(`scrollTo({top:${at + rail.distance * 0.3},behavior:'instant'})`);
+    await sleep(100);
+    const earlier = await cdp.evaluate(`({x:new DOMMatrixReadOnly(getComputedStyle(document.querySelector('#projects [data-scroll-track]')).transform).m41,top:document.querySelector('#projects [data-scroll-viewport]').getBoundingClientRect().top})`);
+    await cdp.evaluate(`scrollTo({top:${at + rail.distance * 0.7},behavior:'instant'})`);
+    await sleep(100);
+    const later = await cdp.evaluate(`new DOMMatrixReadOnly(getComputedStyle(document.querySelector('#projects [data-scroll-track]')).transform).m41`);
+    assert.ok(later > earlier.x + rail.travel * 0.2, "Vertical input drives left-to-right project storytelling");
+    assert.ok(Math.abs(await cdp.evaluate(`document.querySelector('#projects [data-scroll-viewport]').getBoundingClientRect().top`) - earlier.top) < 3, "Horizontal viewport holds position during the reading interval");
+    await screenshot("engineering-horizontal-scene");
+    report.checks.push("The engineering rail travels left-to-right while its viewport holds position, driven by ordinary vertical document scroll.");
+
+    const detail = await cdp.evaluate(`(()=>{const node=[...document.querySelectorAll('#projects [data-scroll-track] details')].find(d=>{const r=d.querySelector('summary').getBoundingClientRect();return r.left>0&&r.right<innerWidth&&r.top>28&&r.bottom<innerHeight-100});return node?{id:node.closest('article').id,top:node.querySelector('summary').getBoundingClientRect().top}:null})()`);
+    if (detail) {
+      const selector = JSON.stringify("#" + detail.id + " details");
+      await cdp.evaluate(`document.querySelector(${selector}).open=true`);
+      await until(`document.querySelector('#projects [data-scroll-scene]').dataset.sceneReady==='natural'`, "Expanded rail evidence uses normal document flow");
+      await sleep(180);
+      assert.ok(Math.abs(await cdp.evaluate(`document.querySelector(${selector}).querySelector('summary').getBoundingClientRect().top`) - detail.top) < 3, "Opening rail evidence preserves its reading position");
+      await cdp.evaluate(`document.querySelector(${selector}).open=false`);
+      await until(`document.querySelector('#projects [data-scroll-scene]').dataset.sceneReady==='book'`, "Closing evidence restores the cinematic rail");
+      assert.ok(Math.abs(await cdp.evaluate(`document.querySelector(${selector}).querySelector('summary').getBoundingClientRect().top`) - detail.top) < 3, "Closing evidence preserves its reading position");
+
+      await navigate("projects");
+      await until(`document.querySelector('[data-scroll-scene]').dataset.sceneReady==='scroll'`, "Direct chapter horizontal scene ready");
+      await cdp.evaluate(`document.querySelector(${selector}).querySelector('summary').focus({preventScroll:true})`);
+      await sleep(180);
+      const directTop = await cdp.evaluate(`document.querySelector(${selector}).querySelector('summary').getBoundingClientRect().top`);
+      await cdp.evaluate(`document.querySelector(${selector}).open=true`);
+      await until(`document.querySelector('[data-scroll-scene]').dataset.sceneReady==='natural'`, "Direct chapter expanded evidence uses normal flow");
+      await sleep(180);
+      assert.ok(Math.abs(await cdp.evaluate(`document.querySelector(${selector}).querySelector('summary').getBoundingClientRect().top`) - directTop) < 3, "Direct chapter evidence preserves its reading position");
+      await cdp.evaluate(`document.querySelector(${selector}).open=false`);
+      await until(`document.querySelector('[data-scroll-scene]').dataset.sceneReady==='scroll'`, "Direct chapter evidence closes into the rail");
+      const naturalRail = async (label) => {
+        await until(`(()=>{const scene=document.querySelector('[data-scroll-scene]'),track=scene.querySelector('[data-scroll-track]');return !scene.dataset.sceneReady&&getComputedStyle(track).display==='grid'})()`, label + " uses a vertical project list");
+        const state = await cdp.evaluate(`(()=>{const viewport=document.querySelector('[data-scroll-viewport]'),track=document.querySelector('[data-scroll-track]');return {horizontal:viewport.scrollWidth>viewport.clientWidth+1,transform:getComputedStyle(track).transform,overflow:getComputedStyle(viewport).overflowX}})()`);
+        assert.equal(state.horizontal, false, label + " requires no horizontal input");
+        assert.equal(state.transform, "none", label + " leaves every project in normal document flow");
+        assert.equal(state.overflow, "visible", label + " does not clip the project list");
+      };
+      await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
+      await naturalRail("Direct reduced-motion edition");
+      await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "no-preference" }] });
+      await until(`document.querySelector('[data-scroll-scene]').dataset.sceneReady==='scroll'`, "Full motion restores direct project storytelling");
+      await cdp.evaluate(`document.documentElement.dataset.motion='quiet'`);
+      await naturalRail("Direct quiet-motion edition");
+      await cdp.evaluate(`document.documentElement.dataset.motion='full'`);
+      await until(`document.querySelector('[data-scroll-scene]').dataset.sceneReady==='scroll'`, "Quiet mode can return to full motion");
+      await navigate("");
+      report.checks.push("Expanded engineering evidence keeps its summary in view on both routes; reduced and quiet direct editions use an unclipped vertical project list and can return to full motion.");
+    }
+  }
 
   await seek("atlas", 0.25);
   const hovered = await cdp.evaluate(

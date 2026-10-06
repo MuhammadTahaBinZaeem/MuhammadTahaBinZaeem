@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { SOCIAL_LINKS } from "./portfolio-data";
+import { SOCIAL_LINKS, type SocialLink } from "./portfolio-data";
 import { SITE_ORIGIN } from "./site-config";
 
 export const AUTHOR_NAME = "Muhammad Taha Bin Zaeem";
 export const NAME_VARIANTS = ["Taha Zaeem", "Taha Bin Zaeem", "tahabinzaeem", "MuhammadTahaBinZaeem"];
-export const IDENTITY_LINKS = SOCIAL_LINKS.filter((link) => link.kind !== "product");
+export const IDENTITY_LINKS = SOCIAL_LINKS.filter(
+  (link): link is SocialLink & { href: string } => link.kind !== "product" && !!link.href,
+);
 
 // Editorial dates: update only when the corresponding page materially changes.
 // Never manufacture freshness from the request time or a periodic rebuild.
@@ -13,49 +15,49 @@ export const SEO_PAGES = {
     label: "Home",
     title: `${AUTHOR_NAME} | Taha Zaeem — Engineering & Applied AI`,
     description: "Muhammad Taha Bin Zaeem (Taha Zaeem): NUST computer engineering undergraduate, Type2Learn and ProGenEDA founder. Projects, research, credentials and contact.",
-    modified: "2026-09-13",
+    modified: "2026-10-07",
   },
   "/projects": {
     label: "Projects",
     title: `Projects | ${AUTHOR_NAME}`,
     description: "Explore Muhammad Taha Bin Zaeem’s ParetoCo, ProGenEDA, Type2Learn, Pocket Engineer, 20-bit CPU and MIPS chess, with source code and project evidence.",
-    modified: "2026-09-13",
+    modified: "2026-10-07",
   },
   "/research": {
     label: "Research",
     title: `Applied AI Research | ${AUTHOR_NAME}`,
     description: "Muhammad Taha Bin Zaeem’s ongoing research in LLM evaluation, authorial style and EDA change attribution. Read the methods, controls and unpublished status.",
-    modified: "2026-09-13",
+    modified: "2026-10-07",
   },
   "/experience": {
     label: "Experience & community",
     title: `Experience & Community | ${AUTHOR_NAME}`,
     description: "Muhammad Taha Bin Zaeem’s founder work, software internships, project teammates, NUST technical workshops and student-society leadership.",
-    modified: "2026-09-13",
+    modified: "2026-10-07",
   },
   "/education": {
     label: "Education & skills",
     title: `Education & Skills | ${AUTHOR_NAME}`,
     description: "Muhammad Taha Bin Zaeem’s computer engineering studies at NUST CEME, GCU Lahore education, and toolkit spanning software, electronics and applied AI.",
-    modified: "2026-09-13",
+    modified: "2026-10-07",
   },
   "/certifications": {
     label: "Certifications",
     title: `Certifications | ${AUTHOR_NAME}`,
     description: "Muhammad Taha Bin Zaeem’s 14 credentials: machine learning, Duke critical thinking, game theory, cybersecurity and AI. Original certificates and verification.",
-    modified: "2026-09-13",
+    modified: "2026-10-07",
   },
   "/achievements": {
     label: "Achievements",
     title: `Achievements | ${AUTHOR_NAME}`,
     description: "Muhammad Taha Bin Zaeem’s milestones: Type2Learn’s P@SHA 2026 finalist selection, SEMPEC second runner-up, STEM recognition and academic honors, with evidence.",
-    modified: "2026-09-13",
+    modified: "2026-10-07",
   },
   "/connect": {
     label: "Contact, profiles & CVs",
     title: `Contact & CVs | ${AUTHOR_NAME}`,
     description: "Contact Muhammad Taha Bin Zaeem (Taha Zaeem). Official GitHub, LinkedIn, Devpost and lablab.ai profiles, project websites and three downloadable CVs.",
-    modified: "2026-09-13",
+    modified: "2026-10-07",
   },
 } as const;
 

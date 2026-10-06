@@ -64,7 +64,8 @@ export function SectionHeading({
   );
 }
 export function NextChapter({ href }: { href: string }) {
-  const chapter = CHAPTERS.find((c) => c.href === href)!;
+  const chapter = CHAPTERS.find((c) => c.href === href);
+  if (!chapter) return null;
   return (
     <Link href={href} className="next-chapter" prefetch={false}>
       <span className="eyebrow">Keep turning pages / {chapter.number}</span>

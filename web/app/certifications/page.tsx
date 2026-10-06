@@ -1,7 +1,7 @@
 import { pageMetadata } from "../seo";
 import { PageStructuredData } from "../seo-schema";
 import type { CSSProperties } from "react";
-import { CERTIFICATES } from "../portfolio-data";
+import { CERTIFICATES, CERTIFICATE_GROUPS } from "../portfolio-data";
 import { StoryMotion } from "../components/story-motion";
 import {
   ChapterHeading,
@@ -11,51 +11,9 @@ import {
 } from "../components/notebook-ui";
 import { CollectionStructuredData } from "../seo-schema";
 import { SITE_ORIGIN } from "../site-config";
-import { GalleryImage } from "../components/gallery-image";
+import { GalleryImage, type GalleryAsset } from "../components/gallery-image";
 export const metadata = pageMetadata("/certifications");
-const groups = [
-  {
-    id: "stanford",
-    name: "Stanford Online & DeepLearning.AI",
-    color: "#8e342c",
-    filter: (s: string) => /learning/.test(s),
-  },
-  {
-    id: "duke",
-    name: "Duke University",
-    color: "#374e68",
-    filter: (s: string) => s.startsWith("think-again"),
-  },
-  {
-    id: "game-theory",
-    name: "Stanford University & UBC",
-    color: "#74512e",
-    filter: (s: string) => s === "game-theory",
-  },
-  {
-    id: "google",
-    name: "Google · Cybersecurity",
-    color: "#376045",
-    filter: (s: string) =>
-      [
-        "foundations-of-cybersecurity",
-        "play-it-safe",
-        "connect-and-protect",
-      ].includes(s),
-  },
-  {
-    id: "coursera",
-    name: "Coursera · Guided project",
-    color: "#5b5740",
-    filter: (s: string) => s === "wordpress-project",
-  },
-  {
-    id: "lablab",
-    name: "lablab.ai · AI Genesis",
-    color: "#995235",
-    filter: (s: string) => s === "ai-genesis-completion",
-  },
-];
+const groups = CERTIFICATE_GROUPS;
 export function CertificationsChapter({
   embedded = false,
 }: { embedded?: boolean } = {}) {
@@ -88,7 +46,7 @@ export function CertificationsChapter({
         <nav className="section-nav" aria-label="Certificate issuers">
           {groups.map((g) => (
             <a key={g.id} href={"#issuer-" + g.id}>
-              {g.id === "game-theory" ? "Game theory" : g.name.split(" · ")[0]}{" "}
+              {g.navLabel || g.name.split(" · ")[0]}{" "}
               ↓
             </a>
           ))}
@@ -108,19 +66,18 @@ export function CertificationsChapter({
             style={{ "--group-ink": g.color } as CSSProperties}
           >
             <h2>{g.name}</h2>
-            {g.id === "duke" && (
+            {g.summary && (
               <div className="credential-summary">
                 <h3>
-                  Introduction to Logic and Critical Thinking Specialization
+                  {g.summary.title}
                 </h3>
                 <p>
-                  Completed July 2026. Explore the four individual Think Again
-                  course certificates below.
+                  {g.summary.copy}
                 </p>
               </div>
             )}
             <div className="certificate-grid">
-              {CERTIFICATES.filter((c) => g.filter(c.id)).map((c) => (
+              {CERTIFICATES.filter((c) => c.groupId === g.id).map((c) => (
                 <article
                   className="certificate-sheet"
                   id={"certificate-" + c.id}
@@ -129,7 +86,10 @@ export function CertificationsChapter({
                 >
                   <figure>
                     <GalleryImage image={c.preview} title={g.name}
-                      images={CERTIFICATES.filter((entry) => g.filter(entry.id)).map((entry) => ({ ...entry.preview, caption: `${entry.title} · ${entry.issuer} · ${entry.issued}` }))} />
+                      images={CERTIFICATES.filter((entry) => entry.groupId === g.id).flatMap((entry) => [
+                        { ...entry.preview, caption: `${entry.title} · ${entry.issuer} · ${entry.issued}` },
+                        ...((entry as { media?: readonly GalleryAsset[] }).media || []),
+                      ])} />
                   </figure>
                   <h3>{c.title}</h3>
                   <p>

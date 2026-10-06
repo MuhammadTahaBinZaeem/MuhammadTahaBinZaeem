@@ -11,6 +11,7 @@ import {
   ExternalLink,
 } from "../components/notebook-ui";
 import { StoryMotion } from "../components/story-motion";
+import { EntryGallery } from "../components/gallery-image";
 export const metadata = pageMetadata("/experience");
 export function ExperienceChapter({
   embedded = false,
@@ -47,6 +48,7 @@ export function ExperienceChapter({
               <div>
                 <h3>{person.name}</h3>
                 <p>{person.note}</p>
+                <EntryGallery entry={person} title={person.name} className="collaborator-evidence" />
                 <div className="collaborator-projects">{person.projects.map((project) => <Link key={project.href} href={project.href}>{project.name} ↗</Link>)}</div>
                 <div className="link-row">
                   {person.profile && <ExternalLink href={person.profile}>{person.platform} profile</ExternalLink>}
@@ -61,13 +63,14 @@ export function ExperienceChapter({
             eyebrow="01 / Founder work"
             title="From intent to responsibility."
           />
-          {FEATURED.filter((p) => p.id === "progeneda" || p.id === "type2learn").map((p) => (
+          {FEATURED.filter((p) => p.founderWork).map((p) => (
             <article className="timeline-entry" key={p.id} data-reveal>
-              <p className="timeline-date">July 2026–present</p>
+              <p className="timeline-date">{p.founderPeriod}</p>
               <div>
                 <h2>{p.title}</h2>
                 <h3>{p.role.split(" · ")[0]}</h3>
                 <p>{p.summary}</p>
+                <EntryGallery entry={p} title={p.title} />
                 <Link className="text-link" href={"/projects#" + p.id}>
                   Read the project and validation record ↗
                 </Link>
@@ -87,7 +90,8 @@ export function ExperienceChapter({
                 <h2>{e.organization}</h2>
                 <h3>{e.role}</h3>
                 <p>{e.description}</p>
-                {"href" in e && (
+                <EntryGallery entry={e} title={e.organization} />
+                {e.href && (
                   <ExternalLink href={e.href}>
                     Internship source archive
                   </ExternalLink>
@@ -112,6 +116,7 @@ export function ExperienceChapter({
                     <li key={d}>{d}</li>
                   ))}
                 </ul>
+                <EntryGallery entry={e} title={e.organization} />
               </div>
             </article>
           ))}

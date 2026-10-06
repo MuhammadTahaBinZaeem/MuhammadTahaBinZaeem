@@ -5,7 +5,10 @@ import { BOOK_WORLDS } from "./book-data";
 import { CHAPTERS } from "./dossier-data";
 import { IDENTITY_LINKS } from "./seo";
 import { PageStructuredData } from "./seo-schema";
-import { GalleryImage } from "./components/gallery-image";
+import { HOME_INTRO } from "./homepage-data";
+import { OrbitalPortrait } from "./components/orbital-portrait";
+import { FEATURED } from "./dossier-data";
+import { ACHIEVEMENTS, CERTIFICATES } from "./portfolio-data";
 import { ProjectsChapter } from "./projects/page";
 import { ResearchChapter } from "./research/page";
 import { ExperienceChapter } from "./experience/page";
@@ -15,88 +18,50 @@ import { AchievementsChapter } from "./achievements/page";
 import { ConnectChapter } from "./connect/page";
 import "./storybook.css";
 
-const PORTRAITS = [
-  { src: "/media/identity/muhammad-taha-studio-portrait.webp", width: 988, height: 970, alt: "Muhammad Taha Bin Zaeem · studio portrait" },
-  { src: "/media/identity/muhammad-taha-mountain-field-note.webp", width: 1058, height: 1086, alt: "Muhammad Taha Bin Zaeem · in the mountains" },
-];
-
 function Foreword() {
   return (
     <div className="foreword-leaves">
       <section className="foreword-spread">
-        <div className="foreword-copy">
-          <p className="book-kicker">Foreword / Muhammad Taha Bin Zaeem</p>
-          <span className="hand-note">Curiosity, put to work.</span>
-          <h2>
-            A mind
-            <br />
-            between
-            <br />
-            <em>worlds.</em>
-          </h2>
-          <p>
-            Hardware. Software. The very human question of <em>what if?</em>
-          </p>
-          <span className="foreword-signature">Taha.</span>
+        <div className="foreword-copy" data-reveal>
+          <p className="book-kicker">{HOME_INTRO.kicker}</p>
+          <span className="hand-note">{HOME_INTRO.note}</span>
+          <h2>{HOME_INTRO.title.map((line, index) => <span key={line}>{index === HOME_INTRO.title.length - 1 ? <em>{line}</em> : line}</span>)}</h2>
+          <p>{HOME_INTRO.lead}</p>
+          <span className="foreword-signature">{HOME_INTRO.signature}</span>
+          <a href="#projects" className="foreword-action">Enter the workshop <span aria-hidden="true">↗</span></a>
         </div>
-        <figure className="foreword-desk" data-book-drift>
-          <GalleryImage title="The workbench" eager image={{ src: "/art/notebook/workbench.svg", width: 960, height: 760, alt: "Pen-and-ink drawing of a workbench, circuit, pencil and an open notebook" }} />
-          <figcaption>
-            Fig. 00 — Somewhere between an idea and a working thing.
-          </figcaption>
-        </figure>
+        <div className="foreword-desk" data-book-drift>
+          <OrbitalPortrait images={HOME_INTRO.portraits} />
+        </div>
         <div className="foreword-margin">
           <span>COMPUTER ENGINEERING / NUST CEME</span>
           <span>PAKISTAN · FIELD NOTES IN PROGRESS</span>
         </div>
-        <p className="foreword-scroll">
-          Let the page move you. <span>↓</span>
-        </p>
+        <p className="foreword-scroll">Let the page move you. <span>↓</span></p>
       </section>
       <section className="foreword-manifesto">
-        <figure className="book-portrait" data-paper>
-          <GalleryImage title="Muhammad Taha Bin Zaeem" image={PORTRAITS[0]} images={PORTRAITS} />
-          <figcaption>The person behind these pages.</figcaption>
-        </figure>
+        <div className="foreword-ledger" data-reveal>
+          <p className="book-kicker">Ideas become things.</p>
+          {[
+            { count: FEATURED.length, label: "Flagship projects", href: "#projects" },
+            { count: CERTIFICATES.length, label: "Learning records", href: "#certifications" },
+            { count: ACHIEVEMENTS.length, label: "Competition & school honors", href: "#achievements" },
+          ].map((item) => <a href={item.href} key={item.label}><strong>{String(item.count).padStart(2, "0")}</strong><span>{item.label}</span><i aria-hidden="true">↗</i></a>)}
+          <span className="hand-note">Follow the evidence.</span>
+        </div>
         <div data-reveal>
           <p className="book-kicker">A note in the margin</p>
-          <h2>
-            Build something.
-            <br />
-            <em>Then question it.</em>
-          </h2>
-          <p>
-            I’m Muhammad Taha Bin Zaeem — Taha Zaeem for short. A Computer
-            Engineering undergraduate at NUST CEME, founder of{" "}
-            <a href="https://progeneda.app">ProGenEDA ↗</a> and{" "}
-            <a href="https://type2learn.tech">Type2Learn ↗</a>, and co-creator
-            of{" "}
-            <a href="https://github.com/MuhammadTahaBinZaeem/ParetCo">
-              ParetoCo ↗
-            </a>
-            .
-          </p>
-          <p>
-            My work moves between processors, applied AI, accessible learning,
-            and the evidence that makes a system worth trusting.
-          </p>
+          <h2>{HOME_INTRO.manifesto[0]}<br /><em>{HOME_INTRO.manifesto[1]}</em></h2>
+          <p>{HOME_INTRO.biography}</p>
+          <div className="intro-ventures">{HOME_INTRO.links.map((link) => <a href={link.href} key={link.href}><small>{link.role}</small><strong>{link.label} <span aria-hidden="true">↗</span></strong></a>)}</div>
           <nav className="foreword-profiles" aria-label="Muhammad Taha Bin Zaeem’s official profiles">
-            {IDENTITY_LINKS.map((link) => (
-              <a key={link.id} href={link.href} rel="me">{link.label} ↗</a>
-            ))}
+            {IDENTITY_LINKS.map((link) => <a key={link.id} href={link.href} rel="me">{link.label} ↗</a>)}
           </nav>
-          <p className="hand-note">
-            This isn’t a finished story.
-            <br />
-            That’s the interesting part.
-          </p>
+          <p className="hand-note">Field notes in progress.<br />There’s always another question.</p>
         </div>
       </section>
-      <section className="foreword-instruction">
-        <span>fetch curiosity</span>
-        <span>decode possibility</span>
-        <span>execute an idea</span>
-        <span>repeat.</span>
+      <section className="foreword-instruction" aria-label="The creative process">
+        {HOME_INTRO.process.map((step, index) => <span key={step}><small>{String(index + 1).padStart(2, "0")}</small>{step}</span>)}
       </section>
     </div>
   );
@@ -118,8 +83,9 @@ function Atlas() {
         </p>
       </header>
       <div className="atlas-leaves">
-        {CHAPTERS.map((chapter, index) => {
-          const world = BOOK_WORLDS[index + 2];
+        {CHAPTERS.map((chapter) => {
+          const world = BOOK_WORLDS.find((world) => chapter.href === "/" + world.id);
+          if (!world) return null;
           return (
             <a
               className={"atlas-leaf atlas-leaf-" + world.id}
@@ -171,17 +137,19 @@ function Atlas() {
   );
 }
 export default function Home() {
-  const chapters = [
-    <Foreword key="foreword" />,
-    <Atlas key="atlas" />,
-    <ProjectsChapter embedded key="projects" />,
-    <ResearchChapter embedded key="research" />,
-    <ExperienceChapter embedded key="experience" />,
-    <EducationChapter embedded key="education" />,
-    <CertificationsChapter embedded key="certifications" />,
-    <AchievementsChapter embedded key="achievements" />,
-    <ConnectChapter embedded key="connect" />,
-  ];
+  // BOOK_WORLDS controls the order. This registry keeps each chapter attached
+  // to its ID when you reorder or remove a world in book-data.ts.
+  const chapters = {
+    foreword: <Foreword />,
+    atlas: <Atlas />,
+    projects: <ProjectsChapter embedded />,
+    research: <ResearchChapter embedded />,
+    experience: <ExperienceChapter embedded />,
+    education: <EducationChapter embedded />,
+    certifications: <CertificationsChapter embedded />,
+    achievements: <AchievementsChapter embedded />,
+    connect: <ConnectChapter embedded />,
+  };
   return (
     <>
     <PageStructuredData path="/" />
@@ -202,7 +170,7 @@ export default function Home() {
           }
         >
           <div className="book-content">
-            {chapters[index]}
+            {chapters[world.id]}
             <div className="world-last-line">
               <span>
                 {index < BOOK_WORLDS.length - 1

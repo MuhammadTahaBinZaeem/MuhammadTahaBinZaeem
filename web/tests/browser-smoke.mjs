@@ -12,7 +12,7 @@ import { runGalleryChecks } from "./gallery-checks.mjs";
 // Uses an installed Chrome/Chromium; no extra browser dependency or download.
 const base = process.env.TEST_BASE_URL || "http://localhost:3000";
 const root = fileURLToPath(new URL("../../", import.meta.url));
-const output = path.join(root, "qa-artifacts", "book-browser");
+const output = process.env.TEST_OUTPUT_DIR || path.join(root, "qa-artifacts", "book-browser");
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const routes = [
   "",
@@ -25,6 +25,29 @@ const routes = [
   "connect",
 ];
 const report = { checks: [], screenshots: [], errors: [], performance: {} };
+// Readiness follows the pixels a screenshot can contain. In a horizontal rail,
+// vertically aligned images can remain thousands of pixels outside its clip.
+const visibleImages = `Array.from(document.images).filter(image => {
+  if (image.closest('details:not([open])')) return false;
+  const bounds = image.getBoundingClientRect();
+  if (bounds.width <= 0 || bounds.height <= 0) return false;
+  let left = Math.max(0, bounds.left), right = Math.min(innerWidth, bounds.right);
+  let top = Math.max(0, bounds.top), bottom = Math.min(innerHeight, bounds.bottom);
+  for (let node = image; node; node = node.parentElement) {
+    const style = getComputedStyle(node);
+    if (style.visibility === 'hidden' || style.visibility === 'collapse' || style.display === 'none' || Number(style.opacity) === 0) return false;
+    const clip = node.getBoundingClientRect();
+    const paintContained = /(?:paint|strict|content)/.test(style.contain);
+    if (paintContained || /^(hidden|clip|scroll|auto)$/.test(style.overflowX)) {
+      left = Math.max(left, clip.left); right = Math.min(right, clip.right);
+    }
+    if (paintContained || /^(hidden|clip|scroll|auto)$/.test(style.overflowY)) {
+      top = Math.max(top, clip.top); bottom = Math.min(bottom, clip.bottom);
+    }
+    if (right <= left || bottom <= top) return false;
+  }
+  return right > left && bottom > top;
+})`;
 
 async function browserPath() {
   if (process.env.BROWSER_PATH) return process.env.BROWSER_PATH;
@@ -212,13 +235,19 @@ try {
   async function screenshot(name) {
     // Allow real lazy images to finish before judging the composition.
     if (!name.includes("tearing") && !name.includes("without-javascript")) {
-      await until(
-        `Array.from(document.images).filter(i=>{const r=i.getBoundingClientRect();return !i.closest('details:not([open])')&&getComputedStyle(i).visibility!=='hidden'&&r.width>0&&r.bottom>0&&r.top<innerHeight;}).every(i=>i.complete&&i.naturalWidth>0)`,
-        "visible images: " + name,
-      );
+      try {
+        await until(
+          `${visibleImages}.every(i=>i.complete&&i.naturalWidth>0)`,
+          "visible images: " + name,
+        );
+      } catch (error) {
+        report.imageReadinessFailure = await cdp.evaluate(`(()=>({name:${JSON.stringify(name)},scrollY,chapter:document.querySelector('.living-book')?.dataset.chapter,images:${visibleImages}.filter(i=>!(i.complete&&i.naturalWidth>0)).map(i=>({src:i.currentSrc||i.src,loading:i.loading,complete:i.complete,naturalWidth:i.naturalWidth,bounds:i.getBoundingClientRect().toJSON(),world:i.closest('.book-world')?.id,ancestors:(()=>{const nodes=[];for(let node=i.parentElement;node&&nodes.length<8;node=node.parentElement){const style=getComputedStyle(node);nodes.push({className:node.className,bounds:node.getBoundingClientRect().toJSON(),overflowX:style.overflowX,overflowY:style.overflowY,visibility:style.visibility,opacity:style.opacity})}return nodes})()}))}))()`);
+        console.error(JSON.stringify(report.imageReadinessFailure, null, 2));
+        throw error;
+      }
       // Network completion does not guarantee async image decoding or painting.
       await cdp.evaluate(`(async()=>{
-        const visible=Array.from(document.images).filter(i=>{const r=i.getBoundingClientRect();return !i.closest('details:not([open])')&&getComputedStyle(i).visibility!=='hidden'&&r.width>0&&r.bottom>0&&r.top<innerHeight;});
+        const visible=${visibleImages};
         await Promise.all(visible.map(i=>i.decode()));
         await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
         await Promise.all((document.querySelector('.gallery-full-image')?.getAnimations()||[]).map(animation=>animation.finished));
@@ -235,10 +264,10 @@ try {
     report.screenshots.push(name + ".png");
   }
 
-  await runGalleryChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
+  if (!process.env.POCKET_ONLY) await runGalleryChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
   if (!process.env.GALLERY_ONLY) await runPocketChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
 
-  for (const width of process.env.BOOK_ONLY || process.env.PROJECT_ONLY || process.env.GALLERY_ONLY ? [] : [320, 390, 768, 1440]) {
+  for (const width of process.env.BOOK_ONLY || process.env.PROJECT_ONLY || process.env.GALLERY_ONLY || process.env.POCKET_ONLY ? [] : [320, 390, 768, 1440]) {
     await viewport(width);
     for (const route of routes) {
       await navigate(route);
@@ -256,12 +285,12 @@ try {
       await screenshot(`${route || "home"}-${width}`);
     }
   }
-  if (!process.env.BOOK_ONLY && !process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY)
+  if (!process.env.BOOK_ONLY && !process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY && !process.env.POCKET_ONLY)
     report.checks.push(
       "Eight routes at 320, 390, 768 and 1440 pixels; no overflow or broken images.",
     );
 
-  if (!process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY) await runBookChecks({
+  if (!process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY && !process.env.POCKET_ONLY) await runBookChecks({
     cdp,
     navigate,
     viewport,

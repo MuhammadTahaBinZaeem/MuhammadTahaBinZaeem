@@ -82,7 +82,7 @@ Automated checks cannot judge composition. Before publishing, capture and inspec
 - `/` — boot veil and settled threshold;
 - `/projects?focus=vector-cpu`, `/projects?focus=debate-club`, and `/projects?focus=arduino-robot-car`;
 - `/certifications?focus=think-again-i`, `/certifications?focus=machine-learning-specialization`, and `/certifications?focus=foundations-of-cybersecurity`;
-- `/achievements?focus=sempec-junior-hardware-runner-up` and `/achievements?focus=stem-2024-runner-up-photo-story`;
+- `/achievements?focus=sempec-junior-hardware-runner-up` and `/achievements?focus=stem-2024-runner-up`;
 - `/education?focus=nust`, `/education?focus=gcu-lahore`, and `/education?focus=qazi-grammar`;
 - the mobile menu opened, keyboard focus, portal transition, and `prefers-reduced-motion: reduce` fallback.
 

@@ -58,3 +58,11 @@ Its original application screenshot comes from `docs/evidence/2026-09-06/layout-
 The previous `project-algebraic-expression-solver` anchor, build notes and three evidence images remain inside the promoted feature. It is no longer shown as a second engineering card or duplicate structured-data item. The 825,000-case corpus is described as regression snapshots, not independent proofs; offline preparation and bounded input contracts remain explicit.
 
 The main page introduces the story and links to chapters. It does not flatten certifications, achievements, projects and education into one long résumé page. Final section ordering can be changed independently of this coverage.
+
+
+## Portfolio correction and editing update — 7 October 2026
+
+- Removed the meeting achievement and its photograph from the rendered data, media manifest, and public asset directory. The recorded GCU science-society leadership remains a separate factual role.
+- The 1st All-Pakistan STEM Project Competition and STEM 2024 runner-up result are one achievement. Its documentary photograph shows the PKR 20,000 cheque and trophies. The former competition cover now belongs in the SEMPEC Junior Hardware gallery, which contains three actual photographs.
+- The owner-selected collaborator order is Muhammad Hamiz bin Kashif, Alizay Hassan, Lameea Mubashir Khan, Idrees Babar, Muhammad Fahad Younus, and Tooba Fatima. Existing verified GitHub profiles and CPU roles are retained. Hamiz and Fahad use their verified [lablab.ai profiles](https://lablab.ai/u/%40Hamiz_Kashif) ([Fahad](https://lablab.ai/u/%40fahadyounus62)); the [Type2Learn team](https://type2learn.tech/team/) documents engineering, AI, product, research and UI/UX responsibilities. Tooba's profile remains unset.
+- P@SHA spotlights, issuer grouping, founder-work eligibility, education context and galleries now come from data. [CUSTOMIZATION.md](docs/CUSTOMIZATION.md) covers editing and reorder examples. The campus-banner art is captioned as illustration, distinct from documentary evidence.

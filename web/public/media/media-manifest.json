@@ -501,18 +501,8 @@
       "bytes": 86538,
       "format": "webp"
     },
-    "meeting-dr-samar-mubarakmand": {
-      "label": "Meeting with Dr. Samar Mubarakmand",
-      "publicPath": "/media/achievements/meeting-dr-samar-mubarakmand.webp",
-      "dimensions": {
-        "width": 1450,
-        "height": 1085
-      },
-      "bytes": 97542,
-      "format": "webp"
-    },
     "stem-judging-session": {
-      "label": "STEM project judging session",
+      "label": "SEMPEC Junior Hardware project judging session",
       "publicPath": "/media/achievements/stem-judging-session.webp",
       "dimensions": {
         "width": 1182,
@@ -582,6 +572,47 @@
       },
       "bytes": 148902,
       "format": "webp"
+    }
+  },
+  "modifiedOn": "2026-10-07",
+  "generatedArtwork": {
+    "gcu-campus-art": {
+      "label": "Illustrated architectural study of Government College University Lahore",
+      "publicPath": "/media/education/gcu-campus-art.webp",
+      "dimensions": {
+        "width": 1800,
+        "height": 600
+      },
+      "bytes": 392412,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-07",
+      "reference": "https://gcu.edu.pk/uploads/images/2021-07-0817967.jpg",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1800
+      },
+      "role": "Decorative illustration"
+    },
+    "nust-ceme-campus-art": {
+      "label": "Illustrated architectural study of NUST CEME Rawalpindi",
+      "publicPath": "/media/education/nust-ceme-campus-art.webp",
+      "dimensions": {
+        "width": 1800,
+        "height": 600
+      },
+      "bytes": 297650,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-07",
+      "reference": "https://ceme.nust.edu.pk/wp-content/uploads/2020/07/EME-6-Copy.jpg",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1800
+      },
+      "role": "Decorative illustration"
     }
   }
 }

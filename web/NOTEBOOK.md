@@ -1,6 +1,6 @@
 # The Living Field Book
 
-The landing page is a single, continuous book: a cloth-bound cover, a foreword, an illustrated atlas, and seven complete chapter worlds. It uses original, code-authored pen-and-ink-style artwork, real photographs, and original credential documents. No AI-generated decorative artwork or 3D models are mounted. The top navigation bar is removed. The existing seven chapter URLs remain available as standalone reader editions and crawlable landing pages.
+The landing page is a single, continuous book: a cloth-bound cover, a foreword, an illustrated atlas, and seven complete chapter worlds. It uses original, code-authored pen-and-ink-style artwork, real photographs, and original credential documents. The GCU Lahore and NUST CEME campus banners are generated architectural illustrations based on actual campuses, explicitly labeled as art; see [docs/GENERATED-ART.md](docs/GENERATED-ART.md). No 3D models are mounted. The top navigation bar is removed. The existing seven chapter URLs remain available as standalone reader editions and crawlable landing pages.
 
 The closed cover is the readiness screen, not a timed loading interstitial. Once the local motion engine is ready, clicking the cover opens the foreword. Scrolling also opens it. There is always a reader-mode alternative, and without JavaScript every chapter remains in ordinary document flow.
 
@@ -22,6 +22,8 @@ No DNS or production-domain changes are needed to review locally. The canonical 
 For search metadata, the image sitemap, read-only live auditing and the existing Google verification / Search Console handoff, see [docs/SEO.md](docs/SEO.md). Run `npm run seo:audit` against the local preview, or set `SEO_AUDIT_ORIGIN=https://tahabinzaeem.tech` after deployment.
 
 ## Change content
+
+See [docs/CUSTOMIZATION.md](docs/CUSTOMIZATION.md) for concrete add/remove/reorder examples, issuer configuration, campus banners and every evidence gallery.
 
 | Content                                                                               | Source                                 |
 | ------------------------------------------------------------------------------------- | -------------------------------------- |
@@ -51,9 +53,9 @@ Content images now open a shared, accessible dialog over the current page. Galle
 
 Use the arrows, thumbnails, Left/Right keys, or a horizontal swipe to explore. Close, Escape, browser Back, a deliberate upward wheel gesture, or a downward image swipe returns to the saved reading position. Forward wheel input does not move the book behind the dialog. Pinch-to-zoom is left to the browser, and a full-resolution link remains available. Single-image groups use the same viewer without redundant arrows or thumbnails. PDFs and credential-verification links keep their original behavior.
 
-`GalleryImage` accepts one `image`, a complete `images` array, and a `title`. Add related assets to the existing item's `media` array, or to `PROJECT_GALLERIES` for flagship application captures. This keeps the grouped source URLs independent of the book's offscreen-image parking. Duplicate URLs within a group are removed. Assets are not fetched merely because their URLs appear in gallery metadata; the overlay mounts on demand and warms only the next large image. No gallery library, rendering loop, new generated image, or 3D dependency was added.
+`GalleryImage` accepts one `image`, a complete `images` array, and a `title`. Add related assets to the existing item's `media` array, or to `PROJECT_GALLERIES` for flagship application captures. This keeps the grouped source URLs independent of the book's offscreen-image parking. Duplicate URLs within a group are removed. Assets are not fetched merely because their URLs appear in gallery metadata; the overlay mounts on demand and warms only the next large image. The same metadata format supports optional evidence for every record, without a gallery library, rendering loop or 3D dependency.
 
-The overlay uses a native modal dialog for background inertness and focus containment. It pauses Lenis without reinitializing the book. Same-URL history entries save the existing Vinext `__vinext_scrollX/Y` fields, so its router restores the reading position instead of jumping to the chapter hash. Keep this small integration covered when upgrading Vinext.
+The overlay uses a native modal dialog for background inertness and focus containment. It locks background document scrolling without reinitializing the book. Same-URL history entries save the existing Vinext `__vinext_scrollX/Y` fields, so its router restores the reading position instead of jumping to the chapter hash. Keep this small integration covered when upgrading Vinext.
 
 Collaborator names and project relationships live in `collaborators-data.ts`, with evidence links. Tooba Fatima is credited, but her profile URL is intentionally `null` until confirmed; no namesake profile or inferred photo identity is substituted.
 
@@ -61,7 +63,7 @@ Collaborator names and project relationships live in `collaborators-data.ts`, wi
 
 One document scrollbar is the source of truth. The cover now fills the viewport edge to edge; chapter layouts use a shared fluid gutter rather than a narrow outer frame. The book stage stays in view while the current chapter's paper moves through it. Once the chapter has been read, a longer, eased scroll interval folds the leaf and tears open the next world. Scrolling backward reproduces the same fold and reseals the seam.
 
-The already-installed Lenis library smooths wheel input and chapter jumps. Its frame loop wakes only for input or an intentional jump and sleeps once motion settles. Touch, scrollbar dragging and keyboard scrolling remain native. Reduced-motion/reader mode does not instantiate the smoothing engine. The integration follows [Lenis's documented GSAP synchronization](https://github.com/darkroomengineering/lenis#gsap-scrolltrigger), with demand-driven frames rather than an always-running ticker.
+Mouse wheel, trackpad, touch, scrollbar dragging and keyboard scrolling remain native. GSAP maps the normal vertical document progress to visual motion, including sideways project arrivals, rising education cards and chapter page turns. Explicit chapter jumps use the browser's own smooth scrolling; reduced-motion users receive immediate jumps. The mounted book does not initialize Lenis or an input-smoothing engine.
 
 The engine measures the real content height, so opening project evidence or filtering repositories changes that chapter's scroll distance. A dimension-guarded `ResizeObserver` recalculates the book without continuously rebuilding timelines. Distances use integer CSS pixels to avoid floating-point boundary artifacts. Inactive chapters and turning paper are inert. Only current/turning paper layers and their moving contents receive compositor hints; those hints are released when hidden. There is no perpetual rendering loop or React update on every frame.
 
