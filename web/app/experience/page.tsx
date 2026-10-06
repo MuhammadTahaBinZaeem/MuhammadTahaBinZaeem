@@ -22,6 +22,7 @@ export function ExperienceChapter({
       <Frame className="page-width">
         {!embedded && <PageStructuredData path="/experience" />}
         <ChapterHeading
+          chapter="experience"
           level={embedded ? 2 : 1}
           number="03 / Experience & community"
           title="People I build with."

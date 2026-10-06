@@ -32,6 +32,7 @@ export function ResearchChapter({
           }))}
         />
         <ChapterHeading
+          chapter="research"
           level={embedded ? 2 : 1}
           number="02 / Research"
           title="Questions I test."

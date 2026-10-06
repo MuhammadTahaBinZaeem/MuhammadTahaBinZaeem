@@ -99,10 +99,10 @@ export async function runBookChecks({
         await screenshot("reading-" + id + "-" + width);
       }
       await seek(id, 1);
+      const chapterEnding = await cdp.evaluate(`(()=>{const world=document.getElementById(${JSON.stringify(id)}),body=world.querySelector('.book-content'),last=world.querySelector('.world-last-line'),r=last.getBoundingClientRect();return {id:world.id,chapter:document.querySelector('.living-book').dataset.chapter,top:r.top,bottom:r.bottom,viewport:innerHeight,scroll:scrollY,start:Number(world.dataset.scrollStart),read:Number(world.dataset.readDistance),bodyHeight:body.offsetHeight,bodyBoxHeight:body.getBoundingClientRect().height,bodyY:body.style.transform,layoutRevision:document.querySelector('.living-book').dataset.layoutRevision};})()`);
+      if (!(chapterEnding.top >= 0 && chapterEnding.bottom <= chapterEnding.viewport - 45)) report.chapterEndingFailure = chapterEnding;
       assert.ok(
-        await cdp.evaluate(
-          `(()=>{const r=document.querySelector('#${id} .world-last-line').getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight-45;})()`,
-        ),
+        chapterEnding.top >= 0 && chapterEnding.bottom <= chapterEnding.viewport - 45,
         "Full chapter can be read before page turn: " + id + " at " + width,
       );
     }

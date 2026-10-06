@@ -4,10 +4,12 @@ import { usePathname } from "next/navigation";
 import {
   attachReactiveMotion,
   chapterPose,
+  collectRevealTargets,
   collectHorizontalScenes,
   measureHorizontalScene,
   resetHorizontalScenes,
   REST_POSE,
+  PLANAR_TRANSFORM,
 } from "./motion-vocabulary";
 
 export function editorialTitleScale(title: string) {
@@ -66,11 +68,12 @@ export function StoryMotion({
         const stopReactive = attachReactiveMotion(node);
         const chapter = pathname.split("/")[1] || "foreword";
         const context = gsap.context(() => {
-          gsap.utils.toArray<HTMLElement>("[data-reveal], [data-paper], [data-book-leaf]").forEach((element, index) => {
+          collectRevealTargets(node).forEach((element, index) => {
             if (element.closest('[data-scroll-scene][data-scene-ready="scroll"]')) return;
             if (anchor?.node && element.contains(anchor.node)) return;
-            gsap.fromTo(element, chapterPose(element, index, chapter, innerWidth < 760), {
+            gsap.fromTo(element, { ...chapterPose(element, index, chapter, innerWidth < 760), ...PLANAR_TRANSFORM }, {
               ...REST_POSE,
+              ...PLANAR_TRANSFORM,
               duration: 1.15,
               ease: "power3.out",
               scrollTrigger: { trigger: element, start: "top 96%", once: true },

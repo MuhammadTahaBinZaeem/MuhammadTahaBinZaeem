@@ -378,8 +378,15 @@ test("related image galleries retain valid source URLs and dimensions in server 
     assert.equal(metadata.height, asset.height, src);
   }
   assert.equal(galleries.find((group) => group.title === "Pocket Engineer").items.length, 4);
-  assert.equal(galleries.find((group) => group.title === "ProGenEDA").items.length, 2);
-  assert.equal(galleries.find((group) => group.title === "Type2Learn").items.length, 2);
+  const progeneda = galleries.find((group) => group.title === "ProGenEDA");
+  const type2learn = galleries.find((group) => group.title === "Type2Learn");
+  assert.equal(progeneda.items.length, 10);
+  assert.equal(type2learn.items.length, 6);
+  assert.equal(progeneda.items[0].src, "/media/projects/progeneda-official-brand-card.webp");
+  assert.equal(type2learn.items[0].src, "/media/projects/type2learn-official-home-capture.webp");
+  assert.ok(progeneda.items.some((item) => item.src.endsWith("progeneda-official-github-mark.webp")));
+  assert.ok(type2learn.items.some((item) => item.src.endsWith("type2learn-official-github-mark.webp")));
+  assert.ok(type2learn.items.filter((item) => item.src.includes("-artwork.webp")).every((item) => item.caption.includes("artwork")));
   assert.equal(galleries.find((group) => group.title === "Duke University").items.length, 4);
   assert.equal(galleries.find((group) => group.title === "Muhammad Taha Bin Zaeem").items.length, 3);
   const sempec = galleries.find((group) => group.title.startsWith("Second Runner-Up"));

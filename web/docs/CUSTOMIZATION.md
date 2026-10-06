@@ -16,6 +16,7 @@ Content is separate from its layouts, galleries, and motion. Edit a record in th
 | Leadership and volunteering | `app/dossier-data.ts`: `LEADERSHIP` |
 | People, their order, project credits and profiles | `app/collaborators-data.ts`: `COLLABORATORS` |
 | Education, campus banners and institution galleries | `app/portfolio-data.ts`: `EDUCATION` |
+| Illustrated chapter backgrounds, captions, personal voice and portrait | `app/chapter-artwork.ts`: `CHAPTER_ARTWORK`, `CHAPTER_AUTHOR` |
 | Skills and research interests | `app/dossier-data.ts`: `SKILLS`, `DOSSIER.interests` |
 | Credentials, PDFs and issuer galleries | `app/portfolio-data.ts`: `CERTIFICATES`, `CERTIFICATE_GROUPS` |
 | Achievement cards and their evidence | `app/portfolio-data.ts`: `ACHIEVEMENTS` |
@@ -54,11 +55,13 @@ Copy this field onto an achievement, engineering project, education entry, resea
 
 For flagships, `image` sets the visible screenshot (or `drawing` sets notebook artwork); `media` adds related images. `PROJECT_GALLERIES[project.id]` also supplies archived application screenshots. Pocket Engineer uses `legacyId` to keep its original engineering evidence inside the same project, so update that original `PROJECTS` media array when replacing the FOP photographs.
 
+ProGenEDA and Type2Learn use official brand imagery, website captures, product screenshots and explicitly labeled explanatory artwork. Their asset sources, repository revisions and replacement guidance are recorded in [BRAND-IMAGERY.md](BRAND-IMAGERY.md).
+
 For engineering cards, `PROJECT_GALLERIES[project.id]` images precede the record's `media` images, so the first supplemental image becomes the cover when present. Remove that supplemental entry to use the first image in the record's `media` array, or put the desired cover photograph first in the supplemental array.
 
 For education, `campus` is the wide illustrated banner. It joins the institution's evidence gallery with `media`, so clicking either opens the complete group. Change GCU's photographs in the `media` array of `id: "gcu-lahore"`; change its illustrated background in `campus`. `campusLabel` controls the banner lettering (`GCUL` / `NUST CEME`). `periodNote`, `institutionNote` and `focus` contain optional education context. Generated campus art is explicitly captioned as an illustration; the references and prompts are documented in [GENERATED-ART.md](GENERATED-ART.md).
 
-For certificates, `preview` remains the visible credential and `media` adds optional related evidence. Credentials with the same `groupId` share one issuer gallery. Their original PDF and verification links remain separate.
+For certificates, `preview` remains the visible credential and `media` adds optional related evidence. Credentials with the same `groupId` share one issuer gallery. The first credential in each issuer becomes that collection's framed cover; the remaining credentials appear as readable compact records. Their original PDF and verification links remain separate. Counts, navigation, covers and galleries derive from the arrays automatically; deleting the last credential hides its empty collection.
 
 For foreword portraits, edit `HOME_INTRO.portraits`; `PROFILE.portrait` remains the canonical portrait for search metadata. Notebook drawings also open in the shared viewer. You can keep a gallery to one item; navigation controls appear when useful.
 
@@ -128,6 +131,8 @@ The mouse wheel, trackpad and phone retain ordinary vertical scrolling. GSAP map
 
 ## Visuals and motion
 
+`app/chapter-artwork.ts` controls the six illustrated chapter introductions. Replace an entry's `image` to change its background, change `voice` for its first-person introduction, and add optional `media` for a larger artwork gallery. Removing an entry restores an ordinary chapter heading. `CHAPTER_AUTHOR.image` sets the shared authentic author portrait; `portraits` sets its related gallery. The atmospheric layout lives in `app/chapter-atmosphere.css`, and the issuer archive layout lives in `app/certifications/certifications.css`. Each illustration and portrait opens in the same image viewer as the evidence.
+
 `app/portfolio-polish.css` contains the visual finish for the cover and all chapters. `app/storybook.css` defines the book mechanics, and `app/globals.css` defines the base layouts. The polish selectors include `html:root` so route CSS load order cannot undo them. Direction, distance and reveal poses live in `app/components/motion-vocabulary.ts`. `data-motion-direction="left"`, `"right"`, `"up"` or `"down"` can override an individual reveal. Wheel, trackpad, touch and keyboard always keep native vertical input. The engineering rail uses that vertical position to animate sideways on desktop; smaller screens, reader mode, reduced motion and expanded build notes show an ordinary list.
 
-Optional galleries use `EntryGallery`; all image collections use `GalleryImage` and the shared `ImageGallery`. Do not add a modal per record. Campus artwork prompts, reference sources and saved paths are recorded in [GENERATED-ART.md](GENERATED-ART.md).
+Optional galleries use `EntryGallery`; all image collections use `GalleryImage` and the shared `ImageGallery`. Do not add a modal per record. Campus and chapter artwork prompts, reference sources and saved paths are recorded in [GENERATED-ART.md](GENERATED-ART.md).

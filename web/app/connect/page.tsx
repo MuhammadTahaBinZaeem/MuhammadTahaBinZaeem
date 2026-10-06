@@ -36,6 +36,7 @@ export function ConnectChapter({
       <Frame className="page-width">
         {!embedded && <PageStructuredData path="/connect" />}
         <ChapterHeading
+          chapter="connect"
           level={embedded ? 2 : 1}
           number="07 / Links & CVs"
           title="The next conversation."

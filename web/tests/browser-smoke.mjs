@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import { runBookChecks } from "./book-interactions.mjs";
 import { runPocketChecks } from "./pocket-engineer-checks.mjs";
 import { runGalleryChecks } from "./gallery-checks.mjs";
+import { runCertificateMotionChecks } from "./certificate-motion-checks.mjs";
 
 // Uses an installed Chrome/Chromium; no extra browser dependency or download.
 const base = process.env.TEST_BASE_URL || "http://localhost:3000";
@@ -264,10 +265,10 @@ try {
     report.screenshots.push(name + ".png");
   }
 
-  if (!process.env.POCKET_ONLY && !process.env.BOOK_ONLY && !process.env.POLISH_ONLY) await runGalleryChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
-  if (!process.env.GALLERY_ONLY && !process.env.BOOK_ONLY && !process.env.POLISH_ONLY) await runPocketChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
+  if (!process.env.POCKET_ONLY && !process.env.BOOK_ONLY && !process.env.POLISH_ONLY && !process.env.CERTIFICATES_ONLY) await runGalleryChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
+  if (!process.env.GALLERY_ONLY && !process.env.BOOK_ONLY && !process.env.POLISH_ONLY && !process.env.CERTIFICATES_ONLY) await runPocketChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
 
-  for (const width of process.env.BOOK_ONLY || process.env.PROJECT_ONLY || process.env.GALLERY_ONLY || process.env.POCKET_ONLY || process.env.POLISH_ONLY ? [] : [320, 390, 768, 1440]) {
+  for (const width of process.env.BOOK_ONLY || process.env.PROJECT_ONLY || process.env.GALLERY_ONLY || process.env.POCKET_ONLY || process.env.POLISH_ONLY || process.env.CERTIFICATES_ONLY ? [] : [320, 390, 768, 1440]) {
     await viewport(width);
     for (const route of routes) {
       await navigate(route);
@@ -285,12 +286,12 @@ try {
       await screenshot(`${route || "home"}-${width}`);
     }
   }
-  if (!process.env.BOOK_ONLY && !process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY && !process.env.POCKET_ONLY && !process.env.POLISH_ONLY)
+  if (!process.env.BOOK_ONLY && !process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY && !process.env.POCKET_ONLY && !process.env.POLISH_ONLY && !process.env.CERTIFICATES_ONLY)
     report.checks.push(
       "Eight routes at 320, 390, 768 and 1440 pixels; no overflow or broken images.",
     );
 
-  if (!process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY && !process.env.POCKET_ONLY) await runBookChecks({
+  if (!process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY && !process.env.POCKET_ONLY && !process.env.CERTIFICATES_ONLY) await runBookChecks({
     cdp,
     navigate,
     viewport,
@@ -299,6 +300,9 @@ try {
     sleep,
     report,
   });
+
+  if (process.env.CERTIFICATES_ONLY || (!process.env.BOOK_ONLY && !process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY && !process.env.POCKET_ONLY && !process.env.POLISH_ONLY))
+    await runCertificateMotionChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
 
   await navigate("connect");
   const pdfs = await cdp.evaluate(

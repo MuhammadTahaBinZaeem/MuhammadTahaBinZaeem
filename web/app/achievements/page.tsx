@@ -19,6 +19,7 @@ export function AchievementsChapter({
       <Frame className="page-width">
         {!embedded && <PageStructuredData path="/achievements" />}
         <ChapterHeading
+          chapter="achievements"
           level={embedded ? 2 : 1}
           number="06 / Achievements"
           title="Milestones, earned."

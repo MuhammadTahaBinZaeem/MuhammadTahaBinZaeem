@@ -62,6 +62,7 @@ export function ProjectsChapter({
           ]}
         />
         <ChapterHeading
+          chapter="projects"
           level={embedded ? 2 : 1}
           number="01 / Projects"
           title="Things I build."

@@ -7,6 +7,17 @@ export type MotionPose = {
   scale: number;
 };
 
+const REVEAL_SELECTOR = "[data-reveal], [data-paper], [data-book-leaf]";
+
+/** A card and its evidence share one entrance, so transforms never compound. */
+export function collectRevealTargets(scope: HTMLElement): HTMLElement[] {
+  return Array.from(scope.querySelectorAll<HTMLElement>(REVEAL_SELECTOR))
+    .filter((node) => {
+      const owner = node.parentElement?.closest<HTMLElement>(REVEAL_SELECTOR);
+      return !owner || !scope.contains(owner);
+    });
+}
+
 export function chapterPose(
   node: HTMLElement,
   index: number,
@@ -33,6 +44,12 @@ export function chapterPose(
     case "up": pose.x = 0; pose.y = 120; break;
     case "down": pose.x = 0; pose.y = -85; break;
   }
+  // Reading cards stay planar within their grid cells. In particular, rotating
+  // a large certificate beneath a perspective parent can project its corners
+  // over neighbouring documents; animate only a small vertical entrance.
+  if (chapter === "certifications" || node.matches("article, .collaborator-card, .education-story, .credential-collection")) {
+    Object.assign(pose, { x: 0, y: 28, rotation: 0, rotationY: 0, scale: 1 });
+  }
   if (compact) {
     pose.x *= 0.4;
     pose.y *= 0.55;
@@ -43,6 +60,7 @@ export function chapterPose(
 }
 
 export const REST_POSE: MotionPose = { x: 0, y: 0, rotation: 0, rotationY: 0, scale: 1 };
+export const PLANAR_TRANSFORM = { force3D: false, rotationX: 0, rotationY: 0, z: 0 } as const;
 
 export type HorizontalScene = {
   scene: HTMLElement;

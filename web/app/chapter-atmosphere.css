@@ -1,0 +1,76 @@
+/* Art and the author's portrait belong to the introduction; evidence stays
+   attached to its records. Each illustration can be opened in the gallery. */
+html:root .page-heading.chapter-heading--illustrated {
+  --heading-ink: #fff2db;
+  position: relative;
+  isolation: isolate;
+  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(36px, 4.7vw, 72px);
+  margin-top: 24px;
+  margin-bottom: 58px;
+  overflow: hidden;
+  border: 1px solid #dac09655;
+  background: #172c29;
+  color: var(--heading-ink);
+  box-shadow: 0 25px 65px #0e191323;
+}
+html:root .chapter-heading--illustrated::before { display: none; }
+html:root .chapter-atmosphere { position: absolute; inset: 0; z-index: -2; }
+html:root .chapter-atmosphere > .gallery-trigger { width: 100%; height: 100%; }
+html:root .chapter-atmosphere .gallery-trigger > img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; }
+html:root .chapter-heading--illustrated::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+}
+html:root .chapter-atmosphere > .gallery-trigger::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg, #091d23e8 0%, #091d23b0 41%, #091d2350 72%, #091d2330), linear-gradient(0deg, #0b2027c7, transparent 55%);
+}
+html:root .chapter-heading--illustrated:has(.chapter-atmosphere > .gallery-trigger:focus-visible)::after { box-shadow: inset 0 0 0 3px #ecc275; }
+html:root .chapter-heading__copy { max-width: 850px; pointer-events: none; }
+html:root .chapter-heading--illustrated .eyebrow { color: #ead1a0; letter-spacing: .14em; }
+html:root .chapter-heading--illustrated :is(h1, h2) {
+  font-size: clamp(54px, 6.8vw, 104px);
+  line-height: 1.01; color: var(--heading-ink); max-width: 12ch;
+  text-shadow: 0 3px 30px #06151555;
+}
+html:root .chapter-heading--illustrated .heading-tail { display: block; margin-top: 26px; }
+html:root .chapter-heading--illustrated .page-lead { color: #eee7d6; max-width: 49ch; font-size: clamp(16px, 1.3vw, 20px); line-height: 1.7; }
+html:root .chapter-heading--illustrated .hand-note { display: block; margin-top: 12px; color: #e8c78c; font-size: 22px; }
+html:root .chapter-heading--illustrated .ink-rule { margin-block: 28px 18px; width: 75px; background: #d7b375; }
+html:root .chapter-heading__personal { display: flex; align-items: center; gap: 36px; margin-top: 15px; pointer-events: none; }
+html:root .chapter-author { display: flex; align-items: center; gap: 15px; flex: 0 0 auto; margin: 0; padding: 12px 18px 12px 12px; background: #0e2627bd; border: 1px solid #e8c78c47; backdrop-filter: blur(14px); }
+html:root .chapter-author > .gallery-trigger { width: 65px; height: 65px; flex: 0 0 65px; border-radius: 50%; border: 1px solid #e8c78c70; pointer-events: auto; }
+html:root .chapter-author > .gallery-trigger > img { height: 100%; object-fit: cover; }
+html:root .chapter-author .gallery-image-hint { display: none; }
+html:root .chapter-author figcaption { display: grid; gap: 5px; max-width: 180px; color: #fff2db; }
+html:root .chapter-author figcaption > span { font: 500 8px/1.5 var(--font-mono); color: #dcc390; text-transform: uppercase; letter-spacing: .06em; }
+html:root .chapter-author figcaption > strong { font: 500 13px/1.5 var(--font-body); }
+html:root .chapter-author__voice { max-width: 45ch; margin: 0; font: italic 17px/1.7 Georgia, serif; color: #f2e6cc; }
+html:root .chapter-atmosphere .gallery-image-hint { top: 20px; bottom: auto; right: 20px; z-index: 2; }
+@media (max-width: 1000px) {
+  html:root .chapter-heading__personal { align-items: flex-start; gap: 22px; }
+  html:root .chapter-author__voice { font-size: 15px; }
+}
+@media (max-width: 700px) {
+  html:root .page-heading.chapter-heading--illustrated { min-height: 620px; padding: 35px 24px 28px; margin-top: 8px; margin-bottom: 35px; }
+  html:root .chapter-atmosphere .gallery-trigger > img { object-position: 66% 50%; }
+  html:root .chapter-atmosphere > .gallery-trigger::after { background: linear-gradient(90deg, #081f24d9, #081f2485), linear-gradient(0deg, #081f24ee, transparent 65%); }
+  html:root .chapter-heading--illustrated :is(h1, h2) { font-size: clamp(43px, 11.6vw, 74px); max-width: 11ch; }
+  html:root .chapter-heading--illustrated .page-lead { font-size: 15px; }
+  html:root .chapter-heading--illustrated .hand-note { font-size: 19px; }
+  html:root .chapter-heading__personal { flex-direction: column; gap: 17px; }
+  html:root .chapter-author { width: 100%; }
+  html:root .chapter-author figcaption { max-width: none; }
+  html:root .chapter-author__voice { font-size: 16px; }
+  html:root .chapter-atmosphere .gallery-image-hint { top: 9px; right: 9px; padding: 6px 8px; font-size: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { html:root .chapter-atmosphere img { transition: none !important; } }
+@media print {
+  html:root .page-heading.chapter-heading--illustrated { min-height: auto; padding: 25px; color: #243c32; background: #f3eedf; box-shadow: none; }
+  html:root .chapter-atmosphere, html:root .chapter-heading--illustrated::after { display: none; }
+  html:root .chapter-heading--illustrated :is(h1, h2, .page-lead, .hand-note, .eyebrow, .chapter-author__voice) { color: #243c32; text-shadow: none; }
+  html:root .chapter-author { background: #243c32; }
+}

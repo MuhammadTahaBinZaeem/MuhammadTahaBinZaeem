@@ -12,10 +12,12 @@ import { HOME_COVER } from "../homepage-data";
 import {
   attachReactiveMotion,
   chapterPose,
+  collectRevealTargets,
   collectHorizontalScenes,
   measureHorizontalScene,
   resetHorizontalScenes,
   REST_POSE,
+  PLANAR_TRANSFORM,
 } from "./motion-vocabulary";
 
 type Segment = { start: number; read: number; turn: number; height: number };
@@ -331,21 +333,19 @@ export function BookExperience({ children }: { children: ReactNode }) {
             const timeline = gsap.timeline({ paused: true });
             timeline.to({}, { duration: read });
             const base = body.getBoundingClientRect().top;
-            const targets = Array.from(
-              body.querySelectorAll<HTMLElement>(
-                "[data-reveal], [data-paper], [data-book-leaf], [data-book-drift]",
-              ),
-            );
+            const targets = collectRevealTargets(body);
+            // Capture positions before assigning any entrance transforms.
+            const targetTops = targets.map((node) => node.getBoundingClientRect().top - base);
             targets.forEach((node, i) => {
               if (node.hasAttribute("data-book-drift") || node.closest("[data-scroll-scene]")) return;
-              const top = node.getBoundingClientRect().top - base;
+              const top = targetTops[i];
               const at = Math.max(0, top - vh * 0.94);
               const duration = Math.max(1, Math.min(vh * 0.74, read - at));
               const pose = chapterPose(node, i, BOOK_WORLDS[index].id, innerWidth < 760);
               timeline.fromTo(
                 node,
-                pose,
-                { ...REST_POSE, duration, ease: "power3.out", immediateRender: false },
+                { ...pose, ...PLANAR_TRANSFORM },
+                { ...REST_POSE, ...PLANAR_TRANSFORM, duration, ease: "power3.out", immediateRender: false },
                 Math.min(read - 1, at),
               );
             });

@@ -54,7 +54,7 @@ function assertCompiles(edits) {
   assert.deepEqual(messages, [], "Content edits must typecheck without presentation edits");
 }
 
-test("removing the only screenshot flagship or linked internship preserves optional field types", () => {
+test("removing a screenshot flagship or linked internship preserves optional field types", () => {
   assertCompiles([
     editedArrays("app/dossier-data.ts", {
       FEATURED: without("pocket-engineer"),

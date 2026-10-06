@@ -228,7 +228,7 @@ export async function runPolishChecks({
     `document.querySelector('#certifications .certificate-sheet a').focus({preventScroll:true})`,
   );
   const r = await cdp.evaluate(
-    `(()=>{const r=document.activeElement.getBoundingClientRect();return{x:r.left+100,y:r.top+100};})()`,
+    `(()=>{const r=document.activeElement.getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2};})()`,
   );
   await cdp.evaluate(`document.activeElement.blur()`);
   await sleep(800);
