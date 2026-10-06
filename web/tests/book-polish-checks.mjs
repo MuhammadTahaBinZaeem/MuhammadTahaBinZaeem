@@ -199,8 +199,10 @@ export async function runPolishChecks({
   }
 
   await seek("atlas", 0.25);
+  await cdp.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 2, y: 2 });
+  await sleep(450);
   const hovered = await cdp.evaluate(
-    `(()=>{const a=[...document.querySelectorAll('.atlas-leaf')].find(e=>{const r=e.getBoundingClientRect();return r.top>0&&r.bottom<innerHeight;})||document.querySelector('.atlas-leaf-research');const r=a.getBoundingClientRect();return {id:a.getAttribute('href').slice(1),x:Math.max(50,r.left+100),y:Math.max(80,Math.min(innerHeight-150,r.top+100))};})()`,
+    `(()=>{const a=[...document.querySelectorAll('.atlas-leaf')].find(e=>{const r=e.getBoundingClientRect();return r.top>0&&r.bottom<innerHeight;})||document.querySelector('.atlas-leaf-research');const r=a.getBoundingClientRect(),style=getComputedStyle(a.querySelector('figure'));return {id:a.getAttribute('href').slice(1),x:Math.max(50,r.left+100),y:Math.max(80,Math.min(innerHeight-150,r.top+100)),initial:{translate:style.translate,rotate:style.rotate,scale:style.scale,transform:style.transform}};})()`,
   );
   await cdp.send("Input.dispatchMouseEvent", {
     type: "mouseMoved",
@@ -210,12 +212,11 @@ export async function runPolishChecks({
   await sleep(400);
   await screenshot("atlas-hover");
   const hoverApplied = await cdp.evaluate(
-    `(()=>{const e=document.querySelector('.atlas-leaf:hover figure');return e&&getComputedStyle(e).translate!=='none';})()`,
+    `(()=>{const e=document.querySelector('.atlas-leaf:hover figure');if(!e)return null;const style=getComputedStyle(e);return {translate:style.translate,rotate:style.rotate,scale:style.scale,transform:style.transform};})()`,
   );
-  assert.equal(
-    hoverApplied,
-    true,
-    "Atlas hover moves the illustration without competing with GSAP",
+  assert.ok(
+    hoverApplied && Object.keys(hovered.initial).some((key) => hoverApplied[key] !== hovered.initial[key]),
+    "Atlas hover visibly changes the illustration",
   );
   await cdp.send("Input.dispatchMouseEvent", {
     type: "mouseMoved",
@@ -229,17 +230,15 @@ export async function runPolishChecks({
   const r = await cdp.evaluate(
     `(()=>{const r=document.activeElement.getBoundingClientRect();return{x:r.left+100,y:r.top+100};})()`,
   );
+  await cdp.evaluate(`document.activeElement.blur()`);
+  await sleep(800);
+  const certificateBefore = await cdp.evaluate(`(()=>{const image=document.querySelector('#certifications .certificate-sheet img'),style=getComputedStyle(image),r=image.getBoundingClientRect();return {transform:style.transform,scale:style.scale,width:r.width,height:r.height};})()`);
   await cdp.send("Input.dispatchMouseEvent", { type: "mouseMoved", ...r });
   await sleep(400);
   await screenshot("certificate-hover");
-  assert.ok(
-    Number(
-      await cdp.evaluate(
-        `getComputedStyle(document.querySelector('#certifications .certificate-sheet img')).scale`,
-      ),
-    ) > 1,
-    "Certificate hover is visible",
-  );
+  const certificateAfter = await cdp.evaluate(`(()=>{const image=document.querySelector('#certifications .certificate-sheet img'),style=getComputedStyle(image),r=image.getBoundingClientRect();return {transform:style.transform,scale:style.scale,width:r.width,height:r.height};})()`);
+  assert.ok(certificateAfter.transform !== certificateBefore.transform || certificateAfter.scale !== certificateBefore.scale, "Certificate hover changes its image transform");
+  assert.ok(certificateAfter.width > certificateBefore.width || certificateAfter.height > certificateBefore.height, "Certificate hover visibly enlarges its image");
   await cdp.send("Input.dispatchMouseEvent", {
     type: "mouseMoved",
     x: 2,

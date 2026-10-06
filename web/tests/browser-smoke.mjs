@@ -264,10 +264,10 @@ try {
     report.screenshots.push(name + ".png");
   }
 
-  if (!process.env.POCKET_ONLY && !process.env.BOOK_ONLY) await runGalleryChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
-  if (!process.env.GALLERY_ONLY && !process.env.BOOK_ONLY) await runPocketChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
+  if (!process.env.POCKET_ONLY && !process.env.BOOK_ONLY && !process.env.POLISH_ONLY) await runGalleryChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
+  if (!process.env.GALLERY_ONLY && !process.env.BOOK_ONLY && !process.env.POLISH_ONLY) await runPocketChecks({ cdp, navigate, viewport, until, sleep, screenshot, report });
 
-  for (const width of process.env.BOOK_ONLY || process.env.PROJECT_ONLY || process.env.GALLERY_ONLY || process.env.POCKET_ONLY ? [] : [320, 390, 768, 1440]) {
+  for (const width of process.env.BOOK_ONLY || process.env.PROJECT_ONLY || process.env.GALLERY_ONLY || process.env.POCKET_ONLY || process.env.POLISH_ONLY ? [] : [320, 390, 768, 1440]) {
     await viewport(width);
     for (const route of routes) {
       await navigate(route);
@@ -285,7 +285,7 @@ try {
       await screenshot(`${route || "home"}-${width}`);
     }
   }
-  if (!process.env.BOOK_ONLY && !process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY && !process.env.POCKET_ONLY)
+  if (!process.env.BOOK_ONLY && !process.env.PROJECT_ONLY && !process.env.GALLERY_ONLY && !process.env.POCKET_ONLY && !process.env.POLISH_ONLY)
     report.checks.push(
       "Eight routes at 320, 390, 768 and 1440 pixels; no overflow or broken images.",
     );

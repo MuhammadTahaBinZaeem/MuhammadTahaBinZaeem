@@ -38,6 +38,11 @@ export async function runBookChecks({
   await cdp.send("Emulation.setEmulatedMedia", {
     features: [{ name: "prefers-reduced-motion", value: "no-preference" }],
   });
+  if (process.env.POLISH_ONLY) {
+    await runPolishChecks({ cdp, seek, navigate, viewport, until, sleep, screenshot, report, worlds });
+    await runAfterPolishChecks({ cdp, seek, state, navigate, until, sleep, screenshot, report });
+    return;
+  }
   const widths = process.env.BOOK_WIDTHS
     ? process.env.BOOK_WIDTHS.split(",").map(Number)
     : [320, 390, 768, 1440];
@@ -265,7 +270,18 @@ export async function runBookChecks({
   await screenshot("experience-initiative-note");
   await seek("research", 0.48);
   const statusContrast = await cdp.evaluate(
-    `(()=>{const c=document.createElement('canvas');c.width=c.height=1;const ctx=c.getContext('2d');function luminance(color){ctx.clearRect(0,0,1,1);ctx.fillStyle=color;ctx.fillRect(0,0,1,1);const values=[...ctx.getImageData(0,0,1,1).data].slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});return values[0]*.2126+values[1]*.7152+values[2]*.0722;}return [...document.querySelectorAll('#research .status, #experience .big-note, #connect .cv-card')].map(e=>{const s=getComputedStyle(e),a=luminance(s.color),b=luminance(s.backgroundColor);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);});})()`,
+    `(()=>{
+      const c=document.createElement('canvas');c.width=c.height=1;const ctx=c.getContext('2d');
+      function pixelLuminance(){const values=[...ctx.getImageData(0,0,1,1).data].slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});return values[0]*.2126+values[1]*.7152+values[2]*.0722;}
+      function luminance(color){ctx.clearRect(0,0,1,1);ctx.fillStyle=color;ctx.fillRect(0,0,1,1);return pixelLuminance();}
+      function backgroundLuminance(element){
+        ctx.clearRect(0,0,1,1);ctx.fillStyle='#fff';ctx.fillRect(0,0,1,1);
+        const ancestors=[];for(let node=element;node;node=node.parentElement)ancestors.push(node);
+        for(const node of ancestors.reverse()){ctx.fillStyle=getComputedStyle(node).backgroundColor;ctx.fillRect(0,0,1,1);}
+        return pixelLuminance();
+      }
+      return [...document.querySelectorAll('#research .status, #experience .big-note, #connect .cv-card')].map(e=>{const a=luminance(getComputedStyle(e).color),b=backgroundLuminance(e);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);});
+    })()`,
   );
   assert.ok(
     statusContrast.length > 0 && statusContrast.every((ratio) => ratio >= 4.5),
@@ -282,6 +298,10 @@ export async function runBookChecks({
     report,
     worlds,
   });
+  await runAfterPolishChecks({ cdp, seek, state, navigate, until, sleep, screenshot, report });
+}
+
+async function runAfterPolishChecks({ cdp, seek, state, navigate, until, sleep, screenshot, report }) {
   await seek("research", 0.48);
   const revision = await cdp.evaluate(
     `document.querySelector('.living-book').dataset.layoutRevision`,
