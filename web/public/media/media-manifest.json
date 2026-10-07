@@ -924,7 +924,7 @@
       "format": "webp"
     }
   },
-  "modifiedOn": "2026-10-07",
+  "modifiedOn": "2026-10-08",
   "generatedArtwork": {
     "gcu-campus-art": {
       "label": "Illustrated architectural study of Government College University Lahore",
@@ -1077,6 +1077,232 @@
         "maximumDimension": 1800
       },
       "role": "Decorative conceptual illustration"
+    },
+    "hamiz-kashif-background": {
+      "label": "Muhammad Hamiz bin Kashif · Dependable engineering conceptual illustration",
+      "publicPath": "/media/people/hamiz-kashif-background.webp",
+      "dimensions": {
+        "width": 1500,
+        "height": 1000
+      },
+      "bytes": 454936,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-08",
+      "styleReference": "/media/chapters/projects-atelier.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1500
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "alizay-hassan-background": {
+      "label": "Alizay Hassan · Product and co-design conceptual illustration",
+      "publicPath": "/media/people/alizay-hassan-background.webp",
+      "dimensions": {
+        "width": 1500,
+        "height": 1000
+      },
+      "bytes": 395698,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-08",
+      "styleReference": "/media/chapters/projects-atelier.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1500
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "lameea-mubashir-khan-background": {
+      "label": "Lameea Mubashir Khan · Interface and interaction design conceptual illustration",
+      "publicPath": "/media/people/lameea-mubashir-khan-background.webp",
+      "dimensions": {
+        "width": 1500,
+        "height": 1000
+      },
+      "bytes": 426706,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-08",
+      "styleReference": "/media/chapters/projects-atelier.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1500
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "idrees-babar-background": {
+      "label": "Idrees Babar · Research and evidence conceptual illustration",
+      "publicPath": "/media/people/idrees-babar-background.webp",
+      "dimensions": {
+        "width": 1500,
+        "height": 1000
+      },
+      "bytes": 419790,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-08",
+      "styleReference": "/media/chapters/projects-atelier.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1500
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "fahad-younus-background": {
+      "label": "Muhammad Fahad Younus · AI and model evaluation conceptual illustration",
+      "publicPath": "/media/people/fahad-younus-background.webp",
+      "dimensions": {
+        "width": 1500,
+        "height": 1000
+      },
+      "bytes": 443778,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-08",
+      "styleReference": "/media/chapters/projects-atelier.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1500
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "tooba-fatima-background": {
+      "label": "Tooba Fatima · Hardware and clear reasoning conceptual illustration",
+      "publicPath": "/media/people/tooba-fatima-background.webp",
+      "dimensions": {
+        "width": 1500,
+        "height": 1000
+      },
+      "bytes": 415968,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-08",
+      "styleReference": "/media/chapters/projects-atelier.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1500
+      },
+      "role": "Decorative conceptual illustration"
+    }
+  },
+  "people": {
+    "hamiz-kashif-portrait": {
+      "label": "Muhammad Hamiz bin Kashif · published-photograph",
+      "publicPath": "/media/people/hamiz-kashif-portrait.webp",
+      "sourcePage": "https://type2learn.tech/team/",
+      "sourceUrl": "https://type2learn.tech/assets/team/muhammad-hamiz-bin-kashif.webp",
+      "role": "published-photograph",
+      "checkedOn": "2026-10-08",
+      "dimensions": {
+        "width": 900,
+        "height": 1439
+      },
+      "bytes": 44710,
+      "format": "webp",
+      "sha256": "d194730b5cef93b44ff0fbc5f724ff7b59d465878327c79e07e356ecffe81615",
+      "sourceSha256": "d194730b5cef93b44ff0fbc5f724ff7b59d465878327c79e07e356ecffe81615",
+      "optimization": "Copied original WebP bytes; no crop, resize, compositing, face changes or regeneration.",
+      "provenanceDocument": "docs/PEOPLE-SOURCES.md"
+    },
+    "hamiz-kashif-devpost-profile": {
+      "label": "Muhammad Hamiz bin Kashif · chosen-profile-illustration",
+      "publicPath": "/media/people/hamiz-kashif-devpost-profile.webp",
+      "sourcePage": "https://devpost.com/hamiz5625",
+      "sourceUrl": "https://d112y698adiu2z.cloudfront.net/photos/production/user_photos/005/070/098/datas/original.png",
+      "role": "chosen-profile-illustration",
+      "checkedOn": "2026-10-08",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 408970,
+      "format": "webp",
+      "sha256": "c030e4706c3277816379ad3ad25cf1e5680caaba3e5dc24d197b96ea9232ae77",
+      "sourceSha256": "f3dc89df6670b4b071e73bc2f5d747f24c76ec0d47cc2725af0c64479490f4b7",
+      "optimization": "Encoded to WebP quality91 at1254×1254; complete original frame retained. No resize, crop, compositing or regeneration.",
+      "provenanceDocument": "docs/PEOPLE-SOURCES.md"
+    },
+    "idrees-babar-portrait": {
+      "label": "Idrees Babar · published-photograph",
+      "publicPath": "/media/people/idrees-babar-portrait.webp",
+      "sourcePage": "https://type2learn.tech/team/",
+      "sourceUrl": "https://type2learn.tech/assets/team/idrees-babar.webp",
+      "role": "published-photograph",
+      "checkedOn": "2026-10-08",
+      "dimensions": {
+        "width": 720,
+        "height": 1466
+      },
+      "bytes": 62044,
+      "format": "webp",
+      "sha256": "07bf5acbbe963440f8ecf64a07f6d420b2ef99237aa116fec1f7e75e9ea2232f",
+      "sourceSha256": "07bf5acbbe963440f8ecf64a07f6d420b2ef99237aa116fec1f7e75e9ea2232f",
+      "optimization": "Copied original WebP bytes; no crop, resize, compositing, face changes or regeneration.",
+      "provenanceDocument": "docs/PEOPLE-SOURCES.md"
+    },
+    "idrees-babar-github-profile": {
+      "label": "Idrees Babar · chosen-profile-photograph",
+      "publicPath": "/media/people/idrees-babar-github-profile.webp",
+      "sourcePage": "https://github.com/meidreesbabar-crypto",
+      "sourceUrl": "https://avatars.githubusercontent.com/u/264662503?s=1200&v=4",
+      "role": "chosen-profile-photograph",
+      "checkedOn": "2026-10-08",
+      "dimensions": {
+        "width": 460,
+        "height": 460
+      },
+      "bytes": 37744,
+      "format": "webp",
+      "sha256": "d9064eb05c30cd76457ecfe8291f3d757b0ee58c7602733ed842ee79ab5d1b25",
+      "sourceSha256": "519fd971329fe0fa3d61f12afdb05333b79b8b7982223c3e199585f774363141",
+      "optimization": "Encoded to WebP quality93 at460×460; complete source frame retained. No resize, crop, compositing, face changes or regeneration.",
+      "provenanceDocument": "docs/PEOPLE-SOURCES.md"
+    },
+    "lameea-mubashir-khan-portrait": {
+      "label": "Lameea Mubashir Khan · published profile portrait",
+      "publicPath": "/media/people/lameea-mubashir-khan-portrait.webp",
+      "sourcePage": "https://github.com/rosseaaq",
+      "sourceUrl": "https://avatars.githubusercontent.com/u/233437868?v=4",
+      "role": "Published profile portrait",
+      "checkedOn": "2026-10-08",
+      "dimensions": {
+        "width": 460,
+        "height": 460
+      },
+      "bytes": 55962,
+      "format": "webp",
+      "sha256": "b4a26708dac8fe0dcb64d29fbf28b12afb716114a9d4b519b8df3e0bc12288ff",
+      "optimization": {
+        "quality": 80,
+        "originalDimensionsPreserved": true
+      },
+      "provenanceDocument": "docs/PEOPLE-SOURCES.md"
+    },
+    "fahad-younus-portrait": {
+      "label": "Muhammad Fahad Younus · published profile portrait",
+      "publicPath": "/media/people/fahad-younus-portrait.webp",
+      "sourcePage": "https://type2learn.tech/team/",
+      "sourceUrl": "https://type2learn.tech/assets/team/muhammad-fahad-younus-studio.webp",
+      "role": "Published profile portrait",
+      "checkedOn": "2026-10-08",
+      "dimensions": {
+        "width": 960,
+        "height": 1200
+      },
+      "bytes": 24826,
+      "format": "webp",
+      "sha256": "8ecab4a2b715f8b05bc0e52f42c0ce36d360e40a087713a5b15e1a61e992aee4",
+      "sourceSha256": "556e58137fd1c3060d03b889584f13fe3c2dcb68620857f548ed2a3042358105",
+      "optimization": "Re-encoded published WebP at quality 90 with the complete source frame preserved; no cropping or face changes.",
+      "provenanceDocument": "docs/PEOPLE-SOURCES.md"
     }
   }
 }

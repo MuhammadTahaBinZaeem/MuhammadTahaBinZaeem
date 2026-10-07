@@ -23,7 +23,14 @@ const certificates = CERTIFICATES.flatMap((certificate) => [certificate.preview.
 const achievements = [...ACHIEVEMENTS.flatMap(mediaSources), ...ACHIEVEMENT_SPOTLIGHTS.flatMap(mediaSources)];
 const education = EDUCATION.flatMap((item) => [...(item.campus ? [item.campus.src] : []), ...mediaSources(item)]);
 const research = RESEARCH.flatMap(mediaSources);
-const experience = [...EXPERIENCE, ...LEADERSHIP, ...COLLABORATORS].flatMap(mediaSources);
+const experience = [
+  ...[...EXPERIENCE, ...LEADERSHIP].flatMap(mediaSources),
+  ...COLLABORATORS.flatMap((person) => [
+    ...(person.portrait ? [person.portrait.src] : []),
+    ...(person.background ? [person.background.src] : []),
+    ...mediaSources(person),
+  ]),
+];
 const connect = CVS.flatMap(mediaSources);
 const portraits = [PROFILE.portrait.src, ...HOME_INTRO.portraits.map((image) => image.src)];
 function chapterImages(chapter: IllustratedChapter): string[] {

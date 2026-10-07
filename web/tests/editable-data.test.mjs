@@ -94,6 +94,11 @@ test("new screenshot and optional evidence records use existing gallery schemas"
       LEADERSHIP: evidenceEntry("new-leadership"),
       CVS: evidenceEntry("new-cv"),
     }),
-    editedArrays("app/collaborators-data.ts", { COLLABORATORS: evidenceEntry("new-collaborator") }),
+    editedArrays("app/collaborators-data.ts", {
+      COLLABORATORS: (array, file) => {
+        const properties = array.elements[0].properties.filter((property) => !["id", "portrait", "background", "media", "focus", "accent", "linkedin"].includes(property.name?.getText(file)));
+        return `[${array.elements.map((entry) => entry.getText(file)).join(",")}, { ${properties.map((property) => property.getText(file)).join(",")}, id: "new-collaborator", media: [${media}] }]`;
+      },
+    }),
   ]);
 });

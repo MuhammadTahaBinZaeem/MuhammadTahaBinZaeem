@@ -79,3 +79,57 @@ Asset: `public/media/chapters/connect-atelier.webp` (1800 × 600 WebP).
 Prompt:
 
 > Use case: stylized-concept. Asset type: cinematic panoramic chapter background for Muhammad Taha Bin Zaeem's personal engineering portfolio. Input image is STYLE REFERENCE ONLY for its painterly architectural depth, fine ink engraving, atmospheric golden light, subtle etched drafting lines and premium emerald/gold aura. Do not reuse the campus architecture. Create an original scene of a luminous forest-green writing atelier with a polished wooden correspondence desk, blank paper, a fountain pen, an open doorway and sunlit trees beyond; deep emerald and warm honey light; an inviting unwritten next chapter. Composition: wide 3:1 panoramic banner, rich detailed focal scene on right half, left half deep shadowed atmospheric low detail and generous negative space suitable for a large pale heading. Sophisticated hand-painted realism mixed with architectural ink engraving, cinematic layered depth, warm shafts of light and delicate materials, sophisticated editorial art. No people, no readable text, no logos, no watermark, no frame, no fictional certificates, no named awards. Explicitly conceptual illustration, not documentary evidence.
+
+## Collaborator backgrounds
+
+Six distinct conceptual spaces generated with the built-in imagegen tool for the people cards. Their subjects follow verified public project roles and profile work documented in [PEOPLE-SOURCES.md](PEOPLE-SOURCES.md). Existing `public/media/chapters/projects-atelier.webp` is the style reference only. Portraits are sourced separately; these scenes depict imaginative spaces.
+
+All final assets are 1500 × 1000 WebP, converted from the generated PNG masters with Sharp at quality 87. Edit the `background` field of each `COLLABORATORS` record to replace a scene or remove it.
+
+### Muhammad Hamiz bin Kashif
+
+Asset: `public/media/people/hamiz-kashif-background.webp` (1500 × 1000 WebP).
+
+Prompt:
+
+> Use case: stylized-concept. Asset type: original illustrated background for one collaborator card in Muhammad Taha Bin Zaeem's engineering portfolio. The supplied engineering atelier image is STYLE REFERENCE ONLY for painterly architectural depth, fine ink engraving, warm light and subtle drafting lines; do not copy its scene. Create one beautifully detailed conceptual space based on the documented professional focus below. Composition: landscape 3:2, central and right-middle focal objects with spacious layered atmosphere, designed to remain recognisable cropped into a wide website card. Premium hand-painted realism with delicate ink engraving, cinematic yet quiet editorial art. No people, no faces, no writing, no logos, no certificates, no trophy, no watermark. This is imaginative decorative artwork, never a photograph of someone's workplace. Professional focus and scene: A precise systems engineering atelier with an elegant miniature network of brass and indigo-blue modular computing blocks, orderly cable pathways, circuit prototypes and a softly lit architectural window. The scene suggests dependable systems, secure delivery and accessible engineering. Midnight cobalt, silver-blue and warm copper light.
+
+### Alizay Hassan
+
+Asset: `public/media/people/alizay-hassan-background.webp` (1500 × 1000 WebP).
+
+Prompt:
+
+> Use case: stylized-concept. Asset type: original illustrated background for one collaborator card in Muhammad Taha Bin Zaeem's engineering portfolio. The supplied engineering atelier image is STYLE REFERENCE ONLY for painterly architectural depth, fine ink engraving, warm light and subtle drafting lines; do not copy its scene. Create one beautifully detailed conceptual space based on the documented professional focus below. Composition: landscape 3:2, central and right-middle focal objects with spacious layered atmosphere, designed to remain recognisable cropped into a wide website card. Premium hand-painted realism with delicate ink engraving, cinematic yet quiet editorial art. No people, no faces, no writing, no logos, no certificates, no trophy, no watermark. This is imaginative decorative artwork, never a photograph of someone's workplace. Professional focus and scene: An inviting product-design atelier with tactile blank storyboarding cards arranged into a thoughtful journey, sculptural connected pathways, a carefully shaped wooden desk, translucent amber panels and warm luminous arches. The scene suggests product strategy, participatory co-design and clear learning journeys. Deep plum, dusty rose and champagne-gold light.
+
+### Lameea Mubashir Khan
+
+Asset: `public/media/people/lameea-mubashir-khan-background.webp` (1500 × 1000 WebP).
+
+Prompt:
+
+> Use case: stylized-concept. Asset type: original illustrated background for one collaborator card in Muhammad Taha Bin Zaeem's engineering portfolio. The supplied engineering atelier image is STYLE REFERENCE ONLY for painterly architectural depth, fine ink engraving, warm light and subtle drafting lines; do not copy its scene. Create one beautifully detailed conceptual space based on the documented professional focus below. Composition: landscape 3:2, central and right-middle focal objects with spacious layered atmosphere, designed to remain recognisable cropped into a wide website card. Premium hand-painted realism with delicate ink engraving, cinematic yet quiet editorial art. No people, no faces, no writing, no logos, no certificates, no trophy, no watermark. This is imaginative decorative artwork, never a photograph of someone's workplace. Professional focus and scene: A beautiful visual-design atelier with blank translucent interface grids, carefully aligned sculptural panels, a drawing tablet, delicate geometric guides and accessible open pathways composed like refined information architecture. The scene suggests UI/UX, visual consistency and clear interaction. Jade green, pale mint, ivory and luminous brass.
+
+### Idrees Babar
+
+Asset: `public/media/people/idrees-babar-background.webp` (1500 × 1000 WebP).
+
+Prompt:
+
+> Use case: stylized-concept. Asset type: original illustrated background for one collaborator card in Muhammad Taha Bin Zaeem's engineering portfolio. The supplied engineering atelier image is STYLE REFERENCE ONLY for painterly architectural depth, fine ink engraving, warm light and subtle drafting lines; do not copy its scene. Create one beautifully detailed conceptual space based on the documented professional focus below. Composition: landscape 3:2, central and right-middle focal objects with spacious layered atmosphere, designed to remain recognisable cropped into a wide website card. Premium hand-painted realism with delicate ink engraving, cinematic yet quiet editorial art. No people, no faces, no writing, no logos, no certificates, no trophy, no watermark. This is imaginative decorative artwork, never a photograph of someone's workplace. Professional focus and scene: A quiet research observatory and archive with a magnifying lens, blank open notebooks, layered translucent graph-like curves without labels, a carefully arranged measuring instrument and books lit by a tall window. The scene suggests evidence review, study design and meaningful measurement. Deep teal, smoky petrol blue and antique amber.
+
+### Muhammad Fahad Younus
+
+Asset: `public/media/people/fahad-younus-background.webp` (1500 × 1000 WebP).
+
+Prompt:
+
+> Use case: stylized-concept. Asset type: original illustrated background for one collaborator card in Muhammad Taha Bin Zaeem's engineering portfolio. The supplied engineering atelier image is STYLE REFERENCE ONLY for painterly architectural depth, fine ink engraving, warm light and subtle drafting lines; do not copy its scene. Create one beautifully detailed conceptual space based on the documented professional focus below. Composition: landscape 3:2, central and right-middle focal objects with spacious layered atmosphere, designed to remain recognisable cropped into a wide website card. Premium hand-painted realism with delicate ink engraving, cinematic yet quiet editorial art. No people, no faces, no writing, no logos, no certificates, no trophy, no watermark. This is imaginative decorative artwork, never a photograph of someone's workplace. Professional focus and scene: An atmospheric AI evaluation studio with a delicate luminous network of connected glass and brass nodes, an elegant computational workbench, two balanced translucent comparison panels without writing, and warm light crossing violet shadows. The scene suggests careful model evaluation, useful AI and human oversight. Aubergine, amethyst blue and antique gold.
+
+### Tooba Fatima
+
+Asset: `public/media/people/tooba-fatima-background.webp` (1500 × 1000 WebP).
+
+Prompt:
+
+> Use case: stylized-concept. Asset type: original illustrated background for one collaborator card in Muhammad Taha Bin Zaeem's engineering portfolio. The supplied engineering atelier image is STYLE REFERENCE ONLY for painterly architectural depth, fine ink engraving, warm light and subtle drafting lines; do not copy its scene. Create one beautifully detailed conceptual space based on the documented professional focus below. Composition: landscape 3:2, central and right-middle focal objects with spacious layered atmosphere, designed to remain recognisable cropped into a wide website card. Premium hand-painted realism with delicate ink engraving, cinematic yet quiet editorial art. No people, no faces, no writing, no logos, no certificates, no trophy, no watermark. This is imaginative decorative artwork, never a photograph of someone's workplace. Professional focus and scene: A richly detailed digital-hardware atelier with a burnished copper processor die, carefully ordered logic gates represented as small physical circuit forms, precision tools, a blank open book and a gently curved architectural backdrop. The scene suggests CPU datapath engineering and clear reasoning. Burnt terracotta, copper, dark umber and parchment-gold.

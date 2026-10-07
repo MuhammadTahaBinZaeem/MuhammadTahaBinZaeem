@@ -1,6 +1,7 @@
 import { pageMetadata } from "../seo";
 import { PageStructuredData } from "../seo-schema";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { EXPERIENCE, FEATURED, LEADERSHIP } from "../dossier-data";
 import { COLLABORATORS } from "../collaborators-data";
 import {
@@ -11,7 +12,8 @@ import {
   ExternalLink,
 } from "../components/notebook-ui";
 import { StoryMotion } from "../components/story-motion";
-import { EntryGallery } from "../components/gallery-image";
+import { EntryGallery, GalleryImage } from "../components/gallery-image";
+import "./collaborators.css";
 export const metadata = pageMetadata("/experience");
 export function ExperienceChapter({
   embedded = false,
@@ -44,16 +46,43 @@ export function ExperienceChapter({
           <SectionHeading eyebrow="Shared work / project collaborators" title="Good work has more than one signature." />
           <p>The people beside me on the build. Follow their work, and explore the projects we made together.</p>
           <div className="collaborators-grid">
-            {COLLABORATORS.map((person, i) => <article className="collaborator" key={person.name} data-reveal>
-              <span className="collaborator-number" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-              <div>
-                <h3>{person.name}</h3>
-                <p>{person.note}</p>
-                <EntryGallery entry={person} title={person.name} className="collaborator-evidence" />
-                <div className="collaborator-projects">{person.projects.map((project) => <Link key={project.href} href={project.href}>{project.name} ↗</Link>)}</div>
-                <div className="link-row">
-                  {person.profile && <ExternalLink href={person.profile}>{person.platform} profile</ExternalLink>}
-                  <ExternalLink href={person.source}>Project credit</ExternalLink>
+            {COLLABORATORS.map((person, i) => <article
+              className={`collaborator${person.background ? " collaborator--illustrated" : ""}`}
+              id={"person-" + person.id}
+              aria-labelledby={"person-name-" + person.id}
+              key={person.id}
+              style={{ "--person-accent": person.accent || "#9d553d" } as CSSProperties}
+              data-reveal
+            >
+              {person.background && <div className="collaborator-cover">
+                <GalleryImage image={person.background} images={[{
+                  ...person.background,
+                  caption: person.background.caption || `Conceptual artwork inspired by ${person.name}’s ${person.focus || "shared engineering work"}.`,
+                }]} title={person.name + " · conceptual profile artwork"} />
+                <div className="collaborator-cover__label" aria-hidden="true"><span>Shared work</span><span>Personal study / {String(i + 1).padStart(2, "0")}</span></div>
+              </div>}
+              <div className="collaborator-body">
+                <div className="collaborator-identity">
+                  <figure className="collaborator-portrait">
+                    {person.portrait ? <GalleryImage image={person.portrait} images={[person.portrait, ...(person.media || [])]} title={person.name + " · profile picture & photographs"} /> :
+                      <span className="collaborator-initials" aria-label={person.name + " · initials"}>{person.name.split(/\s+/).filter(Boolean).filter((_, index, words) => index === 0 || index === words.length - 1).map(word => word[0]).join("")}</span>}
+                  </figure>
+                  <span className="collaborator-number" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                </div>
+                <div className="collaborator-introduction">
+                  {person.focus && <p className="collaborator-focus">{person.focus}</p>}
+                  <h3 id={"person-name-" + person.id}>{person.name}</h3>
+                  <p className="collaborator-note">{person.note}</p>
+                  {!person.portrait && <EntryGallery entry={person} title={person.name} className="collaborator-evidence" />}
+                </div>
+                <div className="collaborator-footer">
+                  <p className="collaborator-project-label">Made together</p>
+                  <div className="collaborator-projects">{person.projects.map((project) => <Link key={project.href} href={project.href}><span>{project.name}</span><span aria-hidden="true">↗</span></Link>)}</div>
+                  <div className="link-row">
+                    {person.linkedin && <ExternalLink href={person.linkedin}>LinkedIn profile</ExternalLink>}
+                    {person.profile && <ExternalLink href={person.profile}>{person.platform || "Public"} profile</ExternalLink>}
+                    <ExternalLink href={person.source}>Project credit</ExternalLink>
+                  </div>
                 </div>
               </div>
             </article>)}

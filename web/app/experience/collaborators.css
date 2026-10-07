@@ -1,0 +1,62 @@
+/* Public portraits and conceptual profile art remain separate gallery records. */
+html:root .collaborators-section { --people-ink: #273d34; --people-muted: #576357; --people-paper: #f7f0de; }
+html:root .collaborators-section .collaborators-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 30px; align-items: stretch; }
+html:root .collaborators-section .collaborator { position: relative; display: flex; flex-direction: column; gap: 0; min-width: 0; padding: 0; border: 1px solid #2b40352a; background: var(--people-paper); color: var(--people-ink); overflow: hidden; box-shadow: 0 8px 26px #20383107; scroll-margin-top: 90px; transition: border-color .3s,box-shadow .3s; }
+html:root .collaborators-section .collaborator::after { content: none; }
+html:root .collaborators-section .collaborator:hover { background: var(--people-paper); border-color: var(--person-accent); box-shadow: 0 12px 34px #20383112; }
+html:root .collaborators-section .collaborator-cover { position: relative; height: 210px; background: #1b302a; isolation: isolate; }
+html:root .collaborators-section .collaborator-cover > .gallery-trigger { width: 100%; height: 100%; border: 0; padding: 0; margin: 0; }
+html:root .collaborators-section .collaborator-cover > .gallery-trigger > img { display: block; width: 100%; height: 100%; max-height: 100%; object-fit: cover; padding: 0; margin: 0; background: #1b302a; }
+html:root .collaborators-section .collaborator-cover > .gallery-trigger::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg,#081c24ad,transparent 50%,#081c2433); }
+html:root .collaborators-section .collaborator-cover:has(.gallery-trigger:focus-visible)::after { content: ""; position: absolute; inset: 8px; z-index: 3; border: 3px solid #f7dfaa; box-shadow: 0 0 0 1px #142e28, inset 0 0 0 1px #142e28; pointer-events: none; }
+html:root .collaborators-section .collaborator-cover__label { position: absolute; inset: 19px 22px auto; display: flex; justify-content: space-between; gap: 12px; z-index: 1; color: #fff6e4; font: 500 8px/1.7 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; pointer-events: none; }
+html:root .collaborators-section .collaborator-cover .gallery-image-hint { top: auto; bottom: 16px; right: 15px; padding: 7px 10px; font-size: 9px; z-index: 2; }
+html:root .collaborators-section .collaborator-cover .gallery-hint-count { display: none; }
+html:root .collaborators-section .collaborator-body { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: 27px; }
+html:root .collaborators-section .collaborator-identity { position: relative; display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 26px; }
+html:root .collaborators-section .collaborator--illustrated .collaborator-identity { margin-top: -89px; }
+html:root .collaborators-section .collaborator-portrait { position: relative; z-index: 2; flex: 0 0 132px; width: 132px; height: 132px; min-width: 0; margin: 0; padding: 6px; border: 1px solid color-mix(in srgb,var(--person-accent) 45%,#fff); background: var(--people-paper); box-shadow: 5px 6px 0 #273d3412; }
+html:root .collaborators-section .collaborator-portrait > .gallery-trigger { display: block; width: 100%; height: 100%; margin: 0; border: 0; padding: 0; }
+html:root .collaborators-section .collaborator-portrait .gallery-trigger > img { display: block; width: 100%; height: 100%; max-height: 100%; margin: 0; padding: 0; object-fit: cover; background: #d8d9cb; }
+html:root .collaborators-section .collaborator-portrait .gallery-image-hint { padding: 4px 6px; right: 5px; bottom: 5px; font-size: 13px; }
+html:root .collaborators-section .collaborator-portrait .gallery-image-hint > :not(.gallery-hint-icon) { display: none; }
+html:root .collaborators-section .collaborator-initials { display: grid; place-items: center; width: 100%; height: 100%; background: color-mix(in srgb,var(--person-accent) 9%,var(--people-paper)); color: var(--person-accent); font: 500 52px/1 var(--font-display); letter-spacing: -.04em; }
+html:root .collaborators-section .collaborator-number { display: block; margin: 0 0 2px; padding: 0; font: 500 52px/.95 var(--font-display); color: color-mix(in srgb,var(--person-accent) 42%,var(--people-paper)); }
+html:root .collaborators-section .collaborator-introduction { min-width: 0; }
+html:root .collaborators-section .collaborator h3 { margin: 0 0 17px; min-height: 0; color: var(--people-ink); font: 650 clamp(22px,2vw,29px)/1.18 var(--font-body); letter-spacing: -.035em; overflow-wrap: anywhere; }
+html:root .collaborators-section .collaborator p { min-height: 0; }
+html:root .collaborators-section .collaborator .collaborator-focus { display: inline-block; margin: 0 0 13px; padding-bottom: 7px; border-bottom: 1px solid color-mix(in srgb,var(--person-accent) 45%,transparent); color: var(--people-ink); font: 500 9px/1.6 var(--font-mono); letter-spacing: .045em; text-transform: uppercase; }
+html:root .collaborators-section .collaborator-note { margin: 0; color: var(--people-muted); font: 400 13px/1.85 var(--font-body); }
+html:root .collaborators-section .collaborator-footer { margin-top: auto; padding-top: 28px; }
+html:root .collaborators-section .collaborator-project-label { margin: 0 0 11px; color: var(--people-muted); font: 500 8px/1.6 var(--font-mono); letter-spacing: .07em; text-transform: uppercase; }
+html:root .collaborators-section .collaborator-projects { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+html:root .collaborators-section .collaborator-projects > a { display: inline-flex; align-items: center; justify-content: space-between; gap: 13px; min-height: 35px; padding: 6px 10px; border: 1px solid #2b40352a; color: var(--people-ink); background: #fff9ed; font: 500 10px/1.55 var(--font-mono); text-decoration: none; transition: border-color .2s,background .2s; }
+html:root .collaborators-section .collaborator-projects > a:hover { border-color: var(--person-accent); background: color-mix(in srgb,var(--person-accent) 6%,#fff9ed); }
+html:root .collaborators-section .collaborator-projects > a > span:last-child { color: var(--person-accent); }
+html:root .collaborators-section .collaborator .link-row { gap: 8px 18px; padding-top: 17px; border-top: 1px solid #2b403522; }
+html:root .collaborators-section .collaborator .text-link { min-height: 28px; color: var(--people-ink); font: 500 10px/1.6 var(--font-mono); }
+html:root .collaborators-section .collaborator a:focus-visible { outline: 2px solid var(--person-accent); outline-offset: 4px; }
+html:root .collaborators-section .collaborator-evidence { margin: 20px 0 0; }
+
+@media (max-width: 1100px) {
+  html:root .collaborators-section .collaborators-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+}
+@media (max-width: 600px) {
+  html:root .collaborators-section .collaborators-grid { grid-template-columns: minmax(0,1fr); gap: 28px; }
+  html:root .collaborators-section .collaborator-body { padding: 24px; }
+  html:root .collaborators-section .collaborator-cover__label { inset-inline: 24px; font-size: 7px; }
+  html:root .collaborators-section .collaborator h3 { font-size: 27px; }
+  html:root .collaborators-section .collaborator-projects > a,html:root .collaborators-section .collaborator .text-link { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:root .collaborators-section .collaborator,html:root .collaborators-section .gallery-trigger > img { transition: none; }
+}
+html:root[data-motion="quiet"] .collaborators-section .collaborator,html:root[data-motion="quiet"] .collaborators-section .gallery-trigger > img { transition: none; }
+@media print {
+  html:root .collaborators-section .collaborators-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
+  html:root .collaborators-section .collaborator { break-inside: avoid; box-shadow: none; border-color: #888; background: #fff; }
+  html:root .collaborators-section .collaborator-cover { height: 145px; }
+  html:root .collaborators-section .collaborator-cover__label,html:root .collaborators-section .gallery-image-hint { display: none; }
+  html:root .collaborators-section .collaborator-body { padding: 20px; }
+  html:root .collaborators-section .collaborator--illustrated .collaborator-identity { margin-top: -60px; }
+}

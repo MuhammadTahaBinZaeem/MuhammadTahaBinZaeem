@@ -14,7 +14,7 @@ Content is separate from its layouts, galleries, and motion. Edit a record in th
 | Research studies and their evidence | `app/dossier-data.ts`: `RESEARCH` |
 | Internships and employment | `app/dossier-data.ts`: `EXPERIENCE` |
 | Leadership and volunteering | `app/dossier-data.ts`: `LEADERSHIP` |
-| People, their order, project credits and profiles | `app/collaborators-data.ts`: `COLLABORATORS` |
+| People, order, profile pictures, illustrated backgrounds and LinkedIn links | `app/collaborators-data.ts`: `COLLABORATORS` |
 | Education, campus banners and institution galleries | `app/portfolio-data.ts`: `EDUCATION` |
 | Illustrated chapter backgrounds, captions, personal voice and portrait | `app/chapter-artwork.ts`: `CHAPTER_ARTWORK`, `CHAPTER_AUTHOR` |
 | Skills and research interests | `app/dossier-data.ts`: `SKILLS`, `DOSSIER.interests` |
@@ -97,6 +97,8 @@ For an engineering project, copy a `PROJECTS` record and change the ID, title, s
 For research, internship, leadership, CV and collaborator entries, copy a record in the corresponding array. Their optional `media` uses the same format above; no JSX change is required to add evidence. A collaborator's `projects` array controls their project buttons, and `profile`, `platform`, `source` control their real public credit links. Use `profile: null` and `platform: null` when a profile has not been confirmed.
 
 The requested people order is stored directly in `COLLABORATORS`: Hamiz, Alizay, Lameea, Idrees, Fahad, Tooba. Reorder those objects to change it later. Their numbers follow automatically.
+
+For each person, optional `portrait` sets the profile picture and `media` adds related pictures to its gallery. Optional `background` sets a separate illustrated cover; `focus` and `accent` control its label and color. Optional `linkedin` adds a confirmed LinkedIn link alongside the established `profile`/`platform` link. Omitting a portrait gives readable initials, and omitting artwork gives an ordinary card. Image frames retain their dimensions during loading. Sources and the remaining missing links/photos are recorded in [PEOPLE-SOURCES.md](PEOPLE-SOURCES.md).
 
 Move whole `BOOK_WORLDS` objects to reorder the continuous book. The chapter content registry in `app/page.tsx` connects existing IDs to components, and is independent of their order. Change `CHAPTERS` when you also want to change atlas/navigation order and labels. Retain `foreword` as the first world for the cover's opening destination. Adding a wholly new chapter requires its page component and registry entry; adding content inside an existing chapter requires only data.
 
