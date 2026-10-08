@@ -2,9 +2,9 @@
 
 Retrieved and checked on 7 October 2026. ProGenEDA and Type2Learn now use their own published imagery as flagship covers and gallery content. The official websites and GitHub organizations link to one another: [ProGenEDA](https://progeneda.app/) / [its organization](https://github.com/ProGenEDA), and [Type2Learn](https://type2learn.tech/) / [its organization](https://github.com/Type2Learn).
 
-`FEATURED.image` in `app/dossier-data.ts` sets each primary cover. `FEATURED.media` contains the shared founder portrait, and `app/project-galleries.ts` supplies the remaining images in display order. The resulting galleries contain ten ProGenEDA images and six Type2Learn images. Remove or reorder those data entries to change the galleries without changing a layout or animation.
+`FEATURED.image` in `app/dossier-data.ts` sets each primary cover. `FEATURED.media` adds optional project-specific evidence, and `app/project-galleries.ts` supplies the remaining images in display order. Following the 8 October 2026 library audit, the galleries contain eight ProGenEDA images and four Type2Learn images. The shared founder portrait belongs to the author introduction, and supplemental organization avatars remain source archives rather than product-gallery entries. Remove or reorder the data entries to change the galleries without changing a layout or animation.
 
-The ProGenEDA cover is its official brand card. Its gallery includes published application screenshots, native-editor examples, organization branding, and the founder portrait. The Type2Learn cover and active-recall image are actual captures of its live website; two additional images are explanatory artwork published by Type2Learn and are explicitly captioned as artwork. A screenshot of a website may contain that website's editorial visuals; it does not establish that the pictured learner is a participant. Native-editor examples document what the official site publishes and do not imply additional validation or simulation results.
+The ProGenEDA cover is its official brand card. Its gallery includes published application screenshots and native-editor examples. The Type2Learn cover and active-recall image are actual captures of its live website; two additional images are explanatory artwork published by Type2Learn and are explicitly captioned as artwork. A screenshot of a website may contain that website's editorial visuals; it does not establish that the pictured learner is a participant. Native-editor examples document what the official site publishes and do not imply additional validation or simulation results.
 
 ## Saved files and original sources
 
@@ -28,7 +28,7 @@ Every filename below is under `public/media/projects/`. Sizes are the encoded im
 | `type2learn-official-github-mark.webp` | 460 × 460 | [Organization avatar](https://avatars.githubusercontent.com/u/306594002?s=1024&v=4) displayed on [Type2Learn's GitHub organization](https://github.com/Type2Learn) · brand mark |
 | `muhammad-taha-founder-headshot.webp` | 988 × 970 | Founder portrait from [ProGenEDA](https://progeneda.app/media/team/founder-muhammad-taha.webp) and [Type2Learn](https://type2learn.tech/assets/team/founder-muhammad-taha.webp), where it appears on the [team page](https://type2learn.tech/team/) |
 
-The two founder files are byte-identical. One local copy is shared by both project galleries and preserved without reencoding. The original files in `public/media/ventures/` remain historical archives; these two project galleries now point to the official imagery listed here.
+The two founder source files are byte-identical. One local copy is used by the chapter author introduction and preserved without reencoding. The organization-avatar files listed above are retained as source archives and excluded from displayed galleries. The original files in `public/media/ventures/` also remain historical archives; the two project galleries point to the curated official imagery.
 
 ## Repository provenance and delivery
 

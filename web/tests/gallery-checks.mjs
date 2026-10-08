@@ -90,7 +90,7 @@ export async function runGalleryChecks({ cdp, navigate, viewport, until, sleep, 
     await screenshot(`gallery-achievement-frames-${width}`);
     const awardPosition = await cdp.evaluate("scrollY");
     await open("#achievement-sempec-junior-hardware-runner-up .gallery-trigger");
-    assert.equal(await cdp.evaluate(`document.querySelectorAll('.gallery-thumbnails button').length`), 3, "All three SEMPEC photos are accessible");
+    assert.equal(await cdp.evaluate(`document.querySelectorAll('.gallery-thumbnails button').length`), 4, "SEMPEC's three event photos and merit certificates stay together");
     await key("ArrowRight");
     await screenshot(`gallery-sempec-second-${width}`);
     await fits();
@@ -116,6 +116,22 @@ export async function runGalleryChecks({ cdp, navigate, viewport, until, sleep, 
     await cdp.send("Input.dispatchTouchEvent", { type, touchPoints: type === "touchEnd" ? [] : [{x,y}] });
   await closed(touchPosition);
   await viewport(1440, 1000);
+  // Returning focus must not re-center a horizontal rail after modal scroll
+  // restoration. Exercise a real rail opener on both reading routes.
+  for (const route of ["projects#project-vector-cpu", "#project-vector-cpu"]) {
+    await navigate(route);
+    await cdp.evaluate(`document.querySelector('#project-vector-cpu .gallery-trigger').focus({preventScroll:true})`);
+    await sleep(300);
+    await cdp.send("Input.dispatchMouseEvent", { type: "mouseWheel", x: 700, y: 350, deltaY: -160, deltaX: 0 });
+    await sleep(300);
+    assert.equal(await cdp.evaluate(`(()=>{const a=document.querySelector('#project-vector-cpu .gallery-trigger'),r=a.getBoundingClientRect(),v=a.closest('[data-scroll-viewport]').getBoundingClientRect();return r.left<v.left&&r.right>v.left;})()`), true, "A native reverse scroll leaves the rail image partly visible before opening");
+    const railPosition = await cdp.evaluate("scrollY");
+    await open("#project-vector-cpu .gallery-trigger");
+    await fits();
+    await key("Escape");
+    await closed(railPosition);
+    assert.equal(await cdp.evaluate(`document.activeElement.matches('#project-vector-cpu .gallery-trigger')`), true, "Rail gallery restores focus without moving the reading position");
+  }
   await navigate("projects#paretoco");
   await cdp.evaluate(`document.querySelector('#paretoco').scrollIntoView({block:'start',behavior:'instant'})`);
   await sleep(400);

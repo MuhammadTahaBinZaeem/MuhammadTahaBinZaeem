@@ -27,7 +27,7 @@ export function EducationChapter({
         />
         {EDUCATION.map((e) => {
           const campus = (e as EducationEntry).campus;
-          const images = campus ? [campus, ...e.media] : e.media;
+          const images = e.media;
           const entry = e as EducationEntry;
           return (
           <article
@@ -37,11 +37,11 @@ export function EducationChapter({
             data-reveal
           >
             {campus && <div className="campus-banner" data-reactive>
-              <GalleryImage image={campus} images={images} title={e.institution} />
+              <GalleryImage image={campus} images={[campus]} title={(e.campusLabel || e.institution) + " · campus illustration"} />
               <div className="campus-banner__copy" aria-hidden="true">
                 <span>Where the foundations grew</span>
                 <strong>{(e as EducationEntry).campusLabel || e.institution}</strong>
-                <span>Explore the campus & archive ↗</span>
+                <span>View the campus illustration ↗</span>
               </div>
             </div>}
             <div>
@@ -65,7 +65,7 @@ export function EducationChapter({
                 ))}
               </ul>
               {e.media[0] && <figure className="education-evidence" data-paper>
-                <GalleryImage image={e.media[0]} images={images} title={e.institution} />
+                <GalleryImage image={e.media[0]} images={images} title={e.institution + " · education archive"} />
                 <figcaption>{e.media[0].alt}</figcaption>
               </figure>}
             </div>

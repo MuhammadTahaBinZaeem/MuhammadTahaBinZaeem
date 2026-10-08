@@ -48,7 +48,7 @@ export function chapterPose(
   // a large certificate beneath a perspective parent can project its corners
   // over neighbouring documents; animate only a small vertical entrance.
   if (chapter === "certifications" || node.matches("article, .collaborator-card, .education-story, .credential-collection")) {
-    Object.assign(pose, { x: 0, y: 28, rotation: 0, rotationY: 0, scale: 1 });
+    Object.assign(pose, { x: 0, y: 46, rotation: 0, rotationY: 0, scale: 1 });
   }
   if (compact) {
     pose.x *= 0.4;
@@ -61,6 +61,68 @@ export function chapterPose(
 
 export const REST_POSE: MotionPose = { x: 0, y: 0, rotation: 0, rotationY: 0, scale: 1 };
 export const PLANAR_TRANSFORM = { force3D: false, rotationX: 0, rotationY: 0, z: 0 } as const;
+
+export type SceneLayer = {
+  node: HTMLElement;
+  trigger: HTMLElement;
+  kind: "artwork" | "heading";
+  order: number;
+  from: Record<string, number | string | boolean>;
+  to: Record<string, number | string | boolean>;
+};
+
+/** Scenic crops move inside fixed frames; photographs of evidence stay still. */
+export function collectSceneLayers(scope: HTMLElement, chapter: string, compact = false): SceneLayer[] {
+  const layers: SceneLayer[] = [];
+  const directions: Record<string, [number, number]> = {
+    projects: [3, 1], research: [1, 3], experience: [-2, 2],
+    education: [0, 4], certifications: [2, 1], achievements: [-3, 3], connect: [2, 2],
+  };
+  const [x, y] = directions[chapter] || [2, 2];
+  const factor = compact ? 0.55 : 1;
+  scope.querySelectorAll<HTMLElement>(".chapter-atmosphere > .gallery-trigger > img, .campus-banner > .gallery-trigger > img, .collaborator-cover > .gallery-trigger > img")
+    .forEach((node, order) => {
+      const trigger = node.closest<HTMLElement>(".chapter-heading--illustrated, .campus-banner, .collaborator-cover");
+      if (!trigger) return;
+      layers.push({
+        node, trigger, kind: "artwork", order,
+        from: { "--scene-x": `${-x * factor}%`, "--scene-y": `${y * factor}%`, "--scene-zoom": compact ? 1.09 : 1.16 },
+        to: { "--scene-x": `${x * factor}%`, "--scene-y": `${-y * factor}%`, "--scene-zoom": compact ? 1.05 : 1.1 },
+      });
+    });
+  scope.querySelectorAll<HTMLElement>(".page-heading, .atlas-heading").forEach((heading) => {
+    const copy = heading.querySelector<HTMLElement>(".chapter-heading__copy") || heading;
+    Array.from(copy.children).filter((node): node is HTMLElement => node instanceof HTMLElement && node.matches(".eyebrow, .book-kicker, h1, h2, .heading-tail"))
+      .forEach((node, order) => {
+        // An existing reveal owner already animates this whole composition.
+        if (node.closest("[data-reveal], [data-paper], [data-book-leaf]")) return;
+        layers.push({
+          node, trigger: heading, kind: "heading", order,
+          from: { x: 0, y: (node.matches("h1,h2") ? 58 : 30) * factor, ...PLANAR_TRANSFORM },
+          to: { ...REST_POSE, ...PLANAR_TRANSFORM },
+        });
+      });
+  });
+  return layers;
+}
+
+/** Attribute changes activate only decorative crop CSS, and are reversible. */
+export function activateSceneLayers(layers: SceneLayer[]) {
+  const originals = layers.filter((layer) => layer.kind === "artwork").map(({ node }) => ({ node, value: node.getAttribute("data-scene-image") }));
+  originals.forEach(({ node }) => node.setAttribute("data-scene-image", "true"));
+  return () => originals.forEach(({ node, value }) => {
+    if (value === null) node.removeAttribute("data-scene-image");
+    else node.setAttribute("data-scene-image", value);
+  });
+}
+
+/** Adjacent columns arrive in a wave without an extra animation on children. */
+export function revealColumnDelay(node: HTMLElement, scope: HTMLElement, compact = false) {
+  if (compact || !node.matches("article, [data-book-leaf], .note-card, .skill-group")) return 0;
+  const bounds = node.getBoundingClientRect();
+  const frame = scope.getBoundingClientRect();
+  return Math.max(0, Math.min(0.16, (bounds.left - frame.left) / Math.max(1, frame.width) * 0.2));
+}
 
 export type HorizontalScene = {
   scene: HTMLElement;

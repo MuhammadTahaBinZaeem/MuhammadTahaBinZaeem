@@ -26,12 +26,14 @@ export function GalleryImage({ image, images = [image], title, className = "", e
   className?: string;
   eager?: boolean;
 }) {
-  // A standalone cover stays accessible even when its optional group is empty.
-  const group = images.some((item) => item.src === image.src) ? images : [image, ...images];
+  // An explicit library owns its membership. A decorative cover must not add
+  // itself to a collection of photographs or certificates behind it.
+  const group = images.length ? images : [image];
   const items = Array.from(new Map(group.map((item) => [item.src, item])).values());
+  const selected = items.find((item) => item.src === image.src) || items[0];
   return (
-    <a className={`gallery-trigger ${className}`} href={image.src}
-      data-gallery={JSON.stringify({ title, items })} data-gallery-src={image.src}
+    <a className={`gallery-trigger ${className}`} href={selected.src}
+      data-gallery={JSON.stringify({ title, items })} data-gallery-src={selected.src}
       aria-label={`View ${title} gallery · ${items.length} ${items.length === 1 ? "image" : "images"}`}
       aria-haspopup="dialog">
       <img src={image.src} width={image.width} height={image.height} alt={image.alt}

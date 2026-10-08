@@ -10,7 +10,11 @@ import {
   resetHorizontalScenes,
   REST_POSE,
   PLANAR_TRANSFORM,
+  collectSceneLayers,
+  activateSceneLayers,
+  revealColumnDelay,
 } from "./motion-vocabulary";
+import "./scene-motion.css";
 
 export function editorialTitleScale(title: string) {
   return title.length > 45 ? "technical" : title.length > 22 ? "balanced" : "large";
@@ -67,16 +71,35 @@ export function StoryMotion({
         }
         const stopReactive = attachReactiveMotion(node);
         const chapter = pathname.split("/")[1] || "foreword";
+        const compact = innerWidth < 760;
+        const layers = collectSceneLayers(node, chapter, compact);
+        const stopLayers = activateSceneLayers(layers);
+        // Capture column geometry together before GSAP assigns any entrances.
+        const reveals = collectRevealTargets(node).map((element, index) => ({
+          element, index, delay: revealColumnDelay(element, node, compact),
+        }));
         const context = gsap.context(() => {
-          collectRevealTargets(node).forEach((element, index) => {
+          reveals.forEach(({ element, index, delay }) => {
             if (element.closest('[data-scroll-scene][data-scene-ready="scroll"]')) return;
             if (anchor?.node && element.contains(anchor.node)) return;
-            gsap.fromTo(element, { ...chapterPose(element, index, chapter, innerWidth < 760), ...PLANAR_TRANSFORM }, {
+            gsap.fromTo(element, { ...chapterPose(element, index, chapter, compact), ...PLANAR_TRANSFORM }, {
               ...REST_POSE,
               ...PLANAR_TRANSFORM,
-              duration: 1.15,
-              ease: "power3.out",
+              duration: 1.25,
+              delay,
+              ease: "expo.out",
               scrollTrigger: { trigger: element, start: "top 96%", once: true },
+            });
+          });
+          layers.forEach(({ node: layer, trigger, kind, order, from, to }) => {
+            gsap.fromTo(layer, from, {
+              ...to,
+              duration: kind === "heading" ? 1.3 : 1,
+              delay: kind === "heading" ? order * 0.09 : 0,
+              ease: kind === "heading" ? "expo.out" : "none",
+              scrollTrigger: kind === "heading"
+                ? { trigger, start: "top 94%", once: true }
+                : { trigger, start: "top bottom", end: "bottom top", scrub: true },
             });
           });
           gsap.utils.toArray<HTMLElement>("[data-ink-rule]").forEach((element) => {
@@ -114,11 +137,15 @@ export function StoryMotion({
         let focusFrame = 0;
         let pendingRefresh = false;
         const onFocus = (event: FocusEvent) => {
+          // Closing a gallery restores focus before it releases its scroll
+          // lock. That focus return must not start a new rail navigation.
+          if (document.documentElement.dataset.galleryOpen) return;
           const target = event.target as HTMLElement;
           const item = scenes.find(({ travel, track }) => travel && track.contains(target));
           if (!item) return;
           cancelAnimationFrame(focusFrame);
           focusFrame = requestAnimationFrame(() => {
+            if (document.documentElement.dataset.galleryOpen || !target.isConnected) return;
             item.viewport.scrollLeft = 0;
             const bounds = target.getBoundingClientRect();
             const view = item.viewport.getBoundingClientRect();
@@ -177,6 +204,7 @@ export function StoryMotion({
           observer.disconnect();
           stopReactive();
           context.revert();
+          stopLayers();
           resetHorizontalScenes(scenes);
         };
       } catch {

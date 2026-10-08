@@ -1035,7 +1035,7 @@ export const ACHIEVEMENTS: readonly Achievement[] = [
       "The custom single-cycle CPU was recognized in the Junior Hardware category at the SEMPEC semester project exhibition.",
     evidence: [
       "LinkedIn Honors records the placement and documents the CPU architecture and browser-accessible showcase.",
-      "The gallery preserves the prize presentation, award ceremony, and Junior Hardware project judging photographs.",
+      "The gallery preserves the prize presentation, award ceremony, Junior Hardware project judging photographs, and SEMPEC merit certificates.",
     ],
     media: [
       {
@@ -1055,6 +1055,13 @@ export const ACHIEVEMENTS: readonly Achievement[] = [
         alt: "Muhammad Taha's Junior Hardware project during SEMPEC judging",
         width: 1182,
         height: 1331,
+      },
+      {
+        src: "/media/achievements/certificates-collection.webp",
+        alt: "SEMPEC merit certificates for Muhammad Taha, Tooba Fatima and Lameea Mubashir Khan, with the Junior Hardware third-position certificate",
+        caption: "SEMPEC Junior Hardware · team merit and third-position certificates",
+        width: 1600,
+        height: 1200,
       },
     ],
     theme: THEMES.cpu,
@@ -1109,14 +1116,7 @@ export const EDUCATION: readonly EducationEntry[] = [
       "Analog sensing and switching projects",
       "C++ symbolic algebra solver",
     ],
-    media: [
-      {
-        src: "/media/achievements/certificates-collection.webp",
-        alt: "Engineering competition certificates from Muhammad Taha's NUST work",
-        width: 1600,
-        height: 1200,
-      },
-    ],
+    media: [],
     theme: THEMES.cpu,
   },
   {

@@ -192,6 +192,7 @@ html:root .campus-banner__copy { position: absolute; top: 50%; left: 5%; transfo
 html:root .campus-banner__copy > span:first-child { display: block; font: 500 9px/1.6 var(--font-mono); letter-spacing: .12em; margin: 0 0 10px; padding: 0; border: 0; text-transform: uppercase; }
 html:root .campus-banner__copy strong { display: block; font: 650 clamp(34px,5.8vw,82px)/1 var(--font-display); letter-spacing: -.01em; }
 html:root .campus-banner__copy span { display: inline-block; margin-top: 18px; font: 400 10px/1.6 var(--font-mono); border-bottom: 1px solid #fff0d77a; padding-bottom: 8px; }
+html:root .campus-banner__copy > span:last-child { display: none; }
 html:root .campus-banner:hover .gallery-trigger > img { scale: 1.035; }
 html:root .campus-banner .gallery-image-hint { z-index: 3; }
 html:root .education-story > div:first-of-type { position: relative; }
@@ -274,8 +275,9 @@ html:root .motion-reactive { --pointer-x: 50%; --pointer-y: 50%; --tilt-x: 0deg;
   html:root .collaborator h3 { font-size: 22px; }
   html:root .collaborator-number { font-size: 52px; margin-bottom: 26px; }
   html:root .education-story { gap: 20px; }
-  html:root .campus-banner .gallery-trigger > img { aspect-ratio: 1.8; object-position: 60% 50%; }
-  html:root .campus-banner__copy { max-width: 60%; left: 6%; }
+  /* Keep the mobile crop while the book parks the image's intrinsic ratio. */
+  html:root .campus-banner .gallery-trigger > img { aspect-ratio: 1.8 !important; object-position: 60% 50%; }
+  html:root .campus-banner__copy { top: 20px; transform: none; max-width: 88%; left: 6%; }
   html:root .campus-banner__copy strong { font-size: clamp(35px,9vw,58px); }
   html:root .campus-banner__copy > span:first-child { font-size: 7px; }
   html:root .campus-banner__copy span { font-size: 8px; margin-top: 13px; }

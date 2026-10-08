@@ -168,7 +168,7 @@ export function ImageGallery() {
       onClick={(event) => { if (event.target === event.currentTarget) close.current(); }}>
       {gallery && item && <div className="gallery-surface">
         <header className="gallery-header">
-          <div className="gallery-heading"><p className="eyebrow">The evidence / image archive</p><h2 id="gallery-title">{gallery.title}</h2></div>
+          <div className="gallery-heading"><p className="eyebrow">The image library</p><h2 id="gallery-title">{gallery.title}</h2></div>
           <div className="gallery-header-actions">
             <span className="gallery-header-count" aria-hidden="true">{String(index + 1).padStart(2, "0")} <i>/</i> {String(gallery.items.length).padStart(2, "0")}</span>
             <button type="button" className="gallery-close" onClick={() => close.current()} aria-label="Close gallery">Close <span aria-hidden="true">×</span></button>

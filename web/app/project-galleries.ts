@@ -12,13 +12,11 @@ export const PROJECT_GALLERIES: Record<string, readonly GalleryAsset[]> = {
     { src: "/media/projects/progeneda-official-easyeda-schematic.webp", width: 1608, height: 946, alt: "A native EasyEDA Pro schematic example published by ProGenEDA", caption: "EasyEDA Pro schematic · official native-editor example" },
     { src: "/media/projects/progeneda-official-kicad-board.webp", width: 1293, height: 879, alt: "A KiCad two-layer board example published by ProGenEDA", caption: "KiCad board · official native-editor example" },
     { src: "/media/projects/progeneda-official-ltspice-schematic.webp", width: 1914, height: 1024, alt: "An LTspice schematic example with physical wires published by ProGenEDA", caption: "LTspice schematic · official native-editor example" },
-    { src: "/media/projects/progeneda-official-github-mark.webp", width: 448, height: 448, alt: "The official ProGenEDA GitHub organization brand mark", caption: "Organization identity · github.com/ProGenEDA" },
   ],
   type2learn: [
     { src: "/media/projects/type2learn-official-recall-capture.webp", width: 1600, height: 1000, alt: "The actual Type2Learn active-recall interaction, with the current idea, answer field and response check", caption: "Active recall · live website capture, October 2026" },
     { src: "/media/projects/type2learn-official-learning-path-artwork.webp", width: 1672, height: 941, alt: "Type2Learn’s official explanatory artwork of a learning route made from colorful key forms and connecting arrows", caption: "Learning path · official explanatory artwork" },
     { src: "/media/projects/type2learn-official-learner-controls-artwork.webp", width: 1586, height: 992, alt: "Type2Learn’s official explanatory artwork of a dial, slider, pause control and adaptable settings panel", caption: "Learner controls · official explanatory artwork" },
-    { src: "/media/projects/type2learn-official-github-mark.webp", width: 460, height: 460, alt: "The official Type2Learn GitHub organization brand mark", caption: "Organization identity · github.com/Type2Learn" },
   ],
   "debate-club": [{ src: "/media/ventures/debate-club-live.webp", width: 1440, height: 900, alt: "Debate Club · archived capture of the live application" }],
 };

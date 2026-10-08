@@ -18,7 +18,11 @@ import {
   resetHorizontalScenes,
   REST_POSE,
   PLANAR_TRANSFORM,
+  collectSceneLayers,
+  activateSceneLayers,
+  revealColumnDelay,
 } from "./motion-vocabulary";
+import "./scene-motion.css";
 
 type Segment = { start: number; read: number; turn: number; height: number };
 type Jump = {
@@ -165,6 +169,8 @@ export function BookExperience({ children }: { children: ReactNode }) {
           window.scrollTo({ top, behavior: immediate ? "instant" : "smooth" });
         };
         const scenes = bodies.map(collectHorizontalScenes);
+        const layers = bodies.map((body, index) => collectSceneLayers(body, BOOK_WORLDS[index].id, innerWidth < 760));
+        const stopLayers = activateSceneLayers(layers.flat());
         const stopReactive = attachReactiveMotion(element);
         let motions: ReturnType<typeof gsap.timeline>[] = [];
         const trigger: {
@@ -184,6 +190,9 @@ export function BookExperience({ children }: { children: ReactNode }) {
         const right = rift.current!.querySelector<HTMLElement>(".rift-right")!;
         const dock = element.querySelector<HTMLElement>(".book-dock")!;
         const riftLabel = riftNode.querySelector<HTMLElement>(".rift-label")!;
+        const riftNumber = riftNode.querySelector<HTMLElement>(".rift-number")!;
+        const riftCaption = riftNode.querySelector<HTMLElement>(".rift-caption")!;
+        const riftSignal = riftNode.querySelector<HTMLElement>(".rift-signal")!;
         let riftKey = "";
         const riftAt = (
           progress: number,
@@ -201,6 +210,9 @@ export function BookExperience({ children }: { children: ReactNode }) {
             riftNode.style.setProperty("--rift-ink", paper.ink);
             riftNode.style.setProperty("--rift-accent", paper.accent);
             riftLabel.textContent = BOOK_WORLDS[to].title;
+            riftNumber.textContent = BOOK_WORLDS[to].number;
+            riftCaption.textContent = BOOK_WORLDS[to].label;
+            riftNode.dataset.axis = ["education", "achievements"].includes(BOOK_WORLDS[to].id) ? "vertical" : "horizontal";
             riftNode.dataset.kind = isJump ? "jump" : "turn";
             riftKey = key;
           }
@@ -209,8 +221,15 @@ export function BookExperience({ children }: { children: ReactNode }) {
           riftNode.style.opacity = String(
             isJump ? 1 : Math.min(1, progress / 0.16),
           );
-          left.style.transform = `translate3d(${-tear * 112}%,0,0) rotate(${-tear * 5}deg)`;
-          right.style.transform = `translate3d(${tear * 112}%,0,0) rotate(${tear * 5}deg)`;
+          const vertical = riftNode.dataset.axis === "vertical";
+          left.style.transform = vertical
+            ? `translate3d(0,${-tear * 112}%,0)`
+            : `translate3d(${-tear * 112}%,0,0) rotate(${-tear * 3}deg)`;
+          right.style.transform = vertical
+            ? `translate3d(0,${tear * 112}%,0)`
+            : `translate3d(${tear * 112}%,0,0) rotate(${tear * 3}deg)`;
+          riftSignal.style.opacity = String(Math.sin(progress * Math.PI) * (1 - paperEase(progress / 0.72)));
+          riftSignal.style.transform = `translate(-50%,-50%) translateY(${(1 - tear) * 28}px) scale(${0.94 + tear * 0.06})`;
         };
         const visiblePanels = new Set<number>();
         panels.forEach((panel) => {
@@ -330,32 +349,46 @@ export function BookExperience({ children }: { children: ReactNode }) {
             const turn = index < panels.length - 1 ? Math.round(vh * 1.15) : 0;
             const segment = { start: cursor, read, turn, height };
             cursor += read + turn;
-            const timeline = gsap.timeline({ paused: true });
-            timeline.to({}, { duration: read });
             const base = body.getBoundingClientRect().top;
             const targets = collectRevealTargets(body);
-            // Capture positions before assigning any entrance transforms.
-            const targetTops = targets.map((node) => node.getBoundingClientRect().top - base);
-            targets.forEach((node, i) => {
+            // Read every layer first. A transformed parent must never corrupt
+            // the position used for its rule, artwork, rail or deep-link target.
+            const reveals = targets.map((node, i) => ({ node, i, top: node.getBoundingClientRect().top - base, delay: revealColumnDelay(node, body, innerWidth < 760) }));
+            const layerBounds = collectSceneLayers(body, BOOK_WORLDS[index].id, innerWidth < 760).map((layer) => ({ ...layer, top: layer.trigger.getBoundingClientRect().top - base, height: layer.trigger.offsetHeight }));
+            const railBounds = scenes[index].map((item) => ({ item, top: item.viewport.getBoundingClientRect().top - base, height: item.viewport.offsetHeight }));
+            const parallax = Array.from(body.querySelectorAll<HTMLElement>("[data-motion-parallax]")).map((node) => ({ node, top: node.getBoundingClientRect().top - base, height: node.offsetHeight }));
+            const titles = Array.from(body.querySelectorAll<HTMLElement>("[data-title-travel]")).map((node) => ({ node, top: node.getBoundingClientRect().top - base }));
+            const rules = Array.from(body.querySelectorAll<HTMLElement>("[data-ink-rule]")).map((node) => ({ node, top: node.getBoundingClientRect().top - base }));
+            const timeline = gsap.timeline({ paused: true });
+            timeline.to({}, { duration: read });
+            reveals.forEach(({ node, i, top, delay }) => {
               if (node.hasAttribute("data-book-drift") || node.closest("[data-scroll-scene]")) return;
-              const top = targetTops[i];
-              const at = Math.max(0, top - vh * 0.94);
-              const duration = Math.max(1, Math.min(vh * 0.74, read - at));
+              const at = Math.min(read - 1, Math.max(0, top - vh * 0.94) + delay * vh);
+              const duration = Math.max(1, Math.min(vh * 0.62, read - at));
               const pose = chapterPose(node, i, BOOK_WORLDS[index].id, innerWidth < 760);
               timeline.fromTo(
                 node,
                 { ...pose, ...PLANAR_TRANSFORM },
-                { ...REST_POSE, ...PLANAR_TRANSFORM, duration, ease: "power3.out", immediateRender: false },
-                Math.min(read - 1, at),
+                { ...REST_POSE, ...PLANAR_TRANSFORM, duration, ease: "expo.out", immediateRender: false },
+                at,
               );
+            });
+            layerBounds.forEach(({ node, top, height, kind, order, from, to }) => {
+              const at = Math.min(read - 1, Math.max(0, top - vh * (kind === "heading" ? 0.94 : 1)) + (kind === "heading" ? order * vh * 0.035 : 0));
+              const duration = Math.max(1, Math.min(read - at, kind === "heading" ? vh * 0.58 : vh + height));
+              timeline.fromTo(node, from, {
+                // Fixed scenic crops can safely establish their starting
+                // camera now, including when the first native position is 0.
+                ...to, duration, ease: kind === "heading" ? "expo.out" : "none", immediateRender: kind === "artwork",
+              }, at);
             });
             // Within the book, a counter-translation holds the rail in place
             // while vertical scroll moves its contents horizontally. The outer
             // document still scrolls normally in every direction and device.
-            scenes[index].forEach((item) => {
+            railBounds.forEach(({ item, top, height }) => {
               if (!item.travel) return;
-              const pinTop = Math.max(40, (vh - item.viewport.offsetHeight) / 2 - 40);
-              const at = Math.max(0, item.viewport.getBoundingClientRect().top - base - pinTop);
+              const pinTop = Math.max(40, (vh - height) / 2 - 40);
+              const at = Math.max(0, top - pinTop);
               const rightward = item.scene.dataset.scrollDirection === "right";
               timeline.fromTo(item.viewport, { y: 0 }, {
                 y: item.distance, duration: item.distance, ease: "none", immediateRender: false,
@@ -364,28 +397,24 @@ export function BookExperience({ children }: { children: ReactNode }) {
                 x: rightward ? 0 : -item.travel, duration: item.distance, ease: "none", immediateRender: true,
               }, at);
             });
-            body.querySelectorAll<HTMLElement>("[data-motion-parallax]").forEach((node) => {
-              const top = node.getBoundingClientRect().top - base;
+            parallax.forEach(({ node, top, height }) => {
               const at = Math.max(0, top - vh);
               const amount = Number(node.dataset.motionParallax) || 54;
               timeline.fromTo(node, { y: amount * 0.5 }, {
                 y: -amount * 0.5,
-                duration: Math.min(vh + node.offsetHeight, Math.max(1, read - at)),
+                duration: Math.min(vh + height, Math.max(1, read - at)),
                 ease: "none", immediateRender: false,
               }, Math.min(read - 1, at));
             });
-            body.querySelectorAll<HTMLElement>("[data-title-travel]").forEach((node) => {
-              const top = node.getBoundingClientRect().top - base;
+            titles.forEach(({ node, top }) => {
               timeline.fromTo(node, { xPercent: -12 }, {
                 xPercent: 10, duration: Math.min(read, vh * 1.5), ease: "none", immediateRender: false,
               }, Math.max(0, top - vh));
             });
-            body
-              .querySelectorAll<HTMLElement>("[data-ink-rule]")
-              .forEach((node) => {
+            rules.forEach(({ node, top }) => {
                 const at = Math.max(
                   0,
-                  node.getBoundingClientRect().top - base - vh * 0.9,
+                  top - vh * 0.9,
                 );
                 timeline.fromTo(
                   node,
@@ -754,6 +783,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
           stopReactive();
           trigger.current?.kill();
           motions.forEach((m) => m.revert());
+          stopLayers();
           resetHorizontalScenes(scenes.flat());
           observer.disconnect();
           removeEventListener("resize", resized);
@@ -928,6 +958,11 @@ export function BookExperience({ children }: { children: ReactNode }) {
           </div>
           <div className="rift-half rift-right">
             <span>the story continues ↗</span>
+          </div>
+          <div className="rift-signal">
+            <span className="rift-number">01</span>
+            <span className="rift-caption">A new chapter</span>
+            <i />
           </div>
         </div>
       </div>

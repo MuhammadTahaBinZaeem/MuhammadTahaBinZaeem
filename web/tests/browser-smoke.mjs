@@ -220,11 +220,19 @@ try {
     );
     await cdp.evaluate("document.fonts.ready.then(()=>true)");
     await sleep(550);
-    if (!route.split("#")[0])
+    if (!route.split("#")[0]) {
       await until(
         `!!document.querySelector('.living-book[data-mode]')`,
         "book initialized",
       );
+      const requested = route.split("#")[1];
+      if (requested) {
+        const target = requested === "cover" ? "book-cover" : requested === "chapters" ? "atlas" : requested;
+        // Book mode begins before its first navigation frame. A real visitor
+        // cannot click an inert offscreen chapter during that startup frame.
+        await until(`(()=>{const node=document.getElementById(${JSON.stringify(target)});if(!node||node.closest('[inert]'))return false;const r=node.getBoundingClientRect();return r.width>0&&r.height>0&&r.bottom>0&&r.top<innerHeight;})()`, "requested section is visible and interactive");
+      }
+    }
   }
   async function viewport(width, height = 900) {
     await cdp.send("Emulation.setDeviceMetricsOverride", {

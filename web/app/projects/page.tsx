@@ -27,7 +27,9 @@ function BuildNotes({ project, legacy = false, images = [...(PROJECT_GALLERIES[p
       {legacy && <p className="eyebrow">Archive / the original algebraic expression solver</p>}
       <p>{project.story}</p>
       <ul>{project.proof.map((item) => <li key={item}>{item}</li>)}</ul>
-      {images.length > 0 && <p className="evidence-reference">{title} photographs and technical evidence are available in the image gallery above.</p>}
+      {images.length > 0 && <p className="evidence-reference">{legacy
+        ? "The original solver’s graphs and C++ source are labeled as archival evidence in the project gallery above."
+        : `${title} photographs and technical evidence are available in the image gallery above.`}</p>}
     </details>
   );
 }
@@ -77,7 +79,9 @@ export function ProjectsChapter({
         {FEATURED.map((p, i) => {
           const legacy = p.legacyId ? PROJECTS.find((project) => project.id === p.legacyId) : undefined;
           const cover = p.image || { src: `/art/notebook/${p.drawing}.svg`, width: 960, height: 760, alt: p.title + " illustrated in pen and ink" };
-          const images = [cover, ...((p as { media?: readonly GalleryAsset[] }).media || []), ...(PROJECT_GALLERIES[p.id] || []), ...(legacy?.media || [])];
+          const archive = (legacy?.media || []).map((image) => ({ ...image, caption: `Original FOP solver archive · ${image.caption || image.alt}` }));
+          const related = [...((p as { media?: readonly GalleryAsset[] }).media || []), ...(PROJECT_GALLERIES[p.id] || []), ...archive];
+          const images = p.image ? [p.image, ...related] : related.length ? related : [cover];
           return (
           <article
             className="project-feature"

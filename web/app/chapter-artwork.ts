@@ -1,6 +1,5 @@
 import type { GalleryAsset } from "./components/gallery-image";
 import type { BookWorldId } from "./book-data";
-import { HOME_INTRO } from "./homepage-data";
 
 export type IllustratedChapter = Exclude<BookWorldId, "foreword" | "atlas" | "education">;
 export type ChapterArtwork = Readonly<{
@@ -50,5 +49,7 @@ export const CHAPTER_AUTHOR = {
   name: "Muhammad Taha Bin Zaeem",
   label: "The person behind the work",
   image: { src: "/media/projects/muhammad-taha-founder-headshot.webp", width: 988, height: 970, alt: "Muhammad Taha Bin Zaeem · official founder portrait", caption: "Official founder portrait · ProGenEDA and Type2Learn." } satisfies GalleryAsset,
-  portraits: HOME_INTRO.portraits.filter((image) => !image.src.includes("studio-portrait")),
+  // The foreword owns the personal photo library; each chapter stamp opens
+  // only this founder portrait unless related author images are added here.
+  portraits: [] as readonly GalleryAsset[],
 } as const;

@@ -247,13 +247,6 @@ export const FEATURED: readonly FeaturedProject[] = [
       alt: "ProGenEDA’s official brand card, with its circuit mark and native-project message",
       caption: "Official ProGenEDA brand artwork · progeneda.app",
     },
-    media: [{
-      src: "/media/projects/muhammad-taha-founder-headshot.webp",
-      width: 988,
-      height: 970,
-      alt: "Muhammad Taha Bin Zaeem in the founder portrait published on the official ProGenEDA website",
-      caption: "Founder portrait · published by ProGenEDA and Type2Learn",
-    }],
     links: [
       { label: "Live platform", href: "https://progeneda.app" },
       { label: "GitHub organization", href: "https://github.com/ProGenEDA" },
@@ -287,13 +280,6 @@ export const FEATURED: readonly FeaturedProject[] = [
       alt: "Type2Learn’s actual landing page, with its official brand, learning headline, learner visual and navigation",
       caption: "The live Type2Learn website · captured October 2026",
     },
-    media: [{
-      src: "/media/projects/muhammad-taha-founder-headshot.webp",
-      width: 988,
-      height: 970,
-      alt: "Muhammad Taha Bin Zaeem in the founder portrait published on the official Type2Learn team page",
-      caption: "Founder portrait · published by Type2Learn and ProGenEDA",
-    }],
     links: [
       { label: "Live platform", href: "https://type2learn.tech" },
       { label: "GitHub organization", href: "https://github.com/Type2Learn" },

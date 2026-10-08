@@ -88,7 +88,7 @@ test("entity graph identifies the person, not their companies or credential issu
     const pages = nodes.filter((node) => ["WebPage", "ProfilePage", "ContactPage", "CollectionPage"].includes(node["@type"]));
     assert.equal(pages.length, 1, path + " one current-page entity");
     assert.equal(pages[0].url, "https://tahabinzaeem.tech" + path);
-    assert.equal(pages[0].dateModified, "2026-10-07");
+    assert.equal(pages[0].dateModified, "2026-10-08");
     if (path === "/") {
       assert.equal(pages[0]["@type"], "ProfilePage");
       assert.equal(pages[0].mainEntity["@id"], person["@id"]);
@@ -133,7 +133,7 @@ test("image sitemap uses real evidence, exact canonicals and truthful editorial 
   assert.ok(xml.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"'));
   const pages = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
   assert.deepEqual(pages.sort(), ROUTES.map(([path]) => "https://tahabinzaeem.tech" + path).sort());
-  assert.equal((xml.match(/<lastmod>2026-10-07<\/lastmod>/g) || []).length, 8);
+  assert.equal((xml.match(/<lastmod>2026-10-08<\/lastmod>/g) || []).length, 8);
   const images = new Set([...xml.matchAll(/<image:loc>([^<]+)<\/image:loc>/g)].map((match) => match[1]));
   assert.ok(images.size >= 35, "Project, credential, education and achievement galleries are discoverable");
   for (const image of images) {
@@ -357,7 +357,7 @@ test("related image galleries retain valid source URLs and dimensions in server 
     ["projects", "Pocket Engineer"],
     ["research", "Research · notebook study"],
     ["experience", "Community · notebook study"],
-    ["education", "Government College University (GCU), Lahore"],
+    ["education", "Government College University (GCU), Lahore · education archive"],
     ["certifications", "Duke University"],
     ["achievements", "Runner-Up · 1st All-Pakistan STEM Project Competition"],
     ["connect", "Correspondence · notebook study"],
@@ -380,18 +380,18 @@ test("related image galleries retain valid source URLs and dimensions in server 
   assert.equal(galleries.find((group) => group.title === "Pocket Engineer").items.length, 4);
   const progeneda = galleries.find((group) => group.title === "ProGenEDA");
   const type2learn = galleries.find((group) => group.title === "Type2Learn");
-  assert.equal(progeneda.items.length, 10);
-  assert.equal(type2learn.items.length, 6);
+  assert.equal(progeneda.items.length, 8);
+  assert.equal(type2learn.items.length, 4);
   assert.equal(progeneda.items[0].src, "/media/projects/progeneda-official-brand-card.webp");
   assert.equal(type2learn.items[0].src, "/media/projects/type2learn-official-home-capture.webp");
-  assert.ok(progeneda.items.some((item) => item.src.endsWith("progeneda-official-github-mark.webp")));
-  assert.ok(type2learn.items.some((item) => item.src.endsWith("type2learn-official-github-mark.webp")));
+  for (const group of [progeneda, type2learn]) assert.ok(group.items.every((item) => !item.src.includes("official-github-mark") && !item.src.includes("founder-headshot")), "Product libraries contain product imagery rather than extra identities");
   assert.ok(type2learn.items.filter((item) => item.src.includes("-artwork.webp")).every((item) => item.caption.includes("artwork")));
   assert.equal(galleries.find((group) => group.title === "Duke University").items.length, 4);
   assert.equal(galleries.find((group) => group.title === "Muhammad Taha Bin Zaeem").items.length, 3);
   const sempec = galleries.find((group) => group.title.startsWith("Second Runner-Up"));
-  assert.equal(sempec.items.length, 3);
+  assert.equal(sempec.items.length, 4);
   assert.ok(sempec.items.some((item) => item.src.endsWith("stem-judging-session.webp")));
+  assert.ok(sempec.items.some((item) => item.src.endsWith("certificates-collection.webp")));
   const stem = galleries.find((group) => group.title === "Runner-Up · 1st All-Pakistan STEM Project Competition");
   assert.equal(stem.items.length, 1);
   assert.ok(stem.items[0].src.endsWith("stem-2024-runner-up-awards.webp"));
