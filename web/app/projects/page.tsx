@@ -17,7 +17,7 @@ import { CollectionStructuredData } from "../seo-schema";
 import { SITE_ORIGIN } from "../site-config";
 import { GalleryImage, type GalleryAsset } from "../components/gallery-image";
 const ENGINEERING_PROJECTS = PROJECTS.filter((project) =>
-  !FEATURED.some((featured) => "legacyId" in featured && featured.legacyId === project.id),
+  !FEATURED.some((featured) => featured.legacyId === project.id),
 );
 
 function BuildNotes({ project, legacy = false, images = [...(PROJECT_GALLERIES[project.id] || []), ...project.media], title = project.title }: { project: ProjectStory; legacy?: boolean; images?: readonly GalleryAsset[]; title?: string }) {
@@ -27,12 +27,9 @@ function BuildNotes({ project, legacy = false, images = [...(PROJECT_GALLERIES[p
       {legacy && <p className="eyebrow">Archive / the original algebraic expression solver</p>}
       <p>{project.story}</p>
       <ul>{project.proof.map((item) => <li key={item}>{item}</li>)}</ul>
-      {project.media.map((media) => (
-        <figure key={media.src}>
-          <GalleryImage image={media} images={images} title={title} />
-          <figcaption>{media.alt}</figcaption>
-        </figure>
-      ))}
+      {images.length > 0 && <p className="evidence-reference">{legacy
+        ? "The original solver’s graphs and C++ source are labeled as archival evidence in the project gallery above."
+        : `${title} photographs and technical evidence are available in the image gallery above.`}</p>}
     </details>
   );
 }
@@ -67,6 +64,7 @@ export function ProjectsChapter({
           ]}
         />
         <ChapterHeading
+          chapter="projects"
           level={embedded ? 2 : 1}
           number="01 / Projects"
           title="Things I build."
@@ -74,14 +72,16 @@ export function ProjectsChapter({
           note="Open the source. Look closer."
         />
         <nav className="section-nav" aria-label="Project sections">
-          <a href="#paretoco">Flagship projects ↓</a>
-          <a href="#engineering">Engineering projects ↓</a>
+          {FEATURED[0] && <a href={"#" + FEATURED[0].id}>Flagship projects ↓</a>}
+          {ENGINEERING_PROJECTS.length > 0 && <a href="#engineering">Engineering projects ↓</a>}
           <a href="#repositories">Complete GitHub index ↓</a>
         </nav>
         {FEATURED.map((p, i) => {
-          const legacy = "legacyId" in p ? PROJECTS.find((project) => project.id === p.legacyId) : undefined;
-          const cover = "image" in p ? p.image : { src: `/art/notebook/${p.drawing}.svg`, width: 960, height: 760, alt: p.title + " illustrated in pen and ink" };
-          const images = [cover, ...(PROJECT_GALLERIES[p.id] || []), ...(legacy?.media || [])];
+          const legacy = p.legacyId ? PROJECTS.find((project) => project.id === p.legacyId) : undefined;
+          const cover = p.image || { src: `/art/notebook/${p.drawing}.svg`, width: 960, height: 760, alt: p.title + " illustrated in pen and ink" };
+          const archive = (legacy?.media || []).map((image) => ({ ...image, caption: `Original FOP solver archive · ${image.caption || image.alt}` }));
+          const related = [...((p as { media?: readonly GalleryAsset[] }).media || []), ...(PROJECT_GALLERIES[p.id] || []), ...archive];
+          const images = p.image ? [p.image, ...related] : related.length ? related : [cover];
           return (
           <article
             className="project-feature"
@@ -106,8 +106,8 @@ export function ProjectsChapter({
                 ))}
               </div>
             </div>
-            <figure className={`feature-art${"image" in p ? " project-screenshot" : ""}`} data-paper>
-              {"image" in p ? <>
+            <figure className={`feature-art${p.image ? " project-screenshot" : ""}`} data-paper>
+              {p.image ? <>
                 <GalleryImage image={p.image} images={images} title={p.title} />
                 <figcaption>{p.image.caption}</figcaption>
               </> : <InkDrawing name={p.drawing} alt={cover.alt} images={images} title={p.title} />}
@@ -129,7 +129,7 @@ export function ProjectsChapter({
             </div>
           </article>
         );})}
-        <section className="small-work" id="engineering">
+        {ENGINEERING_PROJECTS.length > 0 && <section className="small-work" id="engineering">
           <SectionHeading
             eyebrow="On the bench / engineering foundations"
             title="Built at a lower level."
@@ -139,14 +139,22 @@ export function ProjectsChapter({
             data-memory, immediate-extension, lane load/store, core integration,
             and top-level logic.
           </p>
-          <div className="small-work-grid">
-            {ENGINEERING_PROJECTS.map((p) => (
+          <div className="engineering-rail" data-scroll-scene="horizontal" data-scroll-direction="right">
+          <p className="rail-instruction">Scroll down. The work moves sideways.</p>
+          <div className="engineering-rail__viewport" data-scroll-viewport>
+          <div className="small-work-grid" data-scroll-track>
+            {ENGINEERING_PROJECTS.map((p) => {
+              const images = [...(PROJECT_GALLERIES[p.id] || []), ...p.media];
+              return (
               <article
                 className="work-card"
                 id={"project-" + p.id}
                 key={p.id}
                 data-reveal
               >
+                {images[0] && <figure className="work-card__cover" data-paper>
+                  <GalleryImage image={images[0]} images={images} title={p.title} />
+                </figure>}
                 <p className="eyebrow">
                   {p.index} / {p.discipline}
                 </p>
@@ -176,9 +184,11 @@ export function ProjectsChapter({
                     ))}
                 </div>
               </article>
-            ))}
+            );})}
           </div>
-        </section>
+          </div>
+          </div>
+        </section>}
         <RepositoryIndex />
         {!embedded && <NextChapter href="/research" />}
       </Frame>

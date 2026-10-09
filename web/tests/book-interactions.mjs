@@ -38,6 +38,11 @@ export async function runBookChecks({
   await cdp.send("Emulation.setEmulatedMedia", {
     features: [{ name: "prefers-reduced-motion", value: "no-preference" }],
   });
+  if (process.env.POLISH_ONLY) {
+    await runPolishChecks({ cdp, seek, navigate, viewport, until, sleep, screenshot, report, worlds });
+    await runAfterPolishChecks({ cdp, seek, state, navigate, until, sleep, screenshot, report });
+    return;
+  }
   const widths = process.env.BOOK_WIDTHS
     ? process.env.BOOK_WIDTHS.split(",").map(Number)
     : [320, 390, 768, 1440];
@@ -94,10 +99,10 @@ export async function runBookChecks({
         await screenshot("reading-" + id + "-" + width);
       }
       await seek(id, 1);
+      const chapterEnding = await cdp.evaluate(`(()=>{const world=document.getElementById(${JSON.stringify(id)}),body=world.querySelector('.book-content'),last=world.querySelector('.world-last-line'),r=last.getBoundingClientRect();return {id:world.id,chapter:document.querySelector('.living-book').dataset.chapter,top:r.top,bottom:r.bottom,viewport:innerHeight,scroll:scrollY,start:Number(world.dataset.scrollStart),read:Number(world.dataset.readDistance),bodyHeight:body.offsetHeight,bodyBoxHeight:body.getBoundingClientRect().height,bodyY:body.style.transform,layoutRevision:document.querySelector('.living-book').dataset.layoutRevision};})()`);
+      if (!(chapterEnding.top >= 0 && chapterEnding.bottom <= chapterEnding.viewport - 45)) report.chapterEndingFailure = chapterEnding;
       assert.ok(
-        await cdp.evaluate(
-          `(()=>{const r=document.querySelector('#${id} .world-last-line').getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight-45;})()`,
-        ),
+        chapterEnding.top >= 0 && chapterEnding.bottom <= chapterEnding.viewport - 45,
         "Full chapter can be read before page turn: " + id + " at " + width,
       );
     }
@@ -191,11 +196,14 @@ export async function runBookChecks({
   const initialHeight = await cdp.evaluate(
     `Number(document.getElementById('projects').dataset.readDistance)`,
   );
+  const initialRevision = await cdp.evaluate(
+    `Number(document.querySelector('.living-book').dataset.layoutRevision)`,
+  );
   await cdp.evaluate(
     `document.querySelector('#engineering details').open=true`,
   );
   await until(
-    `Number(document.getElementById('projects').dataset.readDistance)>${initialHeight}`,
+    `Number(document.querySelector('.living-book').dataset.layoutRevision)>${initialRevision} && Number(document.getElementById('projects').dataset.readDistance)!==${initialHeight} && document.querySelector('#engineering details').open && document.querySelector('#engineering [data-scroll-scene]').dataset.sceneReady==='natural'`,
     "expanded content remeasured",
   );
   assert.equal((await state()).chapter, "projects");
@@ -262,7 +270,18 @@ export async function runBookChecks({
   await screenshot("experience-initiative-note");
   await seek("research", 0.48);
   const statusContrast = await cdp.evaluate(
-    `(()=>{const c=document.createElement('canvas');c.width=c.height=1;const ctx=c.getContext('2d');function luminance(color){ctx.clearRect(0,0,1,1);ctx.fillStyle=color;ctx.fillRect(0,0,1,1);const values=[...ctx.getImageData(0,0,1,1).data].slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});return values[0]*.2126+values[1]*.7152+values[2]*.0722;}return [...document.querySelectorAll('#research .status, #experience .big-note, #connect .cv-card')].map(e=>{const s=getComputedStyle(e),a=luminance(s.color),b=luminance(s.backgroundColor);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);});})()`,
+    `(()=>{
+      const c=document.createElement('canvas');c.width=c.height=1;const ctx=c.getContext('2d');
+      function pixelLuminance(){const values=[...ctx.getImageData(0,0,1,1).data].slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});return values[0]*.2126+values[1]*.7152+values[2]*.0722;}
+      function luminance(color){ctx.clearRect(0,0,1,1);ctx.fillStyle=color;ctx.fillRect(0,0,1,1);return pixelLuminance();}
+      function backgroundLuminance(element){
+        ctx.clearRect(0,0,1,1);ctx.fillStyle='#fff';ctx.fillRect(0,0,1,1);
+        const ancestors=[];for(let node=element;node;node=node.parentElement)ancestors.push(node);
+        for(const node of ancestors.reverse()){ctx.fillStyle=getComputedStyle(node).backgroundColor;ctx.fillRect(0,0,1,1);}
+        return pixelLuminance();
+      }
+      return [...document.querySelectorAll('#research .status, #experience .big-note, #connect .cv-card')].map(e=>{const a=luminance(getComputedStyle(e).color),b=backgroundLuminance(e);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);});
+    })()`,
   );
   assert.ok(
     statusContrast.length > 0 && statusContrast.every((ratio) => ratio >= 4.5),
@@ -279,6 +298,10 @@ export async function runBookChecks({
     report,
     worlds,
   });
+  await runAfterPolishChecks({ cdp, seek, state, navigate, until, sleep, screenshot, report });
+}
+
+async function runAfterPolishChecks({ cdp, seek, state, navigate, until, sleep, screenshot, report }) {
   await seek("research", 0.48);
   const revision = await cdp.evaluate(
     `document.querySelector('.living-book').dataset.layoutRevision`,

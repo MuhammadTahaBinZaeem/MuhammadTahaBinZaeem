@@ -448,6 +448,356 @@
       },
       "bytes": 19926,
       "format": "webp"
+    },
+    "progeneda-official-brand-card": {
+      "label": "ProGenEDA official brand and social card",
+      "publicPath": "/media/projects/progeneda-official-brand-card.webp",
+      "dimensions": {
+        "width": 1200,
+        "height": 630
+      },
+      "bytes": 48072,
+      "format": "webp",
+      "source": "https://progeneda.app/assets/progeneda-social.png",
+      "sourcePage": "https://progeneda.app/",
+      "retrievedOn": "2026-10-07",
+      "role": "Official brand artwork",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "07d5722deaaa1e929b058f1497429ad1c21c141b6489fca1ad9a27f64ed83279",
+      "optimization": {
+        "lossless": true,
+        "metadataStripped": true
+      },
+      "sourceRepository": "https://github.com/ProGenEDA/ProGenEDA-WEB",
+      "sourceRevision": "d3d38dda1ba0ad4f4fb0d63c52941b3fc9f7ad95",
+      "repositoryPath": "public/assets/progeneda-social.png",
+      "matchesPinnedRepository": true
+    },
+    "progeneda-official-generate-workspace": {
+      "label": "ProGenEDA Generate workspace published by the official site",
+      "publicPath": "/media/projects/progeneda-official-generate-workspace.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 1000
+      },
+      "bytes": 92946,
+      "format": "webp",
+      "source": "https://progeneda.app/media/product/generate.png",
+      "sourcePage": "https://progeneda.app/",
+      "retrievedOn": "2026-10-07",
+      "role": "Official product screenshot",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "9db4161b4b7bfff6d7fe50cad95a3d22f8f8284b6c8cd1c89cf0678ab375ea1f",
+      "optimization": {
+        "lossless": true,
+        "metadataStripped": true
+      },
+      "sourceRepository": "https://github.com/ProGenEDA/ProGenEDA-WEB",
+      "sourceRevision": "d3d38dda1ba0ad4f4fb0d63c52941b3fc9f7ad95",
+      "repositoryPath": "public/media/product/generate.png",
+      "matchesPinnedRepository": true
+    },
+    "progeneda-official-components-catalogue": {
+      "label": "ProGenEDA Supported Components workspace published by the official site",
+      "publicPath": "/media/projects/progeneda-official-components-catalogue.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 1000
+      },
+      "bytes": 64310,
+      "format": "webp",
+      "source": "https://progeneda.app/media/product/components-home.png",
+      "sourcePage": "https://progeneda.app/",
+      "retrievedOn": "2026-10-07",
+      "role": "Official product screenshot",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "17782c9b3bfa047202dde1d92027f9fb62218c179da8e54b8b649f40158265e1",
+      "optimization": {
+        "lossless": true,
+        "metadataStripped": true
+      },
+      "sourceRepository": "https://github.com/ProGenEDA/ProGenEDA-WEB",
+      "sourceRevision": "d3d38dda1ba0ad4f4fb0d63c52941b3fc9f7ad95",
+      "repositoryPath": "public/media/product/components-home.png",
+      "matchesPinnedRepository": true
+    },
+    "progeneda-official-generation-history": {
+      "label": "ProGenEDA generation History workspace published by the official site",
+      "publicPath": "/media/projects/progeneda-official-generation-history.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 1000
+      },
+      "bytes": 87808,
+      "format": "webp",
+      "source": "https://progeneda.app/media/product/history.png",
+      "sourcePage": "https://progeneda.app/",
+      "retrievedOn": "2026-10-07",
+      "role": "Official product screenshot",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "842cea158b0d89d22c1208a07124550aaaf1304d371854d73864cd2d55b1c284",
+      "optimization": {
+        "lossless": true,
+        "metadataStripped": true
+      },
+      "sourceRepository": "https://github.com/ProGenEDA/ProGenEDA-WEB",
+      "sourceRevision": "d3d38dda1ba0ad4f4fb0d63c52941b3fc9f7ad95",
+      "repositoryPath": "public/media/product/history.png",
+      "matchesPinnedRepository": true
+    },
+    "progeneda-official-proteus-schematic": {
+      "label": "Proteus native schematic example published by ProGenEDA",
+      "publicPath": "/media/projects/progeneda-official-proteus-schematic.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 1000
+      },
+      "bytes": 58692,
+      "format": "webp",
+      "source": "https://progeneda.app/media/circuits/proteus-schematic-01.png",
+      "sourcePage": "https://progeneda.app/",
+      "retrievedOn": "2026-10-07",
+      "role": "Official native-editor screenshot",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "cc3f47df53c0d1ca46fd41b7aee50faf0e79d4351366ce91a0c5487c42c56004",
+      "optimization": {
+        "lossless": true,
+        "metadataStripped": true
+      },
+      "sourceRepository": "https://github.com/ProGenEDA/ProGenEDA-WEB",
+      "sourceRevision": "d3d38dda1ba0ad4f4fb0d63c52941b3fc9f7ad95",
+      "repositoryPath": "public/media/circuits/proteus-schematic-01.png",
+      "matchesPinnedRepository": true
+    },
+    "progeneda-official-easyeda-schematic": {
+      "label": "EasyEDA Pro native schematic example published by ProGenEDA",
+      "publicPath": "/media/projects/progeneda-official-easyeda-schematic.webp",
+      "dimensions": {
+        "width": 1608,
+        "height": 946
+      },
+      "bytes": 78578,
+      "format": "webp",
+      "source": "https://progeneda.app/media/circuits/easyeda-schematic-01.png",
+      "sourcePage": "https://progeneda.app/",
+      "retrievedOn": "2026-10-07",
+      "role": "Official native-editor screenshot",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "1835c79a7adbb0e914769465522e585f070531abc1e0d2f0da24d5bb293ce392",
+      "optimization": {
+        "lossless": true,
+        "metadataStripped": true
+      },
+      "sourceRepository": "https://github.com/ProGenEDA/ProGenEDA-WEB",
+      "sourceRevision": "d3d38dda1ba0ad4f4fb0d63c52941b3fc9f7ad95",
+      "repositoryPath": "public/media/circuits/easyeda-schematic-01.png",
+      "matchesPinnedRepository": true
+    },
+    "progeneda-official-kicad-board": {
+      "label": "KiCad two-layer PCB example published by ProGenEDA",
+      "publicPath": "/media/projects/progeneda-official-kicad-board.webp",
+      "dimensions": {
+        "width": 1293,
+        "height": 879
+      },
+      "bytes": 21838,
+      "format": "webp",
+      "source": "https://progeneda.app/media/circuits/kicad-pcb-01.png",
+      "sourcePage": "https://progeneda.app/",
+      "retrievedOn": "2026-10-07",
+      "role": "Official native-editor screenshot",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "a2b6d816381d8f1dcdd59bb6f4070fdd1a3e0494c8bc7e6742ef2efd88ef2d15",
+      "optimization": {
+        "lossless": true,
+        "metadataStripped": true
+      },
+      "sourceRepository": "https://github.com/ProGenEDA/ProGenEDA-WEB",
+      "sourceRevision": "d3d38dda1ba0ad4f4fb0d63c52941b3fc9f7ad95",
+      "repositoryPath": "public/media/circuits/kicad-pcb-01.png",
+      "matchesPinnedRepository": true
+    },
+    "progeneda-official-ltspice-schematic": {
+      "label": "LTspice schematic example published by ProGenEDA",
+      "publicPath": "/media/projects/progeneda-official-ltspice-schematic.webp",
+      "dimensions": {
+        "width": 1914,
+        "height": 1024
+      },
+      "bytes": 15858,
+      "format": "webp",
+      "source": "https://progeneda.app/media/circuits/ltspice-schematic-01.png",
+      "sourcePage": "https://progeneda.app/",
+      "retrievedOn": "2026-10-07",
+      "role": "Official native-editor screenshot",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "42bd37a4af65778cd02f2c9697327190e0dacb077db561af1fcb42e1f15b5836",
+      "optimization": {
+        "lossless": true,
+        "metadataStripped": true
+      },
+      "sourceRepository": "https://github.com/ProGenEDA/ProGenEDA-WEB",
+      "sourceRevision": "d3d38dda1ba0ad4f4fb0d63c52941b3fc9f7ad95",
+      "repositoryPath": "public/media/circuits/ltspice-schematic-01.png",
+      "matchesPinnedRepository": true
+    },
+    "progeneda-official-github-mark": {
+      "label": "ProGenEDA official GitHub organization brand mark",
+      "publicPath": "/media/projects/progeneda-official-github-mark.webp",
+      "dimensions": {
+        "width": 448,
+        "height": 448
+      },
+      "bytes": 113292,
+      "format": "webp",
+      "source": "https://avatars.githubusercontent.com/u/307885477?s=1024&v=4",
+      "sourcePage": "https://github.com/ProGenEDA",
+      "retrievedOn": "2026-10-07",
+      "role": "Official organization branding",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "813d68acf07d9724beac8a73d42cad8966fb22737ff86a068bf3e04d22efcbb6",
+      "optimization": {
+        "lossless": true,
+        "metadataStripped": true
+      }
+    },
+    "type2learn-official-home-capture": {
+      "label": "Type2Learn official landing page captured in Chromium",
+      "publicPath": "/media/projects/type2learn-official-home-capture.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 1000
+      },
+      "bytes": 163526,
+      "format": "webp",
+      "source": "https://type2learn.tech/",
+      "sourcePage": "https://type2learn.tech/",
+      "retrievedOn": "2026-10-07",
+      "role": "Live website screenshot",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "52e4c8ca071c9caaefd4aea9d1d2703341101ef6afa4df79e6a14573b0d5745b",
+      "optimization": {
+        "quality": 94,
+        "withoutEnlargement": true,
+        "metadataStripped": true
+      },
+      "capture": "Chromium 149; 1600×1000 CSS pixels; deviceScaleFactor 1; reduced motion; optional analytics declined; fonts and visible images decoded; page content unchanged"
+    },
+    "type2learn-official-recall-capture": {
+      "label": "Type2Learn official active-recall interaction captured in Chromium",
+      "publicPath": "/media/projects/type2learn-official-recall-capture.webp",
+      "dimensions": {
+        "width": 1600,
+        "height": 1000
+      },
+      "bytes": 66768,
+      "format": "webp",
+      "source": "https://type2learn.tech/#demo",
+      "sourcePage": "https://type2learn.tech/",
+      "retrievedOn": "2026-10-07",
+      "role": "Live website screenshot",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "4a19264be7dcbb9b25972caed409fdee657bcb696b258d545bde51caa30ecee1",
+      "optimization": {
+        "quality": 94,
+        "withoutEnlargement": true,
+        "metadataStripped": true
+      },
+      "capture": "Chromium 149; 1600×1000 CSS pixels; deviceScaleFactor 1; reduced motion; optional analytics declined; ordinary scroll to #demo; no fabricated input or feedback"
+    },
+    "type2learn-official-github-mark": {
+      "label": "Type2Learn official GitHub organization brand mark",
+      "publicPath": "/media/projects/type2learn-official-github-mark.webp",
+      "dimensions": {
+        "width": 460,
+        "height": 460
+      },
+      "bytes": 142770,
+      "format": "webp",
+      "source": "https://avatars.githubusercontent.com/u/306594002?s=1024&v=4",
+      "sourcePage": "https://github.com/Type2Learn",
+      "retrievedOn": "2026-10-07",
+      "role": "Official organization branding",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "38bdd522a07c2779879a03bfa6b75a88022f9b8c439c7096e0b0a0fa065b8514",
+      "optimization": {
+        "lossless": true,
+        "metadataStripped": true
+      }
+    },
+    "type2learn-official-learning-path-artwork": {
+      "label": "Type2Learn official explanatory artwork for the learning path",
+      "publicPath": "/media/projects/type2learn-official-learning-path-artwork.webp",
+      "dimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "bytes": 152100,
+      "format": "webp",
+      "source": "https://type2learn.tech/assets/product-views/guided-lesson-preview.png",
+      "sourcePage": "https://type2learn.tech/how-it-works/",
+      "retrievedOn": "2026-10-07",
+      "role": "Official explanatory artwork",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "b23d78ff55f557dad03e4227a4016e698e4791584071d254fdfa9a067772b8bd",
+      "optimization": {
+        "quality": 94,
+        "withoutEnlargement": true,
+        "metadataStripped": true
+      },
+      "sourceRepository": "https://github.com/Type2Learn/web",
+      "sourceRevision": "5395b4b27ef86815de8c1bf936b91e4b1e8b8ec5",
+      "repositoryPath": "assets/product-views/guided-lesson-preview.png",
+      "matchesPinnedRepository": true
+    },
+    "type2learn-official-learner-controls-artwork": {
+      "label": "Type2Learn official explanatory artwork for learner controls",
+      "publicPath": "/media/projects/type2learn-official-learner-controls-artwork.webp",
+      "dimensions": {
+        "width": 1586,
+        "height": 992
+      },
+      "bytes": 157912,
+      "format": "webp",
+      "source": "https://type2learn.tech/assets/product-views/learner-controls-preview.png",
+      "sourcePage": "https://type2learn.tech/how-it-works/",
+      "retrievedOn": "2026-10-07",
+      "role": "Official explanatory artwork",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "57df94d072719ae12236db981f9b2d6347be44b7b06111b386848057bffca524",
+      "optimization": {
+        "quality": 94,
+        "withoutEnlargement": true,
+        "metadataStripped": true
+      },
+      "sourceRepository": "https://github.com/Type2Learn/web",
+      "sourceRevision": "5395b4b27ef86815de8c1bf936b91e4b1e8b8ec5",
+      "repositoryPath": "assets/product-views/learner-controls-preview.png",
+      "matchesPinnedRepository": true
+    },
+    "muhammad-taha-founder-headshot": {
+      "label": "Muhammad Taha Bin Zaeem official founder portrait published by both ventures",
+      "publicPath": "/media/projects/muhammad-taha-founder-headshot.webp",
+      "dimensions": {
+        "width": 988,
+        "height": 970
+      },
+      "bytes": 78758,
+      "format": "webp",
+      "source": "https://progeneda.app/media/team/founder-muhammad-taha.webp",
+      "sourcePage": "https://progeneda.app/",
+      "retrievedOn": "2026-10-07",
+      "role": "Authentic founder portrait",
+      "provenanceDocument": "docs/BRAND-IMAGERY.md",
+      "originalSHA256": "cf4745b2cc104023ad2497c6864d1c6e70c4b2ec863e610884cc49d49d8940b9",
+      "optimization": {
+        "operation": "Preserved original WebP bytes"
+      },
+      "sourceRepository": "https://github.com/ProGenEDA/ProGenEDA-WEB",
+      "sourceRevision": "d3d38dda1ba0ad4f4fb0d63c52941b3fc9f7ad95",
+      "repositoryPath": "public/media/team/founder-muhammad-taha.webp",
+      "alsoPublishedAt": "https://type2learn.tech/assets/team/founder-muhammad-taha.webp",
+      "matchesPinnedRepository": true
     }
   },
   "achievements": {
@@ -482,7 +832,7 @@
       "format": "webp"
     },
     "certificates-collection": {
-      "label": "Engineering competition certificate collection",
+      "label": "SEMPEC Junior Hardware team merit and third-position certificates",
       "publicPath": "/media/achievements/certificates-collection.webp",
       "dimensions": {
         "width": 1600,
@@ -501,18 +851,8 @@
       "bytes": 86538,
       "format": "webp"
     },
-    "meeting-dr-samar-mubarakmand": {
-      "label": "Meeting with Dr. Samar Mubarakmand",
-      "publicPath": "/media/achievements/meeting-dr-samar-mubarakmand.webp",
-      "dimensions": {
-        "width": 1450,
-        "height": 1085
-      },
-      "bytes": 97542,
-      "format": "webp"
-    },
     "stem-judging-session": {
-      "label": "STEM project judging session",
+      "label": "SEMPEC Junior Hardware project judging session",
       "publicPath": "/media/achievements/stem-judging-session.webp",
       "dimensions": {
         "width": 1182,
@@ -582,6 +922,387 @@
       },
       "bytes": 148902,
       "format": "webp"
+    }
+  },
+  "modifiedOn": "2026-10-08",
+  "generatedArtwork": {
+    "gcu-campus-art": {
+      "label": "Illustrated architectural study of Government College University Lahore",
+      "publicPath": "/media/education/gcu-campus-art.webp",
+      "dimensions": {
+        "width": 1800,
+        "height": 600
+      },
+      "bytes": 392412,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-07",
+      "reference": "https://gcu.edu.pk/uploads/images/2021-07-0817967.jpg",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1800
+      },
+      "role": "Decorative illustration"
+    },
+    "nust-ceme-campus-art": {
+      "label": "Illustrated architectural study of NUST CEME Rawalpindi",
+      "publicPath": "/media/education/nust-ceme-campus-art.webp",
+      "dimensions": {
+        "width": 1800,
+        "height": 600
+      },
+      "bytes": 297650,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-07",
+      "reference": "https://ceme.nust.edu.pk/wp-content/uploads/2020/07/EME-6-Copy.jpg",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1800
+      },
+      "role": "Decorative illustration"
+    },
+    "projects-atelier": {
+      "label": "Conceptual illustration: Engineering atelier",
+      "publicPath": "/media/chapters/projects-atelier.webp",
+      "dimensions": {
+        "width": 1800,
+        "height": 600
+      },
+      "bytes": 295770,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-07",
+      "styleReference": "/media/education/nust-ceme-campus-art.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1800
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "research-observatory": {
+      "label": "Conceptual illustration: Research observatory",
+      "publicPath": "/media/chapters/research-observatory.webp",
+      "dimensions": {
+        "width": 1800,
+        "height": 600
+      },
+      "bytes": 278502,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-07",
+      "styleReference": "/media/education/nust-ceme-campus-art.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1800
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "certifications-reading-room": {
+      "label": "Conceptual illustration: Learning reading room",
+      "publicPath": "/media/chapters/certifications-reading-room.webp",
+      "dimensions": {
+        "width": 1800,
+        "height": 600
+      },
+      "bytes": 246940,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-07",
+      "styleReference": "/media/education/nust-ceme-campus-art.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1800
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "experience-studio": {
+      "label": "Conceptual illustration: Collaborative studio",
+      "publicPath": "/media/chapters/experience-studio.webp",
+      "dimensions": {
+        "width": 1800,
+        "height": 600
+      },
+      "bytes": 277446,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-07",
+      "styleReference": "/media/education/nust-ceme-campus-art.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1800
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "achievements-constellation": {
+      "label": "Conceptual illustration: Milestone constellation",
+      "publicPath": "/media/chapters/achievements-constellation.webp",
+      "dimensions": {
+        "width": 1800,
+        "height": 600
+      },
+      "bytes": 248602,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-07",
+      "styleReference": "/media/education/nust-ceme-campus-art.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1800
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "connect-atelier": {
+      "label": "Conceptual illustration: Writing atelier",
+      "publicPath": "/media/chapters/connect-atelier.webp",
+      "dimensions": {
+        "width": 1800,
+        "height": 600
+      },
+      "bytes": 259684,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-07",
+      "styleReference": "/media/education/nust-ceme-campus-art.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1800
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "hamiz-kashif-background": {
+      "label": "Muhammad Hamiz bin Kashif · Dependable engineering conceptual illustration",
+      "publicPath": "/media/people/hamiz-kashif-background.webp",
+      "dimensions": {
+        "width": 1500,
+        "height": 1000
+      },
+      "bytes": 454936,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-08",
+      "styleReference": "/media/chapters/projects-atelier.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1500
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "alizay-hassan-background": {
+      "label": "Alizay Hassan · Product and co-design conceptual illustration",
+      "publicPath": "/media/people/alizay-hassan-background.webp",
+      "dimensions": {
+        "width": 1500,
+        "height": 1000
+      },
+      "bytes": 395698,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-08",
+      "styleReference": "/media/chapters/projects-atelier.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1500
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "lameea-mubashir-khan-background": {
+      "label": "Lameea Mubashir Khan · Interface and interaction design conceptual illustration",
+      "publicPath": "/media/people/lameea-mubashir-khan-background.webp",
+      "dimensions": {
+        "width": 1500,
+        "height": 1000
+      },
+      "bytes": 426706,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-08",
+      "styleReference": "/media/chapters/projects-atelier.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1500
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "idrees-babar-background": {
+      "label": "Idrees Babar · Research and evidence conceptual illustration",
+      "publicPath": "/media/people/idrees-babar-background.webp",
+      "dimensions": {
+        "width": 1500,
+        "height": 1000
+      },
+      "bytes": 419790,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-08",
+      "styleReference": "/media/chapters/projects-atelier.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1500
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "fahad-younus-background": {
+      "label": "Muhammad Fahad Younus · AI and model evaluation conceptual illustration",
+      "publicPath": "/media/people/fahad-younus-background.webp",
+      "dimensions": {
+        "width": 1500,
+        "height": 1000
+      },
+      "bytes": 443778,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-08",
+      "styleReference": "/media/chapters/projects-atelier.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1500
+      },
+      "role": "Decorative conceptual illustration"
+    },
+    "tooba-fatima-background": {
+      "label": "Tooba Fatima · Hardware and clear reasoning conceptual illustration",
+      "publicPath": "/media/people/tooba-fatima-background.webp",
+      "dimensions": {
+        "width": 1500,
+        "height": 1000
+      },
+      "bytes": 415968,
+      "format": "webp",
+      "generator": "Built-in imagegen",
+      "generatedOn": "2026-10-08",
+      "styleReference": "/media/chapters/projects-atelier.webp",
+      "promptsDocument": "docs/GENERATED-ART.md",
+      "optimization": {
+        "quality": 87,
+        "maximumDimension": 1500
+      },
+      "role": "Decorative conceptual illustration"
+    }
+  },
+  "people": {
+    "hamiz-kashif-portrait": {
+      "label": "Muhammad Hamiz bin Kashif · published-photograph",
+      "publicPath": "/media/people/hamiz-kashif-portrait.webp",
+      "sourcePage": "https://type2learn.tech/team/",
+      "sourceUrl": "https://type2learn.tech/assets/team/muhammad-hamiz-bin-kashif.webp",
+      "role": "published-photograph",
+      "checkedOn": "2026-10-08",
+      "dimensions": {
+        "width": 900,
+        "height": 1439
+      },
+      "bytes": 44710,
+      "format": "webp",
+      "sha256": "d194730b5cef93b44ff0fbc5f724ff7b59d465878327c79e07e356ecffe81615",
+      "sourceSha256": "d194730b5cef93b44ff0fbc5f724ff7b59d465878327c79e07e356ecffe81615",
+      "optimization": "Copied original WebP bytes; no crop, resize, compositing, face changes or regeneration.",
+      "provenanceDocument": "docs/PEOPLE-SOURCES.md"
+    },
+    "hamiz-kashif-devpost-profile": {
+      "label": "Muhammad Hamiz bin Kashif · chosen-profile-illustration",
+      "publicPath": "/media/people/hamiz-kashif-devpost-profile.webp",
+      "sourcePage": "https://devpost.com/hamiz5625",
+      "sourceUrl": "https://d112y698adiu2z.cloudfront.net/photos/production/user_photos/005/070/098/datas/original.png",
+      "role": "chosen-profile-illustration",
+      "checkedOn": "2026-10-08",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "bytes": 408970,
+      "format": "webp",
+      "sha256": "c030e4706c3277816379ad3ad25cf1e5680caaba3e5dc24d197b96ea9232ae77",
+      "sourceSha256": "f3dc89df6670b4b071e73bc2f5d747f24c76ec0d47cc2725af0c64479490f4b7",
+      "optimization": "Encoded to WebP quality91 at1254×1254; complete original frame retained. No resize, crop, compositing or regeneration.",
+      "provenanceDocument": "docs/PEOPLE-SOURCES.md"
+    },
+    "idrees-babar-portrait": {
+      "label": "Idrees Babar · published-photograph",
+      "publicPath": "/media/people/idrees-babar-portrait.webp",
+      "sourcePage": "https://type2learn.tech/team/",
+      "sourceUrl": "https://type2learn.tech/assets/team/idrees-babar.webp",
+      "role": "published-photograph",
+      "checkedOn": "2026-10-08",
+      "dimensions": {
+        "width": 720,
+        "height": 1466
+      },
+      "bytes": 62044,
+      "format": "webp",
+      "sha256": "07bf5acbbe963440f8ecf64a07f6d420b2ef99237aa116fec1f7e75e9ea2232f",
+      "sourceSha256": "07bf5acbbe963440f8ecf64a07f6d420b2ef99237aa116fec1f7e75e9ea2232f",
+      "optimization": "Copied original WebP bytes; no crop, resize, compositing, face changes or regeneration.",
+      "provenanceDocument": "docs/PEOPLE-SOURCES.md"
+    },
+    "idrees-babar-github-profile": {
+      "label": "Idrees Babar · chosen-profile-photograph",
+      "publicPath": "/media/people/idrees-babar-github-profile.webp",
+      "sourcePage": "https://github.com/meidreesbabar-crypto",
+      "sourceUrl": "https://avatars.githubusercontent.com/u/264662503?s=1200&v=4",
+      "role": "chosen-profile-photograph",
+      "checkedOn": "2026-10-08",
+      "dimensions": {
+        "width": 460,
+        "height": 460
+      },
+      "bytes": 37744,
+      "format": "webp",
+      "sha256": "d9064eb05c30cd76457ecfe8291f3d757b0ee58c7602733ed842ee79ab5d1b25",
+      "sourceSha256": "519fd971329fe0fa3d61f12afdb05333b79b8b7982223c3e199585f774363141",
+      "optimization": "Encoded to WebP quality93 at460×460; complete source frame retained. No resize, crop, compositing, face changes or regeneration.",
+      "provenanceDocument": "docs/PEOPLE-SOURCES.md"
+    },
+    "lameea-mubashir-khan-portrait": {
+      "label": "Lameea Mubashir Khan · published profile portrait",
+      "publicPath": "/media/people/lameea-mubashir-khan-portrait.webp",
+      "sourcePage": "https://github.com/rosseaaq",
+      "sourceUrl": "https://avatars.githubusercontent.com/u/233437868?v=4",
+      "role": "Published profile portrait",
+      "checkedOn": "2026-10-08",
+      "dimensions": {
+        "width": 460,
+        "height": 460
+      },
+      "bytes": 55962,
+      "format": "webp",
+      "sha256": "b4a26708dac8fe0dcb64d29fbf28b12afb716114a9d4b519b8df3e0bc12288ff",
+      "optimization": {
+        "quality": 80,
+        "originalDimensionsPreserved": true
+      },
+      "provenanceDocument": "docs/PEOPLE-SOURCES.md"
+    },
+    "fahad-younus-portrait": {
+      "label": "Muhammad Fahad Younus · published profile portrait",
+      "publicPath": "/media/people/fahad-younus-portrait.webp",
+      "sourcePage": "https://type2learn.tech/team/",
+      "sourceUrl": "https://type2learn.tech/assets/team/muhammad-fahad-younus-studio.webp",
+      "role": "Published profile portrait",
+      "checkedOn": "2026-10-08",
+      "dimensions": {
+        "width": 960,
+        "height": 1200
+      },
+      "bytes": 24826,
+      "format": "webp",
+      "sha256": "8ecab4a2b715f8b05bc0e52f42c0ce36d360e40a087713a5b15e1a61e992aee4",
+      "sourceSha256": "556e58137fd1c3060d03b889584f13fe3c2dcb68620857f548ed2a3042358105",
+      "optimization": "Re-encoded published WebP at quality 90 with the complete source frame preserved; no cropping or face changes.",
+      "provenanceDocument": "docs/PEOPLE-SOURCES.md"
     }
   }
 }

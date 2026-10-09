@@ -1,5 +1,6 @@
 "use client";
 import {
+  Fragment,
   useEffect,
   useRef,
   useState,
@@ -7,10 +8,25 @@ import {
   type ReactNode,
 } from "react";
 import { BOOK_WORLDS } from "../book-data";
-import "lenis/dist/lenis.css";
+import { HOME_COVER } from "../homepage-data";
+import {
+  attachReactiveMotion,
+  chapterPose,
+  collectRevealTargets,
+  collectHorizontalScenes,
+  measureHorizontalScene,
+  resetHorizontalScenes,
+  REST_POSE,
+  PLANAR_TRANSFORM,
+  collectSceneLayers,
+  activateSceneLayers,
+  revealColumnDelay,
+} from "./motion-vocabulary";
+import "./scene-motion.css";
 
 type Segment = { start: number; read: number; turn: number; height: number };
 type Jump = {
+  id: string;
   from: number;
   to: number;
   index: number;
@@ -21,6 +37,10 @@ const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const paperEase = (value: number) => {
   const t = clamp(value);
   return t * t * (3 - 2 * t);
+};
+const hashId = () => {
+  try { return decodeURIComponent(location.hash.slice(1)); }
+  catch { return location.hash.slice(1); }
 };
 
 export function BookExperience({ children }: { children: ReactNode }) {
@@ -59,7 +79,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
     const media = matchMedia("(prefers-reduced-motion: reduce)");
     let saved = false;
     try {
-      saved = localStorage.getItem("mtbz:book-reader") === "true";
+      saved = localStorage.getItem("mtbz:book-reader") === "true" || localStorage.getItem("mtbz:quiet-motion") === "true";
     } catch {}
     if (saved || media.matches) requestAnimationFrame(() => setReader(true));
     const change = () => setReader(media.matches);
@@ -82,9 +102,8 @@ export function BookExperience({ children }: { children: ReactNode }) {
       p.querySelector<HTMLElement>(".book-content")!,
     );
     const normalGo = (id: string) => {
-      const target = document.getElementById(
-        id === "cover" ? "book-cover" : id,
-      );
+      if (id === "chapters") id = "atlas";
+      const target = document.getElementById(id === "cover" ? "book-cover" : id);
       if (!target) return;
       history.replaceState(
         history.state,
@@ -95,7 +114,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
     };
     api.current = { go: normalGo };
     if (reader) {
-      const destination = decodeURIComponent(location.hash.slice(1));
+      const destination = hashId();
       element.dataset.mode = "reader";
       element.style.height = "";
       const observer = new IntersectionObserver(
@@ -121,11 +140,10 @@ export function BookExperience({ children }: { children: ReactNode }) {
     }
     async function setup() {
       try {
-        const [{ default: gsap }, { ScrollTrigger }, { default: Lenis }] =
+        const [{ default: gsap }, { ScrollTrigger }] =
           await Promise.all([
             import("gsap"),
             import("gsap/ScrollTrigger"),
-            import("lenis"),
           ]);
         if (disposed) return;
         gsap.registerPlugin(ScrollTrigger);
@@ -141,51 +159,19 @@ export function BookExperience({ children }: { children: ReactNode }) {
           jump: Jump | undefined;
         let sizeSignature = "",
           layoutRevision = 0;
-        let origin = 0,
-          smoothFrame = 0,
-          smoothTime = 0;
-        const smoother = new Lenis({
-          autoRaf: false,
-          autoResize: false,
-          smoothWheel: true,
-          syncTouch: false,
-          lerp: 0.14,
-          wheelMultiplier: 0.85,
-          prevent: (node) => !!node.closest("[data-lenis-prevent]"),
-        });
-        // Run only during wheel inertia or an intentional chapter jump.
-        // Touch, keyboard, scrollbar dragging and reduced motion stay native.
-        const advanceScroll = (time: number) => {
-          smoothFrame = 0;
-          smoother.raf(time);
-          smoothTime = time;
-          if (!disposed && smoother.isScrolling === "smooth")
-            smoothFrame = requestAnimationFrame(advanceScroll);
-          else element.dataset.smoothing = "idle";
-        };
-        const wakeScroll = () => {
-          if (document.documentElement.dataset.galleryOpen) return;
-          if (!smoothFrame && !disposed) {
-            // An idle gap must not be counted as the first animation delta.
-            if (performance.now() - smoothTime > 80)
-              smoother.raf(performance.now());
-            element.dataset.smoothing = "active";
-            smoothFrame = requestAnimationFrame(advanceScroll);
-          }
-        };
-        smoother.on("virtual-scroll", wakeScroll);
-        smoother.on("scroll", ScrollTrigger.update);
+        let pendingMeasure = false;
+        let reflowAnchor: { node: HTMLElement; top: number } | undefined;
+        let origin = 0;
+        element.dataset.smoothing = "native";
+        // The browser owns wheel, trackpad, touch and keyboard input. GSAP only
+        // paints the paper at the browser's current vertical scroll position.
         const moveTo = (top: number, immediate = false) => {
-          if (!immediate) wakeScroll();
-          smoother.scrollTo(top, {
-            immediate,
-            lerp: immediate ? 1 : undefined,
-            duration: immediate
-              ? 0
-              : Math.min(1.35, 0.65 + Math.abs(top - scrollY) / 12000),
-            easing: paperEase,
-          });
+          window.scrollTo({ top, behavior: immediate ? "instant" : "smooth" });
         };
+        const scenes = bodies.map(collectHorizontalScenes);
+        const layers = bodies.map((body, index) => collectSceneLayers(body, BOOK_WORLDS[index].id, innerWidth < 760));
+        const stopLayers = activateSceneLayers(layers.flat());
+        const stopReactive = attachReactiveMotion(element);
         let motions: ReturnType<typeof gsap.timeline>[] = [];
         const trigger: {
           current: ReturnType<typeof ScrollTrigger.create> | undefined;
@@ -204,6 +190,9 @@ export function BookExperience({ children }: { children: ReactNode }) {
         const right = rift.current!.querySelector<HTMLElement>(".rift-right")!;
         const dock = element.querySelector<HTMLElement>(".book-dock")!;
         const riftLabel = riftNode.querySelector<HTMLElement>(".rift-label")!;
+        const riftNumber = riftNode.querySelector<HTMLElement>(".rift-number")!;
+        const riftCaption = riftNode.querySelector<HTMLElement>(".rift-caption")!;
+        const riftSignal = riftNode.querySelector<HTMLElement>(".rift-signal")!;
         let riftKey = "";
         const riftAt = (
           progress: number,
@@ -221,6 +210,9 @@ export function BookExperience({ children }: { children: ReactNode }) {
             riftNode.style.setProperty("--rift-ink", paper.ink);
             riftNode.style.setProperty("--rift-accent", paper.accent);
             riftLabel.textContent = BOOK_WORLDS[to].title;
+            riftNumber.textContent = BOOK_WORLDS[to].number;
+            riftCaption.textContent = BOOK_WORLDS[to].label;
+            riftNode.dataset.axis = ["education", "achievements"].includes(BOOK_WORLDS[to].id) ? "vertical" : "horizontal";
             riftNode.dataset.kind = isJump ? "jump" : "turn";
             riftKey = key;
           }
@@ -229,8 +221,15 @@ export function BookExperience({ children }: { children: ReactNode }) {
           riftNode.style.opacity = String(
             isJump ? 1 : Math.min(1, progress / 0.16),
           );
-          left.style.transform = `translate3d(${-tear * 112}%,0,0) rotate(${-tear * 5}deg)`;
-          right.style.transform = `translate3d(${tear * 112}%,0,0) rotate(${tear * 5}deg)`;
+          const vertical = riftNode.dataset.axis === "vertical";
+          left.style.transform = vertical
+            ? `translate3d(0,${-tear * 112}%,0)`
+            : `translate3d(${-tear * 112}%,0,0) rotate(${-tear * 3}deg)`;
+          right.style.transform = vertical
+            ? `translate3d(0,${tear * 112}%,0)`
+            : `translate3d(${tear * 112}%,0,0) rotate(${tear * 3}deg)`;
+          riftSignal.style.opacity = String(Math.sin(progress * Math.PI) * (1 - paperEase(progress / 0.72)));
+          riftSignal.style.transform = `translate(-50%,-50%) translateY(${(1 - tear) * 28}px) scale(${0.94 + tear * 0.06})`;
         };
         const visiblePanels = new Set<number>();
         panels.forEach((panel) => {
@@ -271,6 +270,8 @@ export function BookExperience({ children }: { children: ReactNode }) {
           printPosition = scrollY;
           printing = true;
           restoreImages();
+          resetHorizontalScenes(scenes.flat());
+          gsap.set(scenes.flatMap((items) => items.flatMap(({ viewport, track }) => [viewport, track])), { clearProps: "transform" });
           // Print is an explicit request for the complete archive, including
           // images in chapters that the visitor has not opened yet.
           parkedImages.forEach(({ img }) => { img.loading = "eager"; });
@@ -311,12 +312,15 @@ export function BookExperience({ children }: { children: ReactNode }) {
         const startTop = () => origin;
         function measure() {
           if (disposed || printing) return;
+          if (document.documentElement.dataset.galleryOpen) { pendingMeasure = true; return; }
+          pendingMeasure = false;
+          scenes.flat().forEach((item) => measureHorizontalScene(item, "book"));
           const signature = [
             innerHeight,
             innerWidth,
             ...bodies.map((body) => body.offsetHeight),
           ].join(":");
-          if (signature === sizeSignature) return;
+          if (signature === sizeSignature) { reflowAnchor = undefined; return; }
           sizeSignature = signature;
           origin = element.getBoundingClientRect().top + scrollY;
           // Content reflow can interrupt native smooth scrolling. Finish at the
@@ -345,86 +349,72 @@ export function BookExperience({ children }: { children: ReactNode }) {
             const turn = index < panels.length - 1 ? Math.round(vh * 1.15) : 0;
             const segment = { start: cursor, read, turn, height };
             cursor += read + turn;
+            const base = body.getBoundingClientRect().top;
+            const targets = collectRevealTargets(body);
+            // Read every layer first. A transformed parent must never corrupt
+            // the position used for its rule, artwork, rail or deep-link target.
+            const reveals = targets.map((node, i) => ({ node, i, top: node.getBoundingClientRect().top - base, delay: revealColumnDelay(node, body, innerWidth < 760) }));
+            const layerBounds = collectSceneLayers(body, BOOK_WORLDS[index].id, innerWidth < 760).map((layer) => ({ ...layer, top: layer.trigger.getBoundingClientRect().top - base, height: layer.trigger.offsetHeight }));
+            const railBounds = scenes[index].map((item) => ({ item, top: item.viewport.getBoundingClientRect().top - base, height: item.viewport.offsetHeight }));
+            const parallax = Array.from(body.querySelectorAll<HTMLElement>("[data-motion-parallax]")).map((node) => ({ node, top: node.getBoundingClientRect().top - base, height: node.offsetHeight }));
+            const titles = Array.from(body.querySelectorAll<HTMLElement>("[data-title-travel]")).map((node) => ({ node, top: node.getBoundingClientRect().top - base }));
+            const rules = Array.from(body.querySelectorAll<HTMLElement>("[data-ink-rule]")).map((node) => ({ node, top: node.getBoundingClientRect().top - base }));
             const timeline = gsap.timeline({ paused: true });
             timeline.to({}, { duration: read });
-            const base = body.getBoundingClientRect().top;
-            const targets = Array.from(
-              body.querySelectorAll<HTMLElement>(
-                "[data-reveal], [data-paper], [data-book-leaf], [data-book-drift]",
-              ),
-            );
-            targets.forEach((node, i) => {
-              const top = node.getBoundingClientRect().top - base;
-              const at = Math.max(0, top - vh * 0.86);
-              const duration = Math.max(1, Math.min(vh * 0.68, read - at));
-              const leaf = node.hasAttribute("data-book-leaf");
-              const paper = node.hasAttribute("data-paper");
-              if (node.hasAttribute("data-book-drift")) return;
-              // Each world has its own scroll vocabulary, rather than one reveal preset.
-              const world = BOOK_WORLDS[index].id;
-              const direction = i % 2 ? -1 : 1;
-              let x = 0,
-                y = 38,
-                rotation = paper ? 3 : 0,
-                rotationY = 0,
-                scale = 1;
-              if (leaf) {
-                x = direction * 65;
-                y = 80;
-                rotation = direction * 4;
-                scale = 0.94;
-              } else if (world === "projects") {
-                x = direction * (paper ? 95 : 38);
-                y = 55;
-                rotation = paper ? direction * 6 : 0;
-              } else if (world === "research") {
-                x = direction * 55;
-                y = 20;
-                scale = paper ? 0.91 : 1;
-              } else if (world === "experience") {
-                x = -55;
-                y = 45;
-                rotation = paper ? -4 : 0;
-              } else if (world === "education") {
-                x = 45;
-                y = 70;
-                rotation = -2;
-              } else if (world === "certifications" && paper) {
-                x = direction * 35;
-                y = 90;
-                rotation = direction * 5;
-                rotationY = direction * 18;
-              } else if (world === "achievements") {
-                x = direction * 45;
-                y = 75;
-                rotation = paper ? direction * 8 : 0;
-                scale = paper ? 0.89 : 1;
-              } else if (world === "connect") {
-                y = 65;
-                rotation = paper ? -3 : 0;
-              }
+            reveals.forEach(({ node, i, top, delay }) => {
+              if (node.hasAttribute("data-book-drift") || node.closest("[data-scroll-scene]")) return;
+              const at = Math.min(read - 1, Math.max(0, top - vh * 0.94) + delay * vh);
+              const duration = Math.max(1, Math.min(vh * 0.62, read - at));
+              const pose = chapterPose(node, i, BOOK_WORLDS[index].id, innerWidth < 760);
               timeline.fromTo(
                 node,
-                { y, x, rotation, rotationY, scale },
-                {
-                  y: 0,
-                  x: 0,
-                  rotation: 0,
-                  rotationY: 0,
-                  scale: 1,
-                  duration,
-                  ease: "power2.out",
-                  immediateRender: false,
-                },
-                Math.min(read - 1, at),
+                { ...pose, ...PLANAR_TRANSFORM },
+                { ...REST_POSE, ...PLANAR_TRANSFORM, duration, ease: "expo.out", immediateRender: false },
+                at,
               );
             });
-            body
-              .querySelectorAll<HTMLElement>("[data-ink-rule]")
-              .forEach((node) => {
+            layerBounds.forEach(({ node, top, height, kind, order, from, to }) => {
+              const at = Math.min(read - 1, Math.max(0, top - vh * (kind === "heading" ? 0.94 : 1)) + (kind === "heading" ? order * vh * 0.035 : 0));
+              const duration = Math.max(1, Math.min(read - at, kind === "heading" ? vh * 0.58 : vh + height));
+              timeline.fromTo(node, from, {
+                // Fixed scenic crops can safely establish their starting
+                // camera now, including when the first native position is 0.
+                ...to, duration, ease: kind === "heading" ? "expo.out" : "none", immediateRender: kind === "artwork",
+              }, at);
+            });
+            // Within the book, a counter-translation holds the rail in place
+            // while vertical scroll moves its contents horizontally. The outer
+            // document still scrolls normally in every direction and device.
+            railBounds.forEach(({ item, top, height }) => {
+              if (!item.travel) return;
+              const pinTop = Math.max(40, (vh - height) / 2 - 40);
+              const at = Math.max(0, top - pinTop);
+              const rightward = item.scene.dataset.scrollDirection === "right";
+              timeline.fromTo(item.viewport, { y: 0 }, {
+                y: item.distance, duration: item.distance, ease: "none", immediateRender: false,
+              }, at);
+              timeline.fromTo(item.track, { x: rightward ? -item.travel : 0 }, {
+                x: rightward ? 0 : -item.travel, duration: item.distance, ease: "none", immediateRender: true,
+              }, at);
+            });
+            parallax.forEach(({ node, top, height }) => {
+              const at = Math.max(0, top - vh);
+              const amount = Number(node.dataset.motionParallax) || 54;
+              timeline.fromTo(node, { y: amount * 0.5 }, {
+                y: -amount * 0.5,
+                duration: Math.min(vh + height, Math.max(1, read - at)),
+                ease: "none", immediateRender: false,
+              }, Math.min(read - 1, at));
+            });
+            titles.forEach(({ node, top }) => {
+              timeline.fromTo(node, { xPercent: -12 }, {
+                xPercent: 10, duration: Math.min(read, vh * 1.5), ease: "none", immediateRender: false,
+              }, Math.max(0, top - vh));
+            });
+            rules.forEach(({ node, top }) => {
                 const at = Math.max(
                   0,
-                  node.getBoundingClientRect().top - base - vh * 0.9,
+                  top - vh * 0.9,
                 );
                 timeline.fromTo(
                   node,
@@ -458,7 +448,6 @@ export function BookExperience({ children }: { children: ReactNode }) {
           });
           total = cursor;
           element.style.height = total + vh + "px";
-          smoother.resize();
           panels.forEach((panel, i) => {
             panel.dataset.scrollStart = String(segments[i].start);
             panel.dataset.readDistance = String(segments[i].read);
@@ -469,12 +458,27 @@ export function BookExperience({ children }: { children: ReactNode }) {
           trigger.current?.refresh();
           if (pendingJump) {
             const destination = segments[pendingJump.index];
+            const target = document.getElementById(pendingJump.id);
+            const local = target && target !== panels[pendingJump.index]
+              ? targetPosition(target, pendingJump.index)
+              : pendingJump.local;
             moveTo(
               startTop() +
                 destination.start +
-                Math.min(pendingJump.local, destination.read),
+                Math.min(local, destination.read),
               true,
             );
+          } else if (reflowAnchor?.node.isConnected) {
+            const anchor = reflowAnchor;
+            const panel = anchor.node.closest<HTMLElement>(".book-world");
+            const index = panel ? panels.indexOf(panel) : -1;
+            if (index >= 0) {
+              const top = anchor.node.getBoundingClientRect().top - bodies[index].getBoundingClientRect().top;
+              const screenTop = Math.max(28, Math.min(vh - 110, anchor.top));
+              const cinematic = scenes[index].some((item) => item.travel && item.track.contains(anchor.node));
+              const local = Math.max(0, Math.min(segments[index].read, cinematic ? targetPosition(anchor.node, index) : top - screenTop));
+              moveTo(startTop() + segments[index].start + local, true);
+            }
           } else if (previous) {
             const next = segments[previousIndex];
             const local =
@@ -487,6 +491,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
                 : Math.min(previousLocal, next.read);
             moveTo(startTop() + next.start + local, true);
           }
+          reflowAnchor = undefined;
           paint(Math.max(0, scrollY - startTop()));
         }
         function paint(position: number) {
@@ -608,6 +613,9 @@ export function BookExperience({ children }: { children: ReactNode }) {
         }
         function go(id: string, addHistory = true) {
           if (id === "chapters") id = "atlas";
+          // A disclosure can change the rail's layout immediately before a
+          // chapter link is clicked. Resolve that layout before its target.
+          measure();
           if (id === "cover") {
             jump = undefined;
             moveTo(startTop(), !addHistory);
@@ -620,12 +628,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
             const panel = target?.closest<HTMLElement>(".book-world");
             if (!panel || !target) return;
             index = panels.indexOf(panel);
-            offset = Math.max(
-              0,
-              target.getBoundingClientRect().top -
-                bodies[index].getBoundingClientRect().top -
-                70,
-            );
+            offset = targetPosition(target, index);
           }
           const local = Math.min(segments[index].read, offset);
           const to = startTop() + segments[index].start + local;
@@ -633,6 +636,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
           if (addHistory) history.pushState(null, "", "#" + id);
           if (Math.abs(to - from) > vh * 1.5) {
             jump = {
+              id,
               from,
               to,
               index,
@@ -643,7 +647,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
           moveTo(to, !addHistory);
           paint(Math.max(0, scrollY - startTop()));
         }
-        const initialHash = decodeURIComponent(location.hash.slice(1));
+        const initialHash = hashId();
         measure();
         trigger.current = ScrollTrigger.create({
           trigger: element,
@@ -654,6 +658,19 @@ export function BookExperience({ children }: { children: ReactNode }) {
         const resized = () => {
           cancelAnimationFrame(resizeFrame);
           resizeFrame = requestAnimationFrame(measure);
+        };
+        const beforeToggle = (event: Event) => {
+          const summary = (event.target as Element).closest<HTMLElement>("summary");
+          if (summary?.closest("[data-scroll-scene]"))
+            reflowAnchor = { node: summary, top: summary.getBoundingClientRect().top };
+        };
+        const onToggle = (event: Event) => {
+          const detail = event.target as HTMLElement;
+          if (!detail.closest("[data-scroll-scene]")) return;
+          const summary = detail.querySelector<HTMLElement>("summary");
+          if (summary && reflowAnchor?.node !== summary)
+            reflowAnchor = { node: summary, top: summary.getBoundingClientRect().top };
+          resized();
         };
         const observer = new ResizeObserver(resized);
         bodies.forEach((b) => observer.observe(b));
@@ -667,10 +684,23 @@ export function BookExperience({ children }: { children: ReactNode }) {
         };
         const resumeNativeInput = () => {
           stopJump();
-          // Keyboard/touch must take control immediately, not compete with
-          // the tail of a wheel gesture that is still interpolating.
-          if (smoother.isScrolling === "smooth") moveTo(scrollY, true);
+          // Cancel a browser-animated chapter jump when a visitor takes over.
+          // Ordinary wheel/touch/key scrolling never passes through this API.
         };
+        function targetPosition(target: HTMLElement, index: number) {
+          const rail = scenes[index].find((item) => item.travel && item.track.contains(target));
+          if (rail) {
+            const bounds = target.getBoundingClientRect();
+            const trackBounds = rail.track.getBoundingClientRect();
+            const center = bounds.left - trackBounds.left + bounds.width / 2;
+            const leftward = clamp((center - rail.viewport.clientWidth / 2) / rail.travel);
+            const progress = rail.scene.dataset.scrollDirection === "right" ? 1 - leftward : leftward;
+            const pinTop = Math.max(40, (vh - rail.viewport.offsetHeight) / 2 - 40);
+            const naturalTop = rail.scene.getBoundingClientRect().top - bodies[index].getBoundingClientRect().top + rail.viewport.offsetTop;
+            return Math.max(0, naturalTop - pinTop) + progress * rail.distance;
+          }
+          return Math.max(0, target.getBoundingClientRect().top - bodies[index].getBoundingClientRect().top - 70);
+        }
         const onKey = (e: KeyboardEvent) => {
           if (
             [
@@ -691,9 +721,18 @@ export function BookExperience({ children }: { children: ReactNode }) {
           const target = e.target as HTMLElement;
           const panel = target.closest<HTMLElement>(".book-world");
           if (!panel || jump) return;
+          const index = panels.indexOf(panel);
+          const rail = scenes[index].find((item) => item.travel && item.track.contains(target));
+          if (rail) {
+            const targetBounds = target.getBoundingClientRect();
+            const viewportBounds = rail.viewport.getBoundingClientRect();
+            if (targetBounds.left >= viewportBounds.left + 12 && targetBounds.right <= viewportBounds.right - 12 && targetBounds.top >= 28 && targetBounds.bottom <= vh - 90) return;
+            moveTo(startTop() + segments[index].start + targetPosition(target, index), true);
+            paint(Math.max(0, scrollY - startTop()));
+            return;
+          }
           const bounds = target.getBoundingClientRect();
           if (bounds.top >= 28 && bounds.bottom <= vh - 90) return;
-          const index = panels.indexOf(panel);
           const offset = Math.max(
             0,
             bounds.top - bodies[index].getBoundingClientRect().top - 100,
@@ -708,18 +747,16 @@ export function BookExperience({ children }: { children: ReactNode }) {
         };
         const onHistory = () => {
           if (!document.documentElement.dataset.galleryOpen)
-            go(decodeURIComponent(location.hash.slice(1)) || "cover", false);
+            go(hashId() || "cover", false);
         };
         const onGallery = (event: Event) => {
           if ((event as CustomEvent<{ open: boolean }>).detail.open) {
             resumeNativeInput();
-            smoother.stop();
-            cancelAnimationFrame(smoothFrame);
-            smoothFrame = 0;
-            element.dataset.smoothing = "idle";
-          } else {
-            smoother.start();
             moveTo(scrollY, true);
+          } else {
+            if (pendingMeasure) measure();
+            moveTo(scrollY, true);
+            paint(Math.max(0, scrollY - startTop()));
           }
         };
         addEventListener("notebook:gallery", onGallery);
@@ -731,6 +768,8 @@ export function BookExperience({ children }: { children: ReactNode }) {
         addEventListener("beforeprint", preparePrint);
         addEventListener("afterprint", finishPrint);
         element.addEventListener("focusin", onFocus);
+        element.addEventListener("click", beforeToggle, true);
+        element.addEventListener("toggle", onToggle, true);
         api.current = { go };
         setReady(true);
         if (initialHash)
@@ -741,10 +780,11 @@ export function BookExperience({ children }: { children: ReactNode }) {
           if (!disposed) resized();
         });
         cleanup = () => {
-          cancelAnimationFrame(smoothFrame);
-          smoother.destroy();
+          stopReactive();
           trigger.current?.kill();
           motions.forEach((m) => m.revert());
+          stopLayers();
+          resetHorizontalScenes(scenes.flat());
           observer.disconnect();
           removeEventListener("resize", resized);
           removeEventListener("wheel", stopJump, { capture: true });
@@ -755,6 +795,8 @@ export function BookExperience({ children }: { children: ReactNode }) {
           removeEventListener("beforeprint", preparePrint);
           removeEventListener("afterprint", finishPrint);
           element.removeEventListener("focusin", onFocus);
+          element.removeEventListener("click", beforeToggle, true);
+          element.removeEventListener("toggle", onToggle, true);
           gsap.set([...panels, ...bodies, coverNode], {
             clearProps:
               "transform,translate,scale,visibility,opacity,willChange",
@@ -834,27 +876,50 @@ export function BookExperience({ children }: { children: ReactNode }) {
       </a>
       <div className="book-stage">
         <div className="book-cover-scene" id="book-cover" ref={coverScene}>
-          <div className="closed-book" ref={cover}>
+          <div className="closed-book" ref={cover} data-reactive>
             <div className="book-page-stack" aria-hidden="true" />
             <div className="cover-spine" aria-hidden="true">
-              MUHAMMAD TAHA BIN ZAEEM · FIELD NOTES
+              {HOME_COVER.spine}
             </div>
             <div className="cover-face">
+              <div className="cover-orbit" aria-hidden="true">
+                <svg viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g className="cover-orbit-rings" stroke="currentColor">
+                    <circle cx="300" cy="300" r="264" strokeOpacity=".22" />
+                    <circle cx="300" cy="300" r="216" strokeOpacity=".4" strokeDasharray="2 13" />
+                    <circle cx="300" cy="300" r="170" strokeOpacity=".22" />
+                    <ellipse cx="300" cy="300" rx="260" ry="94" transform="rotate(-32 300 300)" strokeOpacity=".6" />
+                    <ellipse cx="300" cy="300" rx="260" ry="94" transform="rotate(42 300 300)" strokeOpacity=".4" />
+                    <path d="M300 16v50m0 468v50M16 300h50m468 0h50" strokeOpacity=".6" />
+                    <path d="M98 98l28 28m348 348 28 28M98 502l28-28m348-348 28-28" strokeOpacity=".22" />
+                  </g>
+                  <g className="cover-orbit-core" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="228" y="228" width="144" height="144" rx="20" strokeOpacity=".6" />
+                    <rect x="243" y="243" width="114" height="114" rx="12" strokeOpacity=".22" />
+                    <path d="M266 208v20m22-20v20m24-20v20m22-20v20M266 372v20m22-20v20m24-20v20m22-20v20M208 266h20m-20 22h20m-20 24h20m-20 22h20M372 266h20m-20 22h20m-20 24h20m-20 22h20" strokeOpacity=".6" />
+                    <path d="M264 316v-35l18 22 18-22v35m10-34h27m-13 0v34" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </g>
+                  <g className="cover-orbit-nodes" fill="currentColor">
+                    <circle cx="113" cy="116" r="5" />
+                    <circle cx="530" cy="235" r="6" />
+                    <circle cx="390" cy="548" r="4" />
+                    <circle cx="66" cy="420" r="3" />
+                  </g>
+                </svg>
+              </div>
               <span className="cover-edition">
-                A LIVING PORTFOLIO / VOL. 01
+                {HOME_COVER.edition}
               </span>
-              <span className="cover-subtitle">The engineering</span>
+              <span className="cover-subtitle">{HOME_COVER.subtitle}</span>
               <h1 id="book-title">
-                FIELD
-                <em>BOOK.</em>
+                {HOME_COVER.title}
+                <em>{HOME_COVER.titleAccent}</em>
               </h1>
               <p className="cover-author">
-                MUHAMMAD TAHA
-                <br />
-                BIN ZAEEM
+                {HOME_COVER.authorLines.map((line, index) => <Fragment key={line}>{index > 0 && <br />}{line}</Fragment>)}
               </p>
               <p className="cover-foot">
-                Hardware · Software · Human curiosity
+                {HOME_COVER.foot}
               </p>
               <button
                 className="cover-open-hit"
@@ -864,13 +929,13 @@ export function BookExperience({ children }: { children: ReactNode }) {
               />
               <div className="cover-invitation">
                 <span className="cover-status" role="status">
-                  {ready ? "Open the field book ↗" : "Binding the pages…"}
+                  {ready ? HOME_COVER.invitation : "Binding the pages…"}
                 </span>
-                <p>Scroll to read. Reverse to return.</p>
+                <p>{HOME_COVER.instructions}</p>
                 <button onClick={changeReader}>
                   {reader
-                    ? "Enter the animated book"
-                    : "Read without animation"}
+                    ? HOME_COVER.animatedLabel
+                    : HOME_COVER.quietLabel}
                 </button>
               </div>
               <noscript>
@@ -894,6 +959,11 @@ export function BookExperience({ children }: { children: ReactNode }) {
           <div className="rift-half rift-right">
             <span>the story continues ↗</span>
           </div>
+          <div className="rift-signal">
+            <span className="rift-number">01</span>
+            <span className="rift-caption">A new chapter</span>
+            <i />
+          </div>
         </div>
       </div>
       <nav
@@ -902,7 +972,6 @@ export function BookExperience({ children }: { children: ReactNode }) {
         aria-label="Book chapters"
         inert={!indexOpen}
         data-open={indexOpen}
-        data-lenis-prevent
       >
         {BOOK_WORLDS.map((world, i) => (
           <a

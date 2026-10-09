@@ -24,7 +24,7 @@ export async function runGalleryChecks({ cdp, navigate, viewport, until, sleep, 
         ratio:r.width/r.height,natural:image.naturalWidth/image.naturalHeight,overflow:surface.scrollHeight>surface.clientHeight+1,
         active:document.querySelector('.image-gallery').contains(document.activeElement)};
     })()`);
-    assert.ok(result.left >= 0 && result.right <= result.width && result.top >= 0 && result.bottom <= result.height, "Full image fits viewport");
+    assert.ok(result.left >= 0 && result.right <= result.width && result.top >= 0 && result.bottom <= result.height, "Full image fits viewport: " + JSON.stringify(result));
     assert.ok(Math.abs(result.ratio - result.natural) < .02, "Image is neither cropped nor stretched");
     assert.equal(result.overflow, false, "Controls and image fit the dialog");
     assert.equal(result.active, true, "Focus remains in modal");
@@ -54,6 +54,17 @@ export async function runGalleryChecks({ cdp, navigate, viewport, until, sleep, 
     await open("#pocket-engineer .project-screenshot [data-gallery]");
     await sleep(300);
     await cdp.send("Input.dispatchMouseEvent", { type: "mouseWheel", x: Math.round(width / 2), y: 350, deltaY: -140, deltaX: 0 });
+    await sleep(200);
+    assert.equal(await cdp.evaluate(isOpen), true, "An upward wheel stays inside the gallery");
+    assert.ok(Math.abs(await cdp.evaluate("scrollY") - position) < 3, "Reverse wheel keeps the page locked");
+    await cdp.evaluate(`document.querySelector('.gallery-zoom').click()`);
+    await until(`!!document.querySelector('.gallery-image-area[data-zoomed="true"]')`, "Zoom enlarges the image");
+    assert.equal(await cdp.evaluate(`document.querySelector('.gallery-zoom').getAttribute('aria-pressed')`), "true");
+    assert.equal(await cdp.evaluate(`(()=>{const a=document.querySelector('.gallery-image-area');return a.scrollWidth>a.clientWidth||a.scrollHeight>a.clientHeight})()`), true, "Zoomed evidence is scrollable");
+    await cdp.evaluate(`document.querySelector('.gallery-zoom').click()`);
+    await until(`!document.querySelector('.gallery-image-area[data-zoomed="true"]')`, "Fit restores the whole photograph");
+    await fits();
+    await cdp.evaluate(`document.querySelector('.gallery-close').click()`);
     await closed(position);
     await open("#pocket-engineer .project-screenshot [data-gallery]");
     await cdp.evaluate("history.back()");
@@ -79,7 +90,7 @@ export async function runGalleryChecks({ cdp, navigate, viewport, until, sleep, 
     await screenshot(`gallery-achievement-frames-${width}`);
     const awardPosition = await cdp.evaluate("scrollY");
     await open("#achievement-sempec-junior-hardware-runner-up .gallery-trigger");
-    assert.equal(await cdp.evaluate(`document.querySelectorAll('.gallery-thumbnails button').length`), 2, "Both SEMPEC photos are accessible");
+    assert.equal(await cdp.evaluate(`document.querySelectorAll('.gallery-thumbnails button').length`), 4, "SEMPEC's three event photos and merit certificates stay together");
     await key("ArrowRight");
     await screenshot(`gallery-sempec-second-${width}`);
     await fits();
@@ -90,7 +101,7 @@ export async function runGalleryChecks({ cdp, navigate, viewport, until, sleep, 
     await cdp.evaluate(`document.querySelector('#project-teammates').scrollIntoView({block:'start',behavior:'instant'})`);
     await sleep(600);
     await screenshot(`collaborators-${width}`);
-    assert.equal(await cdp.evaluate(`document.querySelectorAll('.collaborator').length`), 5);
+    assert.equal(await cdp.evaluate(`document.querySelectorAll('.collaborator').length`), 6);
     assert.equal(await cdp.evaluate(`document.documentElement.scrollWidth>innerWidth`), false);
   }
   // A real touch gesture on mobile navigates within the gallery, then closes it.
@@ -105,6 +116,22 @@ export async function runGalleryChecks({ cdp, navigate, viewport, until, sleep, 
     await cdp.send("Input.dispatchTouchEvent", { type, touchPoints: type === "touchEnd" ? [] : [{x,y}] });
   await closed(touchPosition);
   await viewport(1440, 1000);
+  // Returning focus must not re-center a horizontal rail after modal scroll
+  // restoration. Exercise a real rail opener on both reading routes.
+  for (const route of ["projects#project-vector-cpu", "#project-vector-cpu"]) {
+    await navigate(route);
+    await cdp.evaluate(`document.querySelector('#project-vector-cpu .gallery-trigger').focus({preventScroll:true})`);
+    await sleep(300);
+    await cdp.send("Input.dispatchMouseEvent", { type: "mouseWheel", x: 700, y: 350, deltaY: -160, deltaX: 0 });
+    await sleep(300);
+    assert.equal(await cdp.evaluate(`(()=>{const a=document.querySelector('#project-vector-cpu .gallery-trigger'),r=a.getBoundingClientRect(),v=a.closest('[data-scroll-viewport]').getBoundingClientRect();return r.left<v.left&&r.right>v.left;})()`), true, "A native reverse scroll leaves the rail image partly visible before opening");
+    const railPosition = await cdp.evaluate("scrollY");
+    await open("#project-vector-cpu .gallery-trigger");
+    await fits();
+    await key("Escape");
+    await closed(railPosition);
+    assert.equal(await cdp.evaluate(`document.activeElement.matches('#project-vector-cpu .gallery-trigger')`), true, "Rail gallery restores focus without moving the reading position");
+  }
   await navigate("projects#paretoco");
   await cdp.evaluate(`document.querySelector('#paretoco').scrollIntoView({block:'start',behavior:'instant'})`);
   await sleep(400);
@@ -128,5 +155,5 @@ export async function runGalleryChecks({ cdp, navigate, viewport, until, sleep, 
   await key("Escape");
   await closed(singlePosition);
   await cdp.send("Emulation.setEmulatedMedia", {features:[]});
-  report.checks.push("Galleries at 320/390/768/1440: complete related groups, uncropped images, keyboard and thumbnails, scroll/Back/Escape/Close return to exact reading position, trapped focus, locked background, real mobile swipe navigation and dismissal; five credited collaborators fit.");
+  report.checks.push("Galleries at 320/390/768/1440: complete related groups, uncropped images, zoom with native panning, keyboard and thumbnails, Back/Escape/Close return to exact reading position, trapped focus, locked background, real mobile swipe navigation and dismissal; six credited collaborators fit.");
 }

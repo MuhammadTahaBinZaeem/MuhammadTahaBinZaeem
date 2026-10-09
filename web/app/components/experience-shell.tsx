@@ -70,7 +70,7 @@ export function ExperienceShell({ children }: { children: ReactNode }) {
         </Link>
         <span>Reader edition</span>
       </div>
-      <div id="main-content" tabIndex={-1}>
+      <div className={`chapter-edition edition-${pathname.slice(1)}`} id="main-content" tabIndex={-1}>
         {children}
       </div>
       <footer className="notebook-footer">

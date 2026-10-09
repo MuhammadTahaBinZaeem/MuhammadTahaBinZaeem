@@ -88,7 +88,7 @@ test("entity graph identifies the person, not their companies or credential issu
     const pages = nodes.filter((node) => ["WebPage", "ProfilePage", "ContactPage", "CollectionPage"].includes(node["@type"]));
     assert.equal(pages.length, 1, path + " one current-page entity");
     assert.equal(pages[0].url, "https://tahabinzaeem.tech" + path);
-    assert.equal(pages[0].dateModified, "2026-09-13");
+    assert.equal(pages[0].dateModified, "2026-10-08");
     if (path === "/") {
       assert.equal(pages[0]["@type"], "ProfilePage");
       assert.equal(pages[0].mainEntity["@id"], person["@id"]);
@@ -133,7 +133,7 @@ test("image sitemap uses real evidence, exact canonicals and truthful editorial 
   assert.ok(xml.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"'));
   const pages = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
   assert.deepEqual(pages.sort(), ROUTES.map(([path]) => "https://tahabinzaeem.tech" + path).sort());
-  assert.equal((xml.match(/<lastmod>2026-09-13<\/lastmod>/g) || []).length, 8);
+  assert.equal((xml.match(/<lastmod>2026-10-08<\/lastmod>/g) || []).length, 8);
   const images = new Set([...xml.matchAll(/<image:loc>([^<]+)<\/image:loc>/g)].map((match) => match[1]));
   assert.ok(images.size >= 35, "Project, credential, education and achievement galleries are discoverable");
   for (const image of images) {
@@ -183,7 +183,8 @@ test("home is one complete, progressively enhanced book; reader editions remain 
   assert.match(engine, /ScrollTrigger\.create/);
   assert.match(engine, /ResizeObserver/);
   assert.match(engine, /prefers-reduced-motion/);
-  assert.match(engine, /autoRaf: false/);
+  assert.doesNotMatch(engine, /Lenis|lenis/);
+  assert.match(engine, /window\.scrollTo/);
   assert.match(engine, /parkedImages/);
   assert.doesNotMatch(
     engine,
@@ -351,7 +352,18 @@ test("sitemap, robots and machine-readable brief cover the complete site", async
 test("related image galleries retain valid source URLs and dimensions in server HTML", async () => {
   const html = await (await render("/")).text();
   const galleries = Array.from(html.matchAll(/data-gallery="([^"]+)"/g), (match) => JSON.parse(match[1].replaceAll("&quot;", '"').replaceAll("&amp;", "&").replaceAll("&#x27;", "'").replaceAll("&lt;", "<").replaceAll("&gt;", ">")));
-  assert.ok(galleries.length >= 45);
+  for (const [section, title] of [
+    ["foreword", "Muhammad Taha Bin Zaeem"],
+    ["projects", "Pocket Engineer"],
+    ["research", "Research · notebook study"],
+    ["experience", "Community · notebook study"],
+    ["education", "Government College University (GCU), Lahore · education archive"],
+    ["certifications", "Duke University"],
+    ["achievements", "Runner-Up · 1st All-Pakistan STEM Project Competition"],
+    ["connect", "Correspondence · notebook study"],
+  ]) {
+    assert.ok(galleries.some((group) => group.title === title), section + " has its expected gallery group");
+  }
   const assets = new Map();
   for (const gallery of galleries) {
     assert.ok(gallery.title && gallery.items.length);
@@ -366,17 +378,35 @@ test("related image galleries retain valid source URLs and dimensions in server 
     assert.equal(metadata.height, asset.height, src);
   }
   assert.equal(galleries.find((group) => group.title === "Pocket Engineer").items.length, 4);
-  assert.equal(galleries.find((group) => group.title === "ProGenEDA").items.length, 2);
-  assert.equal(galleries.find((group) => group.title === "Type2Learn").items.length, 2);
+  const progeneda = galleries.find((group) => group.title === "ProGenEDA");
+  const type2learn = galleries.find((group) => group.title === "Type2Learn");
+  assert.equal(progeneda.items.length, 8);
+  assert.equal(type2learn.items.length, 4);
+  assert.equal(progeneda.items[0].src, "/media/projects/progeneda-official-brand-card.webp");
+  assert.equal(type2learn.items[0].src, "/media/projects/type2learn-official-home-capture.webp");
+  for (const group of [progeneda, type2learn]) assert.ok(group.items.every((item) => !item.src.includes("official-github-mark") && !item.src.includes("founder-headshot")), "Product libraries contain product imagery rather than extra identities");
+  assert.ok(type2learn.items.filter((item) => item.src.includes("-artwork.webp")).every((item) => item.caption.includes("artwork")));
   assert.equal(galleries.find((group) => group.title === "Duke University").items.length, 4);
-  assert.equal(galleries.find((group) => group.title.startsWith("Second Runner-Up")).items.length, 2);
+  assert.equal(galleries.find((group) => group.title === "Muhammad Taha Bin Zaeem").items.length, 3);
+  const sempec = galleries.find((group) => group.title.startsWith("Second Runner-Up"));
+  assert.equal(sempec.items.length, 4);
+  assert.ok(sempec.items.some((item) => item.src.endsWith("stem-judging-session.webp")));
+  assert.ok(sempec.items.some((item) => item.src.endsWith("certificates-collection.webp")));
+  const stem = galleries.find((group) => group.title === "Runner-Up · 1st All-Pakistan STEM Project Competition");
+  assert.equal(stem.items.length, 1);
+  assert.ok(stem.items[0].src.endsWith("stem-2024-runner-up-awards.webp"));
+  assert.equal((html.match(/id="achievement-stem-2024-runner-up"/g) || []).length, 1);
+  assert.doesNotMatch(html, /Meeting Dr\. Samar|meeting-dr-samar-mubarakmand|inaugural 2025 All-Pakistan/);
 });
 
 test("project collaborators are credited without misclassifying the FOP project as a founder role", async () => {
   const html = await (await render("/experience")).text();
-  for (const name of ["Alizay Hasan", "Lameea Mubashir Khan", "Idrees Babar", "Tooba Fatima", "Abdullah Ikram"]) assert.ok(html.includes(name));
+  const names = ["Muhammad Hamiz bin Kashif", "Alizay Hassan", "Lameea Mubashir Khan", "Idrees Babar", "Muhammad Fahad Younus", "Tooba Fatima"];
+  const teammateSection = html.split('id="project-teammates"')[1].split('id="founder-work"')[0];
+  const positions = names.map((name) => teammateSection.indexOf(name));
+  assert.ok(positions.every((position, i) => position >= 0 && (i === 0 || position > positions[i - 1])));
   for (const account of ["alizay-debug", "rosseaaq", "meidreesbabar-crypto"]) assert.ok(html.includes("https://github.com/" + account));
-  assert.ok(html.includes("https://www.linkedin.com/in/abdullah-ikram-"));
+  for (const account of ["Hamiz_Kashif", "fahadyounus62"]) assert.ok(html.includes("https://lablab.ai/u/%40" + account));
   const founderWork = html.split('id="founder-work"')[1].split('id="internships"')[0];
   assert.ok(founderWork.includes("ProGenEDA") && founderWork.includes("Type2Learn"));
   assert.ok(!founderWork.includes("Pocket Engineer"));

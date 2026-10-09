@@ -1,0 +1,62 @@
+/* GSAP owns these crop variables, leaving the image's hover transform free.
+   Only illustrated scenery participates; evidence and profile pictures do not. */
+html:root img[data-scene-image] {
+  translate: var(--scene-x, 0%) var(--scene-y, 0%);
+  scale: var(--scene-zoom, 1);
+  transform-origin: 50% 50%;
+}
+html:root .campus-banner .gallery-trigger > img[data-scene-image] { transition: transform .7s cubic-bezier(.22,1,.36,1); }
+html:root .campus-banner:hover .gallery-trigger > img[data-scene-image] { scale: calc(var(--scene-zoom, 1) * 1.025); }
+
+/* A chapter opens sideways in the workshop, upward in the formation worlds. */
+html:root .book-rift[data-axis="vertical"] .rift-half {
+  width: 100%;
+  height: 51%;
+  left: 0;
+  right: 0;
+  bottom: auto;
+  transform-origin: 50% 50%;
+}
+html:root .book-rift[data-axis="vertical"] .rift-left {
+  top: 0;
+  clip-path: polygon(0 0,100% 0,100% 99%,90% 99.6%,80% 98.8%,70% 99.5%,60% 98.7%,50% 99.5%,40% 98.8%,30% 99.5%,20% 98.9%,10% 99.4%,0 99%);
+}
+html:root .book-rift[data-axis="vertical"] .rift-right {
+  top: auto;
+  bottom: 0;
+  clip-path: polygon(0 1%,10% .6%,20% 1.1%,30% .5%,40% 1.2%,50% .5%,60% 1.3%,70% .5%,80% 1.2%,90% .4%,100% 1%,100% 100%,0 100%);
+}
+html:root .rift-signal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  color: var(--rift-ink);
+  text-align: center;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+html:root .rift-number {
+  font: 700 clamp(100px, 18vw, 260px)/.8 var(--font-display);
+  letter-spacing: -.03em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--rift-ink);
+}
+html:root .rift-caption {
+  white-space: nowrap;
+  font: 500 10px/1.8 var(--font-mono);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+html:root .rift-signal i { width: 70px; height: 1px; background: var(--rift-accent); }
+html:root .living-book[data-mode="reader"] img[data-scene-image],
+html:root[data-motion="quiet"] img[data-scene-image] { translate: none !important; scale: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  html:root img[data-scene-image] { translate: none !important; scale: none !important; }
+}
+@media print {
+  html:root img[data-scene-image] { translate: none !important; scale: none !important; }
+  html:root :is(.page-heading, .atlas-heading) :is(.eyebrow, .book-kicker, h1, h2, .heading-tail) { transform: none !important; }
+}

@@ -1,12 +1,11 @@
 import { pageMetadata } from "../seo";
 import { PageStructuredData } from "../seo-schema";
-import { EDUCATION } from "../portfolio-data";
+import { EDUCATION, type EducationEntry } from "../portfolio-data";
 import { SKILLS } from "../dossier-data";
 import { GalleryImage } from "../components/gallery-image";
 import { StoryMotion } from "../components/story-motion";
 import {
   ChapterHeading,
-  InkDrawing,
   NextChapter,
   SectionHeading,
 } from "../components/notebook-ui";
@@ -26,35 +25,39 @@ export function EducationChapter({
           lead="From the first computer-science classroom to processor design, circuits, and machine-learning foundations."
           note="The foundations keep growing."
         />
-        <InkDrawing name="campus" className="education-cover" />
-        {EDUCATION.map((e) => (
+        {EDUCATION.map((e) => {
+          const campus = (e as EducationEntry).campus;
+          const images = e.media;
+          const entry = e as EducationEntry;
+          return (
           <article
             className="education-story"
             id={"education-" + e.id}
             key={e.id}
             data-reveal
           >
+            {campus && <div className="campus-banner" data-reactive>
+              <GalleryImage image={campus} images={[campus]} title={(e.campusLabel || e.institution) + " · campus illustration"} />
+              <div className="campus-banner__copy" aria-hidden="true">
+                <span>Where the foundations grew</span>
+                <strong>{(e as EducationEntry).campusLabel || e.institution}</strong>
+                <span>View the campus illustration ↗</span>
+              </div>
+            </div>}
             <div>
               <p className="timeline-date">
                 {e.period}
-                {e.id === "nust" ? " (expected graduation)" : ""}
+                {entry.periodNote ? ` (${entry.periodNote})` : ""}
               </p>
               {e.grade && <span className="hand-note">Grade {e.grade}</span>}
             </div>
             <div>
               <h2>
                 {e.institution}
-                {e.id === "nust" ? " · CEME" : ""}
+                {entry.institutionNote ? ` · ${entry.institutionNote}` : ""}
               </h2>
               <h3>{e.qualification}</h3>
-              {e.id === "nust" && (
-                <p>
-                  Third semester, as recorded in the September 2026 CV. Selected
-                  focus: computer architecture, digital logic, algorithms,
-                  programming, circuits, electronics, and machine-learning
-                  foundations.
-                </p>
-              )}
+              {entry.focus && <p>{entry.focus}</p>}
               <p>{e.story}</p>
               <ul>
                 {e.activities.map((a) => (
@@ -62,12 +65,12 @@ export function EducationChapter({
                 ))}
               </ul>
               {e.media[0] && <figure className="education-evidence" data-paper>
-                <GalleryImage image={e.media[0]} images={e.media} title={e.institution} />
+                <GalleryImage image={e.media[0]} images={images} title={e.institution + " · education archive"} />
                 <figcaption>{e.media[0].alt}</figcaption>
               </figure>}
             </div>
           </article>
-        ))}
+        );})}
         <section id="skills" className="research-methods">
           <SectionHeading
             eyebrow="The toolkit / across disciplines"

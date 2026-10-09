@@ -24,6 +24,7 @@ export type MediaAsset = Readonly<{
   alt: string;
   width: number;
   height: number;
+  caption?: string;
   objectPosition?: string;
 }>;
 
@@ -96,6 +97,7 @@ export type ProjectStory = Readonly<{
 
 export type Certificate = Readonly<{
   id: string;
+  groupId: string;
   title: string;
   issuer: string;
   issued: string;
@@ -103,8 +105,17 @@ export type Certificate = Readonly<{
   credentialUrl: NullableUrl;
   documentUrl: NullableUrl;
   preview: MediaAsset;
+  media?: readonly MediaAsset[];
   scene: string;
   theme: StoryTheme;
+}>;
+
+export type CertificateGroup = Readonly<{
+  id: string;
+  name: string;
+  color: string;
+  navLabel?: string;
+  summary?: Readonly<{ title: string; copy: string }>;
 }>;
 
 export type AchievementKind = "honor" | "photo-story";
@@ -120,15 +131,32 @@ export type Achievement = Readonly<{
   theme: StoryTheme;
 }>;
 
+export type AchievementSpotlight = Readonly<{
+  id: string;
+  eyebrow: string;
+  title: string;
+  emphasis: string;
+  summary: string;
+  status: string;
+  link: Readonly<{ label: string; href: string }>;
+  drawing: string;
+  media?: readonly MediaAsset[];
+}>;
+
 export type EducationEntry = Readonly<{
   id: string;
   institution: string;
   qualification: string;
   period: string;
+  periodNote?: string;
+  institutionNote?: string;
+  focus?: string;
   grade: string | null;
   story: string;
   activities: readonly string[];
   media: readonly MediaAsset[];
+  campus?: MediaAsset;
+  campusLabel?: string;
   theme: StoryTheme;
 }>;
 
@@ -202,7 +230,7 @@ export const PROFILE = {
   },
 } as const satisfies Profile;
 
-export const SOCIAL_LINKS = [
+export const SOCIAL_LINKS: readonly SocialLink[] = [
   {
     id: "github",
     label: "GitHub",
@@ -251,9 +279,9 @@ export const SOCIAL_LINKS = [
     handle: "progeneda.app",
     note: "EDA automation for validated, editable engineering artifacts.",
   },
-] as const satisfies readonly SocialLink[];
+];
 
-export const PORTALS = [
+export const PORTALS: readonly Portal[] = [
   {
     id: "projects",
     index: "01",
@@ -322,9 +350,9 @@ export const PORTALS = [
     },
     theme: THEMES.education,
   },
-] as const satisfies readonly Portal[];
+];
 
-export const PROJECTS = [
+export const PROJECTS: readonly ProjectStory[] = [
   {
     id: "vector-cpu",
     index: "01",
@@ -685,11 +713,29 @@ export const PROJECTS = [
     ],
     theme: THEMES.water,
   },
-] as const satisfies readonly ProjectStory[];
+];
 
-export const CERTIFICATES = [
+// Add an issuer here, then assign each certificate its groupId. Both array
+// orders are presentation order; no chapter filter needs to be changed.
+export const CERTIFICATE_GROUPS: readonly CertificateGroup[] = [
+  { id: "stanford", name: "Stanford Online & DeepLearning.AI", color: "#8e342c" },
+  {
+    id: "duke", name: "Duke University", color: "#374e68",
+    summary: {
+      title: "Introduction to Logic and Critical Thinking Specialization",
+      copy: "Completed July 2026. Explore the four individual Think Again course certificates below.",
+    },
+  },
+  { id: "game-theory", name: "Stanford University & UBC", navLabel: "Game theory", color: "#74512e" },
+  { id: "google", name: "Google · Cybersecurity", color: "#376045" },
+  { id: "coursera", name: "Coursera · Guided project", color: "#5b5740" },
+  { id: "lablab", name: "lablab.ai · AI Genesis", color: "#995235" },
+];
+
+export const CERTIFICATES: readonly Certificate[] = [
   {
     id: "machine-learning-specialization",
+    groupId: "stanford",
     title: "Machine Learning Specialization",
     issuer: "DeepLearning.AI / Stanford Online",
     issued: "Dec 14, 2025",
@@ -708,6 +754,7 @@ export const CERTIFICATES = [
   },
   {
     id: "advanced-learning-algorithms",
+    groupId: "stanford",
     title: "Advanced Learning Algorithms",
     issuer: "DeepLearning.AI / Stanford Online",
     issued: "Dec 14, 2025",
@@ -725,6 +772,7 @@ export const CERTIFICATES = [
   },
   {
     id: "supervised-machine-learning",
+    groupId: "stanford",
     title: "Supervised Machine Learning: Regression and Classification",
     issuer: "DeepLearning.AI / Stanford Online",
     issued: "Dec 14, 2025",
@@ -742,6 +790,7 @@ export const CERTIFICATES = [
   },
   {
     id: "unsupervised-learning",
+    groupId: "stanford",
     title: "Unsupervised Learning, Recommenders, Reinforcement Learning",
     issuer: "DeepLearning.AI / Stanford Online",
     issued: "Nov 26, 2025",
@@ -759,6 +808,7 @@ export const CERTIFICATES = [
   },
   {
     id: "game-theory",
+    groupId: "game-theory",
     title: "Game Theory",
     issuer: "Stanford University / University of British Columbia",
     issued: "Sep 10, 2024",
@@ -776,6 +826,7 @@ export const CERTIFICATES = [
   },
   {
     id: "think-again-i",
+    groupId: "duke",
     title: "Think Again I: How to Understand Arguments",
     issuer: "Duke University",
     issued: "Jul 5, 2026",
@@ -793,6 +844,7 @@ export const CERTIFICATES = [
   },
   {
     id: "think-again-ii",
+    groupId: "duke",
     title: "Think Again II: How to Reason Deductively",
     issuer: "Duke University",
     issued: "Jul 5, 2026",
@@ -810,6 +862,7 @@ export const CERTIFICATES = [
   },
   {
     id: "think-again-iii",
+    groupId: "duke",
     title: "Think Again III: How to Reason Inductively",
     issuer: "Duke University",
     issued: "Jul 6, 2026",
@@ -827,6 +880,7 @@ export const CERTIFICATES = [
   },
   {
     id: "think-again-iv",
+    groupId: "duke",
     title: "Think Again IV: How to Avoid Fallacies",
     issuer: "Duke University",
     issued: "Jul 6, 2026",
@@ -844,6 +898,7 @@ export const CERTIFICATES = [
   },
   {
     id: "foundations-of-cybersecurity",
+    groupId: "google",
     title: "Foundations of Cybersecurity",
     issuer: "Google",
     issued: "Jul 5, 2026",
@@ -861,6 +916,7 @@ export const CERTIFICATES = [
   },
   {
     id: "play-it-safe",
+    groupId: "google",
     title: "Play It Safe: Manage Security Risks",
     issuer: "Google",
     issued: "Jul 5, 2026",
@@ -878,6 +934,7 @@ export const CERTIFICATES = [
   },
   {
     id: "connect-and-protect",
+    groupId: "google",
     title: "Connect and Protect: Networks and Network Security",
     issuer: "Google",
     issued: "Jul 5, 2026",
@@ -895,6 +952,7 @@ export const CERTIFICATES = [
   },
   {
     id: "wordpress-project",
+    groupId: "coursera",
     title: "Build a Full Website using WordPress",
     issuer: "Coursera Project Network",
     issued: "Aug 19, 2024",
@@ -912,6 +970,7 @@ export const CERTIFICATES = [
   },
   {
     id: "ai-genesis-completion",
+    groupId: "lablab",
     title: "AI Genesis — Certificate of Completion",
     issuer: "lablab.ai",
     issued: "Nov 2025",
@@ -927,9 +986,25 @@ export const CERTIFICATES = [
     scene: "An etched copper star field collapses into the vertical AI Genesis completion certificate.",
     theme: THEMES.lablab,
   },
-] as const satisfies readonly Certificate[];
+];
 
-export const ACHIEVEMENTS = [
+// Array order is display order. Add/remove complete records here; all routes
+// and the embedded home chapter use these same entries and media groups.
+export const ACHIEVEMENT_SPOTLIGHTS: readonly AchievementSpotlight[] = [
+  {
+    id: "pasha-2026",
+    eyebrow: "Type2Learn / P@SHA ICT Awards 2026",
+    title: "Finalist.",
+    emphasis: "Still building.",
+    summary:
+      "Type2Learn reached the finalist stage of the P@SHA ICT Awards 2026. An accessibility-first learning platform, built around the people who use it—and still getting better.",
+    status: "2026 finalist · Accessibility-first learning",
+    link: { label: "Explore Type2Learn", href: "https://type2learn.tech" },
+    drawing: "medal",
+  },
+];
+
+export const ACHIEVEMENTS: readonly Achievement[] = [
   {
     id: "matriculation-top-performer",
     kind: "honor",
@@ -960,7 +1035,7 @@ export const ACHIEVEMENTS = [
       "The custom single-cycle CPU was recognized in the Junior Hardware category at the SEMPEC semester project exhibition.",
     evidence: [
       "LinkedIn Honors records the placement and documents the CPU architecture and browser-accessible showcase.",
-      "The archive includes the presentation, certificate collection, and award-ceremony photographs.",
+      "The gallery preserves the prize presentation, award ceremony, Junior Hardware project judging photographs, and SEMPEC merit certificates.",
     ],
     media: [
       {
@@ -975,38 +1050,31 @@ export const ACHIEVEMENTS = [
         width: 1600,
         height: 1200,
       },
+      {
+        src: "/media/achievements/stem-judging-session.webp",
+        alt: "Muhammad Taha's Junior Hardware project during SEMPEC judging",
+        width: 1182,
+        height: 1331,
+      },
+      {
+        src: "/media/achievements/certificates-collection.webp",
+        alt: "SEMPEC merit certificates for Muhammad Taha, Tooba Fatima and Lameea Mubashir Khan, with the Junior Hardware third-position certificate",
+        caption: "SEMPEC Junior Hardware · team merit and third-position certificates",
+        width: 1600,
+        height: 1200,
+      },
     ],
     theme: THEMES.cpu,
   },
   {
-    id: "uet-all-pakistan-stem-competition",
+    id: "stem-2024-runner-up",
     kind: "honor",
-    title: "1st All-Pakistan STEM Project Competition",
-    dateLabel: "2025",
-    summary:
-      "Muhammad Taha's record documents participation and recognition at the inaugural 2025 All-Pakistan STEM Project Competition at UET Lahore.",
-    evidence: [
-      "Listed as a distinct honor in the exported LinkedIn record.",
-      "The archive preserves the project judging environment from the competition.",
-    ],
-    media: [
-      {
-        src: "/media/achievements/stem-judging-session.webp",
-        alt: "Muhammad Taha's project during a STEM judging session",
-        width: 1182,
-        height: 1331,
-      },
-    ],
-    theme: THEMES.achievements,
-  },
-  {
-    id: "stem-2024-runner-up-photo-story",
-    kind: "photo-story",
-    title: "The 2024 STEM Runner-Up Table",
+    title: "Runner-Up · 1st All-Pakistan STEM Project Competition",
     dateLabel: "Mar 13, 2024",
     summary:
-      "A separate archive photograph preserves two trophies, a cup, and a PKR 20,000 runner-up cheque from STEM 2024.",
+      "Runner-up recognition at the 1st All-Pakistan STEM Project Competition, STEM 2024, with a PKR 20,000 prize. The trophies and cheque preserve the result and event date.",
     evidence: [
+      "Runner-up placement at the inaugural All-Pakistan STEM Project Competition.",
       "The date, runner-up wording, prize amount, and event year are visible in the photograph.",
     ],
     media: [
@@ -1019,35 +1087,26 @@ export const ACHIEVEMENTS = [
     ],
     theme: THEMES.achievements,
   },
-  {
-    id: "meeting-dr-samar-mubarakmand",
-    kind: "photo-story",
-    title: "Meeting Dr. Samar Mubarakmand",
-    dateLabel: "During GCU leadership",
-    summary:
-      "Muhammad Taha's LinkedIn volunteering record and supplied photograph document the meeting during his student-society leadership at GCU Lahore.",
-    evidence: [
-      "Vice President, Dr. Samar Mubarakmand Society for Sciences — Sep 2023 to Jan 2025.",
-      "The meeting is named in the LinkedIn media record and preserved in the archive.",
-    ],
-    media: [
-      {
-        src: "/media/achievements/meeting-dr-samar-mubarakmand.webp",
-        alt: "Muhammad Taha Bin Zaeem meeting Dr. Samar Mubarakmand",
-        width: 1450,
-        height: 1085,
-      },
-    ],
-    theme: THEMES.education,
-  },
-] as const satisfies readonly Achievement[];
+];
 
-export const EDUCATION = [
+export const EDUCATION: readonly EducationEntry[] = [
   {
     id: "nust",
+    campusLabel: "NUST CEME",
+    campus: {
+      src: "/media/education/nust-ceme-campus-art.webp",
+      alt: "Illustrated architectural study of the actual NUST CEME campus",
+      caption: "Campus illustration · based on the actual NUST CEME campus",
+      width: 1800,
+      height: 600,
+    },
     institution: "National University of Sciences and Technology (NUST)",
     qualification: "Bachelor of Engineering — Computer Engineering",
     period: "Aug 2025 — Oct 2029",
+    periodNote: "expected graduation",
+    institutionNote: "CEME",
+    focus:
+      "Third semester, as recorded in the September 2026 CV. Selected focus: computer architecture, digital logic, algorithms, programming, circuits, electronics, and machine-learning foundations.",
     grade: null,
     story:
       "Computer engineering becomes the convergence point: architecture, digital logic, electronics, assembly, algorithms, and software tested against physical constraints.",
@@ -1057,18 +1116,19 @@ export const EDUCATION = [
       "Analog sensing and switching projects",
       "C++ symbolic algebra solver",
     ],
-    media: [
-      {
-        src: "/media/achievements/certificates-collection.webp",
-        alt: "Engineering competition certificates from Muhammad Taha's NUST work",
-        width: 1600,
-        height: 1200,
-      },
-    ],
+    media: [],
     theme: THEMES.cpu,
   },
   {
     id: "gcu-lahore",
+    campusLabel: "GCUL",
+    campus: {
+      src: "/media/education/gcu-campus-art.webp",
+      alt: "Illustrated architectural study of the actual Government College University Lahore campus",
+      caption: "Campus illustration · based on the actual GCU Lahore campus",
+      width: 1800,
+      height: 600,
+    },
     institution: "Government College University (GCU), Lahore",
     qualification: "Intermediate — Engineering",
     period: "Sep 2023 — Sep 2025",
@@ -1102,4 +1162,4 @@ export const EDUCATION = [
     media: [],
     theme: THEMES.threshold,
   },
-] as const satisfies readonly EducationEntry[];
+];

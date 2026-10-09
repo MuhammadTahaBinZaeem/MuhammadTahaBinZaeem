@@ -1,0 +1,312 @@
+/* Visual worlds share typography, but each has its own material and light. */
+html:root .chapter-edition {
+  --muted: color-mix(in srgb, var(--ink) 76%, var(--paper));
+  --line: color-mix(in srgb, var(--ink) 23%, var(--paper));
+  --paper-light: color-mix(in srgb, var(--paper) 94%, white);
+  background: var(--paper);
+  color: var(--ink);
+  padding-bottom: 50px;
+  overflow: clip;
+}
+html:root .edition-projects { --paper: #efe2ce; --ink: #4b3025; --accent: #a64527; }
+html:root .edition-research { --paper: #19343b; --ink: #eee9d7; --accent: #d3bc79; }
+html:root .edition-experience { --paper: #803e32; --ink: #fff0d7; --accent: #ead0a4; }
+html:root .edition-education { --paper: #d8e4df; --ink: #294c46; --accent: #915538; }
+html:root .edition-certifications { --paper: #ece0ca; --ink: #50382d; --accent: #8f472e; }
+html:root .edition-achievements { --paper: #282722; --ink: #f6ebd4; --accent: #d5b772; }
+html:root .edition-connect { --paper: #22443a; --ink: #fff0d7; --accent: #e3be87; }
+html:root :is(.edition-research,.edition-education,.edition-certifications,.edition-connect) .page-heading h1 { font-family: Georgia,serif; font-weight: 400; letter-spacing: -.045em; }
+html:root :is(.edition-research,.edition-certifications,.edition-connect) .page-heading h1 { font-style: italic; }
+html:root :is(.edition-experience,.edition-achievements) .page-heading h1 { text-transform: uppercase; font-weight: 800; letter-spacing: .015em; }
+html:root .book-world, html:root .chapter-edition { background-image: radial-gradient(ellipse at 96% 0, color-mix(in srgb, var(--accent) 10%, transparent), transparent 55%); }
+html:root .book-world .page-width, html:root .chapter-edition .page-width { position: relative; }
+html:root .page-heading { position: relative; isolation: isolate; }
+html:root .page-heading::before {
+  position: absolute; right: 0; top: 12px; z-index: -1;
+  font: 800 clamp(160px, 24vw, 380px)/1 var(--font-display);
+  color: transparent; -webkit-text-stroke: 1px var(--accent); opacity: .13;
+  pointer-events: none;
+}
+html:root :is(.world-projects,.edition-projects) .page-heading::before { content: "01"; }
+html:root :is(.world-research,.edition-research) .page-heading::before { content: "02"; }
+html:root :is(.world-experience,.edition-experience) .page-heading::before { content: "03"; }
+html:root :is(.world-education,.edition-education) .page-heading::before { content: "04"; }
+html:root :is(.world-certifications,.edition-certifications) .page-heading::before { content: "05"; }
+html:root :is(.world-achievements,.edition-achievements) .page-heading::before { content: "06"; }
+html:root :is(.world-connect,.edition-connect) .page-heading::before { content: "07"; }
+html:root .page-heading :is(h1,h2) { text-wrap: balance; max-width: 1050px; }
+html:root .page-heading .ink-rule { height: 2px; background: linear-gradient(90deg,var(--accent),var(--line) 65%,transparent); }
+html:root .section-nav a { position: relative; padding: 8px 0; }
+html:root .section-nav a::after, html:root .text-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
+html:root .text-link { position: relative; }
+html:root .text-link span { display: inline-block; transition: transform .25s; }
+html:root .text-link:hover span { transform: translate(3px,-3px); }
+html:root .section-nav a:hover::after, html:root .text-link:hover::after { transform: scaleX(1); }
+
+/* A dark, illuminated binding introduces the paper worlds. */
+html:root .cover-face {
+  background: radial-gradient(ellipse at 78% 28%,#275e5040,transparent 48%),
+    linear-gradient(135deg,#142a26,#0c1c1a 65%,#1b332b);
+  color: #e6c99a;
+}
+html:root .cover-face::before { inset: 22px; border-color: #e6c99a35; }
+html:root .cover-face::after { opacity: .4; background: repeating-linear-gradient(0deg,transparent 0 79px,#e6c99a06 79px 80px),repeating-linear-gradient(90deg,transparent 0 79px,#e6c99a06 79px 80px); }
+html:root .cover-face h1 { letter-spacing: -.015em; text-shadow: 0 2px 22px #e6c99a08; position: relative; z-index: 1; }
+html:root .cover-face h1 em { color: #f3e5c7; }
+html:root .cover-edition { display: flex; align-items: center; gap: 14px; border-color: #e6c99a30; }
+html:root .cover-edition::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #bce2b2; box-shadow: 0 0 15px #bce2b2; }
+html:root .cover-invitation { padding: 20px 0 0; }
+html:root .cover-status { display: inline-block; border-bottom: 1px solid #e6c99a65; padding-bottom: 10px; }
+html:root .cover-orbit { position: absolute; width: min(48vw,680px); right: 0; top: 11%; color: #d8b77a; opacity: .34; pointer-events: none; }
+html:root .cover-orbit svg { width: 100%; height: auto; overflow: visible; }
+html:root .cover-orbit-rings { transform-origin: center; animation: orbit-turn 80s linear infinite; }
+html:root .book-dock { backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); box-shadow: 0 12px 40px #0c171526; }
+html:root .book-chapter-menu { box-shadow: 0 18px 75px #0c171544; }
+
+/* Portraits sit inside a drafting orbit, with the mountain image as a satellite. */
+html:root .foreword-copy h2 > span { display: block; }
+html:root .foreword-spread { gap: 5vw; }
+html:root .foreword-copy .book-kicker { max-width: 40ch; }
+html:root .foreword-copy .foreword-action { display: flex; align-items: center; justify-content: space-between; width: min(300px,100%); margin-top: 30px; padding: 16px 0; border-block: 1px solid var(--line); font: 500 11px/1.5 var(--font-mono); }
+html:root .foreword-action > span { font: 400 28px/1 var(--font-body); transition: transform .3s; }
+html:root .foreword-action:hover > span { transform: translate(6px,-5px); }
+html:root .foreword-desk { width: 100%; margin: 0; rotate: 0deg; }
+html:root .orbital-portrait { position: relative; aspect-ratio: 1; isolation: isolate; perspective: 1000px; }
+html:root .portrait-orbits { position: absolute; inset: -6%; width: 112%; height: 112%; stroke: var(--accent); stroke-width: .7; opacity: .5; animation: orbit-turn 100s linear infinite; pointer-events: none; }
+html:root .orbital-node { fill: var(--accent); }
+html:root .portrait-primary { position: absolute; inset: 9% 12% 10% 10%; background: #f8f0de; box-shadow: 0 22px 50px #243c322b,0 0 0 1px #9c482e35; padding: 9px; transform: rotate(-3deg); transition: transform .5s,box-shadow .5s; }
+html:root .portrait-primary .gallery-trigger { display: block; height: calc(100% - 65px); }
+html:root .portrait-primary .gallery-trigger > img { width: 100%; height: 100%; object-fit: cover; }
+html:root .portrait-primary .gallery-image-hint { top: 14px; bottom: auto; right: 14px; }
+html:root .portrait-primary figcaption { display: grid; gap: 5px; padding: 12px 9px 2px; color: #243c32; }
+html:root .portrait-primary figcaption > span { font: 500 8px/1.5 var(--font-mono); letter-spacing: .05em; text-transform: uppercase; }
+html:root .portrait-primary figcaption b { font: 500 clamp(12px,1.25vw,17px)/1.3 var(--font-body); }
+html:root .portrait-satellite { position: absolute; width: 29%; right: -1%; bottom: 0; padding: 6px 6px 0; background: #fff4df; box-shadow: 0 12px 26px #243c3230; transform: rotate(8deg); }
+html:root .portrait-satellite img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+html:root .portrait-satellite figcaption { font: italic 12px/1.5 Georgia,serif; padding: 6px 2px 8px; }
+html:root .portrait-coordinate { position: absolute; right: -4%; top: 7%; writing-mode: vertical-rl; display: flex; align-items: center; gap: 15px; font: 400 8px/1.5 var(--font-mono); letter-spacing: .08em; color: var(--accent); }
+html:root .portrait-coordinate i { width: 1px; height: 60px; background: currentColor; }
+html:root .portrait-signal { position: absolute; left: 1%; bottom: 1%; display: flex; align-items: center; gap: 8px; font: 500 9px/1.7 var(--font-mono); padding: 12px 16px; background: #243c32; color: #f3e7cc; border: 1px solid #d5b77250; }
+html:root .portrait-signal i { width: 5px; height: 5px; border-radius: 100%; background: #c7dcad; box-shadow: 0 0 12px #c7dcad; }
+html:root .foreword-manifesto { align-items: center; }
+html:root .foreword-ledger { align-self: stretch; padding: 45px; border: 1px solid var(--line); background: linear-gradient(135deg,#243c32,#142d28); color: #f3e7cc; box-shadow: 16px 16px 0 #9c482e0d; }
+html:root .foreword-ledger .book-kicker { color: #dec392; }
+html:root .foreword-ledger > a { display: grid; grid-template-columns: 85px 1fr 20px; gap: 15px; align-items: center; padding: 26px 0; border-bottom: 1px solid #dec39236; }
+html:root .foreword-ledger strong { font: 650 clamp(44px,5vw,68px)/1 var(--font-display); color: #dec392; }
+html:root .foreword-ledger a span { font: 400 12px/1.6 var(--font-body); }
+html:root .foreword-ledger i { font: 400 20px/1 var(--font-body); transition: transform .3s; }
+html:root .foreword-ledger a:hover i { transform: translate(4px,-4px); }
+html:root .foreword-ledger .hand-note { color: #dec392; margin-top: 38px; }
+html:root .intro-ventures { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; margin: 25px 0; }
+html:root .intro-ventures a { border-block: 1px solid var(--line); padding: 16px 0; }
+html:root .intro-ventures small { display: block; font: 400 8px/1.6 var(--font-mono); text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+html:root .intro-ventures strong { font: 500 12px/1.5 var(--font-body); }
+html:root .intro-ventures strong span { display: inline-block; transition: transform .25s; }
+html:root .intro-ventures a:hover span { transform: translate(3px,-3px); }
+html:root .foreword-instruction { display: flex; align-items: center; justify-content: space-between; gap: 25px; padding-block: 45px; }
+html:root .foreword-instruction span { display: flex; gap: 14px; align-items: center; }
+html:root .foreword-instruction small { font: 400 9px/1.5 var(--font-mono); color: var(--accent); }
+
+/* The atlas is a set of large, tactile invitations. */
+html:root .atlas-leaves { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+html:root .atlas-leaf { margin: 0; padding: 35px; min-height: 360px; border: 1px solid color-mix(in srgb,var(--leaf-ink) 20%,transparent); box-shadow: 0 3px 0 #243c3208; overflow: hidden; position: relative; transition: border-color .3s,box-shadow .3s; }
+html:root .atlas-leaf:last-child { grid-column: 1/-1; }
+html:root .atlas-leaf-number { font-size: clamp(75px,8vw,115px); opacity: .15; position: absolute; top: 15px; right: 20px; }
+html:root .atlas-leaf h3 { font-size: clamp(36px,3.7vw,56px); max-width: 12ch; }
+html:root .atlas-leaf p { font-size: 17px; }
+html:root .atlas-leaf figure { border-width: 4px; border-bottom-width: 16px; align-self: center; transition: rotate .4s,scale .4s; }
+html:root .atlas-leaf:hover { border-color: var(--leaf-accent); box-shadow: 0 18px 35px #243c3218; }
+html:root .atlas-leaf:hover figure { rotate: 0deg; scale: 1.03; }
+
+/* Copper workshop: cinematic flagship plates and a vertical-driven rail. */
+html:root .project-feature { position: relative; column-gap: 5vw; }
+html:root .project-feature .feature-art { position: relative; top: auto; padding: 14px; background: color-mix(in srgb,var(--accent) 7%,var(--paper))!important; border: 1px solid var(--line); box-shadow: 18px 20px 0 color-mix(in srgb,var(--accent) 7%,transparent)!important; perspective: 1200px; }
+html:root .project-feature .feature-art::before { content: ""; width: 35px; height: 35px; position: absolute; top: -8px; left: -8px; border-top: 2px solid var(--accent); border-left: 2px solid var(--accent); pointer-events: none; }
+html:root .project-feature .feature-art .gallery-trigger { display: block; }
+html:root .project-feature .facts > span { background: color-mix(in srgb,var(--accent) 6%,transparent); border-color: color-mix(in srgb,var(--accent) 24%,var(--line)); }
+html:root .engineering-rail { margin: 35px 0 15px; position: relative; }
+html:root .engineering-rail__viewport { overflow: hidden; }
+html:root .engineering-rail .small-work-grid { display: flex; width: max-content; gap: 24px; padding: 14px 0 24px; align-items: stretch; }
+html:root .engineering-rail .work-card { flex: 0 0 min(68vw,660px); width: min(68vw,660px); min-width: 0; margin: 0; padding: clamp(24px,3vw,42px); background: color-mix(in srgb,var(--paper) 97%,white); position: relative; border-top: 3px solid var(--accent); }
+html:root .engineering-rail .work-card h3 { font-family: var(--font-display); font-size: clamp(32px,3.4vw,48px); }
+html:root .work-card > figure { margin: 25px 0; }
+html:root .work-card > figure .gallery-trigger img { max-height: 280px; width: 100%; object-fit: contain; }
+html:root .engineering-rail .work-card > .facts { margin-bottom: 20px; }
+html:root .engineering-rail .work-card p { max-width: 62ch; }
+/* The unenhanced, quiet and reader editions use ordinary vertical flow. */
+html:root .engineering-rail:not([data-scene-ready]) .small-work-grid,
+html:root .engineering-rail[data-scene-ready="natural"] .small-work-grid,
+html:root .living-book[data-mode="reader"] .engineering-rail .small-work-grid { display: grid; width: auto; grid-template-columns: 1fr; }
+html:root .engineering-rail:not([data-scene-ready]) .work-card,
+html:root .engineering-rail[data-scene-ready="natural"] .work-card,
+html:root .living-book[data-mode="reader"] .engineering-rail .work-card { width: 100%; }
+html:root .engineering-rail:not([data-scene-ready]) .engineering-rail__viewport,
+html:root .engineering-rail[data-scene-ready="natural"] .engineering-rail__viewport,
+html:root .living-book[data-mode="reader"] .engineering-rail__viewport { overflow: visible; }
+@media (min-width:900px) {
+  html:root .engineering-rail .work-card { width: min(80vw,900px); flex-basis: min(80vw,900px); display: grid; grid-template-columns: .8fr 1.2fr; gap: 0 30px; align-content: start; padding: 30px; }
+  html:root .engineering-rail .work-card > * { grid-column: 2; }
+  html:root .engineering-rail .work-card > .work-card__cover { grid-column: 1; grid-row: 1 / span 7; margin: 0; align-self: center; }
+  html:root .engineering-rail .work-card > .work-card__cover img { max-height: 340px; }
+  html:root .engineering-rail .work-card h3 { font-size: 34px; margin-bottom: 14px; }
+  html:root .engineering-rail .work-card > .eyebrow { margin-bottom: 14px; }
+  html:root .engineering-rail .work-card > .facts { margin-block: 5px 12px; }
+  html:root .engineering-rail .work-card > details { margin-block: 12px; }
+  html:root .engineering-rail .work-card > p { font-size: 13px; }
+}
+html:root .portrait-satellite .gallery-image-hint { bottom: 5px; right: 5px; padding: 5px; }
+html:root .portrait-satellite .gallery-image-hint > span:not(.gallery-hint-icon) { display: none; }
+html:root .rail-instruction { display: flex; gap: 16px; align-items: center; font: 500 9px/1.7 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 18px; }
+html:root .rail-instruction::before { content: "→"; font: 400 32px/1 var(--font-body); }
+html:root .engineering-rail:not([data-scene-ready]) .rail-instruction,
+html:root .engineering-rail[data-scene-ready="natural"] .rail-instruction,
+html:root .living-book[data-mode="reader"] .rail-instruction { display: none; }
+html:root .repository-index { border: 1px solid var(--line); padding: 30px; background: color-mix(in srgb,var(--paper) 97%,white); }
+html:root .repo-row { transition: background .2s; }
+html:root .repo-row:hover { background: color-mix(in srgb,var(--accent) 5%,transparent); }
+
+/* Deep teal observatory, warm social room, and illustrated formation maps. */
+html:root :is(.world-research,.edition-research) { background-image: radial-gradient(circle at 78% 8%,#d3bc7913,transparent 30%),radial-gradient(#e2d7ab10 1px,transparent 1px); background-size: auto,46px 46px; }
+html:root :is(.world-research,.edition-research) .research-story { padding-block: 80px; }
+html:root :is(.world-research,.edition-research) .research-story figure { background: #f4ead5; padding: 20px; border: 1px solid #d3bc7955; rotate: 2deg; box-shadow: 18px 18px 0 #d3bc7912; }
+html:root :is(.world-research,.edition-research) .status { background: #d3bc7920; color: #eee9d7; border: 1px solid #d3bc7955; }
+html:root :is(.world-research,.edition-research) .note-card { background: #142c32; border: 1px solid #d3bc7933; border-top: 3px solid #d3bc79; }
+html:root .collaborators-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; }
+html:root .collaborator { position: relative; display: block; border: 1px solid var(--line); padding: 30px; min-width: 0; background: color-mix(in srgb,var(--paper) 91%,black); overflow: hidden; transition: border-color .3s,background .3s; }
+html:root .collaborator-number { display: block; margin-bottom: 32px; font: 650 65px/.85 var(--font-display); color: color-mix(in srgb,var(--accent) 70%,var(--paper)); }
+html:root .collaborator h3 { font-size: clamp(21px,2.1vw,28px); min-height: 2.6em; }
+html:root .collaborator p { font-size: 13px; min-height: 5em; }
+html:root .collaborator .link-row { font-size: 11px; }
+html:root .collaborator::after { content: "↗"; position: absolute; top: 20px; right: 25px; font: 400 40px/1 var(--font-body); opacity: .25; transition: opacity .3s,transform .3s; }
+html:root .collaborator:hover { border-color: var(--accent); background: color-mix(in srgb,var(--paper) 94%,white); }
+html:root .collaborator:hover::after { opacity: .8; transform: translate(4px,-4px); }
+html:root :is(.world-experience,.edition-experience) .experience-cover .ink-drawing { background: #fff0d7; padding: 12px; rotate: -2deg; }
+html:root :is(.world-experience,.edition-experience) .big-note { background: #68352b; }
+html:root .timeline-entry { border-color: var(--line); }
+html:root .education-story { gap: 35px; }
+html:root .campus-banner { grid-column: 1/-1; position: relative; isolation: isolate; width: 100%; perspective: 1000px; overflow: hidden; border: 1px solid #294c4625; margin-bottom: 10px; background: #17352f; }
+html:root .campus-banner .gallery-trigger { display: block; width: 100%; }
+html:root .campus-banner .gallery-trigger > img { max-width: none; width: 100%; height: auto; margin: 0; aspect-ratio: 3; object-fit: cover; transition: scale .8s cubic-bezier(.2,.7,.2,1); }
+html:root .campus-banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg,#071c2360,transparent 65%); pointer-events: none; }
+html:root .campus-banner__copy { position: absolute; top: 50%; left: 5%; transform: translateY(-50%); color: #fff0d7; z-index: 1; max-width: 45%; pointer-events: none; }
+html:root .campus-banner__copy > span:first-child { display: block; font: 500 9px/1.6 var(--font-mono); letter-spacing: .12em; margin: 0 0 10px; padding: 0; border: 0; text-transform: uppercase; }
+html:root .campus-banner__copy strong { display: block; font: 650 clamp(34px,5.8vw,82px)/1 var(--font-display); letter-spacing: -.01em; }
+html:root .campus-banner__copy span { display: inline-block; margin-top: 18px; font: 400 10px/1.6 var(--font-mono); border-bottom: 1px solid #fff0d77a; padding-bottom: 8px; }
+html:root .campus-banner__copy > span:last-child { display: none; }
+html:root .campus-banner:hover .gallery-trigger > img { scale: 1.035; }
+html:root .campus-banner .gallery-image-hint { z-index: 3; }
+html:root .education-story > div:first-of-type { position: relative; }
+html:root .education-story .timeline-date { border-top: 2px solid var(--accent); padding-top: 20px; }
+html:root .education-evidence { max-width: 750px; border: 1px solid var(--line); padding: 10px; background: color-mix(in srgb,var(--paper) 97%,white); }
+html:root .education-evidence img { margin-top: 0; }
+html:root .skill-group { border-top: 2px solid var(--accent); }
+html:root .skill-tags span { transition: background .2s,border-color .2s; }
+html:root .skill-tags span:hover { border-color: var(--accent); background: color-mix(in srgb,var(--accent) 10%,transparent); }
+
+/* Archive shelves catch the light; the constellation has a darker photographic frame. */
+html:root .credential-group { position: relative; }
+html:root .certificate-sheet { border: 1px solid color-mix(in srgb,var(--group-ink) 30%,transparent); box-shadow: 7px 9px 0 color-mix(in srgb,var(--group-ink) 7%,transparent); padding: 25px; color: #43372a; background: #fcf5e7; transition: box-shadow .3s,border-color .3s; }
+html:root .certificate-sheet:hover { box-shadow: 12px 16px 0 color-mix(in srgb,var(--group-ink) 10%,transparent); border-color: var(--group-ink); }
+html:root .certificate-sheet > figure { border-bottom: 1px solid #43372a22; padding-bottom: 18px; }
+html:root .certificate-sheet .text-link { color: #43372a; }
+html:root :is(.world-achievements,.edition-achievements) { background-image: radial-gradient(ellipse at 80% 2%,#d5b7721a,transparent 45%); }
+html:root :is(.world-achievements,.edition-achievements) .honor-feature { background: radial-gradient(circle at 90% 50%,#d5b77212,transparent 70%); border: 1px solid #d5b7726b; padding: 50px; position: relative; }
+html:root .honor-feature::before { content: "✦"; position: absolute; top: -23px; left: 30px; font-size: 35px; color: var(--accent); padding: 0 12px; background: var(--paper); }
+html:root :is(.world-achievements,.edition-achievements) .honor-feature > .ink-drawing { background: #f5e8d0; padding: 15px; rotate: 3deg; }
+html:root .honor-grid { align-items: start; }
+html:root .honor-card { border: 1px solid var(--line); padding: 18px 18px 30px; background: color-mix(in srgb,var(--paper) 93%,white); }
+html:root .honor-card > figure { border: 1px solid var(--line); margin-bottom: 30px; }
+html:root .honor-card > :is(h2,p,details) { margin-inline: 12px; }
+html:root .honor-card h2 { font-family: var(--font-display)!important; font-size: clamp(30px,3vw,42px)!important; }
+html:root .honor-card .eyebrow { margin-top: 22px; }
+html:root .honor-card details { color: var(--muted); font-size: 12px; }
+html:root .honor-card .gallery-trigger > img { max-height: 470px; object-fit: contain; }
+html:root .cv-card { position: relative; border-top: 4px solid var(--accent); transition: border-color .3s,background .3s; }
+html:root :is(.world-connect,.edition-connect) .cv-card { background: #19382f; }
+html:root .cv-card:hover { background: color-mix(in srgb,var(--accent) 9%,var(--paper)); }
+html:root .directory-link { transition: padding-left .25s,color .25s; }
+html:root .directory-link:hover { padding-left: 10px; color: var(--accent); }
+html:root :is(.world-connect,.edition-connect) .connect-intro > .ink-drawing { background: #fff0d7; padding: 18px; rotate: -2deg; }
+
+/* Pointer response never changes the hit target or competes with scroll transforms. */
+html:root .motion-reactive { --pointer-x: 50%; --pointer-y: 50%; --tilt-x: 0deg; --tilt-y: 0deg; }
+@media (hover:hover) and (pointer:fine) {
+  html:root .orbital-portrait:hover .reactive-plane { transform: rotate(-3deg) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); box-shadow: 0 30px 65px #243c3238; }
+  html:root .motion-reactive.campus-banner::after { background: radial-gradient(circle at var(--pointer-x) var(--pointer-y),#f5deb31a,transparent 40%),linear-gradient(90deg,#071c2360,transparent 65%); }
+}
+@keyframes orbit-turn { to { rotate: 360deg; } }
+@media (max-width:1050px) {
+  html:root .collaborators-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  html:root .atlas-leaf { padding: 25px; grid-template-columns: 1.4fr 1fr; }
+  html:root .foreword-ledger { padding: 30px; }
+  html:root .foreword-ledger > a { grid-template-columns: 65px 1fr 16px; gap: 10px; }
+  html:root .foreword-instruction { flex-wrap: wrap; justify-content: start; }
+}
+@media (max-width:760px) {
+  html:root .cover-orbit { width: 85vw; right: -25%; top: 15%; opacity: .25; }
+  html:root .foreword-spread { gap: 45px; }
+  html:root .foreword-desk { width: 90%; margin: 0 auto 35px; }
+  html:root .portrait-coordinate { right: -7%; font-size: 7px; }
+  html:root .portrait-signal { font-size: 8px; padding: 9px 12px; }
+  html:root .portrait-primary figcaption b { font-size: 12px; }
+  html:root .portrait-primary figcaption > span { font-size: 7px; }
+  html:root .portrait-primary .gallery-trigger { height: calc(100% - 53px); }
+  html:root .portrait-primary figcaption { padding: 9px 4px 1px; }
+  html:root .portrait-satellite { right: -4%; }
+  html:root .foreword-ledger { padding: 28px; margin-bottom: 20px; }
+  html:root .foreword-ledger > a { padding: 22px 0; }
+  html:root .intro-ventures { gap: 12px; }
+  html:root .intro-ventures strong { font-size: 11px; }
+  html:root .foreword-instruction { display: grid; grid-template-columns: 1fr 1fr; gap: 25px 15px; font-size: 12px; }
+  html:root .foreword-instruction span { gap: 8px; }
+  html:root .atlas-leaves { grid-template-columns: 1fr; gap: 24px; }
+  html:root .atlas-leaf { min-height: 280px; padding: 25px; }
+  html:root .atlas-leaf:last-child { grid-column: auto; }
+  html:root .atlas-leaf h3 { font-size: clamp(35px,8vw,48px); }
+  html:root .atlas-leaf p { font-size: 15px; }
+  html:root .atlas-leaf-number { font-size: 80px; }
+  html:root .project-feature .feature-art { margin: 20px 0 25px; box-shadow: 8px 10px 0 color-mix(in srgb,var(--accent) 7%,transparent)!important; padding: 8px; }
+  html:root .engineering-rail .small-work-grid { display: grid; width: auto; grid-template-columns: 1fr; padding-top: 0; }
+  html:root .engineering-rail .work-card { width: 100%; }
+  html:root .engineering-rail__viewport { overflow: visible!important; }
+  html:root .rail-instruction { display: none; }
+  html:root .repository-index { padding: 20px 15px; }
+  html:root .collaborator { padding: 22px; }
+  html:root .collaborator h3 { font-size: 22px; }
+  html:root .collaborator-number { font-size: 52px; margin-bottom: 26px; }
+  html:root .education-story { gap: 20px; }
+  /* Keep the mobile crop while the book parks the image's intrinsic ratio. */
+  html:root .campus-banner .gallery-trigger > img { aspect-ratio: 1.8 !important; object-position: 60% 50%; }
+  html:root .campus-banner__copy { top: 20px; transform: none; max-width: 88%; left: 6%; }
+  html:root .campus-banner__copy strong { font-size: clamp(35px,9vw,58px); }
+  html:root .campus-banner__copy > span:first-child { font-size: 7px; }
+  html:root .campus-banner__copy span { font-size: 8px; margin-top: 13px; }
+  html:root :is(.world-achievements,.edition-achievements) .honor-feature { padding: 28px; }
+  html:root .honor-card { padding: 12px 12px 25px; }
+  html:root .honor-card > :is(h2,p,details) { margin-inline: 5px; }
+  html:root .certificate-sheet { padding: 18px; }
+  html:root .page-heading::before { top: 40px; font-size: 180px; }
+}
+@media (max-width:540px) {
+  html:root .collaborators-grid { grid-template-columns: 1fr; }
+  html:root .collaborator h3,html:root .collaborator p { min-height: 0; }
+  html:root .collaborator { display: grid; grid-template-columns: 45px 1fr; gap: 18px; }
+  html:root .collaborator-number { font-size: 45px; margin-top: 5px; }
+  html:root .collaborator::after { font-size: 26px; top: 12px; right: 12px; }
+  html:root .portrait-satellite figcaption { font-size: 10px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html:root .cover-orbit-rings,html:root .portrait-orbits { animation: none!important; }
+  html:root .reactive-plane { transform: none!important; }
+  html:root .atlas-leaf,html:root .gallery-trigger img,html:root .directory-link,html:root .collaborator,html:root .text-link span { transition: none!important; }
+}
+html:root[data-motion="quiet"] :is(.cover-orbit-rings,.portrait-orbits) { animation: none; }
+html:root[data-motion="quiet"] .reactive-plane { transform: none!important; }
+html:root .living-book[data-mode="reader"] :is(.cover-orbit-rings,.portrait-orbits) { animation: none!important; }
+html:root .living-book[data-mode="reader"] :is(.reactive-plane,.atlas-leaf,.atlas-leaf figure) { transition: none!important; }
+@media print {
+  html:root .cover-orbit,html:root .portrait-orbits,html:root .portrait-signal { display: none; }
+  html:root .engineering-rail .small-work-grid { display: grid; grid-template-columns: 1fr 1fr; width: auto; }
+  html:root .engineering-rail .work-card { width: auto; }
+  html:root .campus-banner { break-inside: avoid; }
+}

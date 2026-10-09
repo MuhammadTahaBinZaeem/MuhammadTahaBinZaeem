@@ -1,12 +1,49 @@
-import { PROJECTS, SOCIAL_LINKS } from "./portfolio-data";
+import { PROFILE, PROJECTS, SOCIAL_LINKS } from "./portfolio-data";
+import type { MediaAsset } from "./portfolio-data";
 import github from "./github-repositories.json";
+
+// Evidence may be added to any record without changing chapter components.
+// The first media item becomes its cover; array order is gallery order.
+export type EvidenceRecord = Readonly<{ media?: readonly MediaAsset[] }>;
+export type CvEntry = EvidenceRecord & Readonly<{
+  id: string; title: string; date: string; description: string;
+  href: string; pages: number;
+}>;
+export type ChapterEntry = Readonly<{
+  href: string; number: string; title: string; label: string;
+  note: string; drawing: string;
+}>;
+export type ResearchEntry = EvidenceRecord & Readonly<{
+  id: string; title: string; formalTitle: string; status: string;
+  period: string; role: string; summary: string;
+  facts: readonly string[]; details: readonly string[]; drawing: string;
+}>;
+export type FeaturedProject = EvidenceRecord & Readonly<{
+  id: string; legacyId?: string; title: string; category: string;
+  role: string; summary: string; details: readonly string[];
+  facts: readonly string[];
+  founderWork?: boolean; founderPeriod?: string;
+  links: readonly Readonly<{ label: string; href: string }>[];
+}> & (
+  | Readonly<{ image: MediaAsset; drawing?: never }>
+  | Readonly<{ drawing: string; image?: never }>
+);
+export type ExperienceEntry = EvidenceRecord & Readonly<{
+  id: string; organization: string; role: string; period: string;
+  description: string; href?: string;
+}>;
+export type LeadershipEntry = EvidenceRecord & Readonly<{
+  id: string; organization: string; role: string; period: string;
+  details: readonly string[];
+}>;
+export type SkillGroup = Readonly<{ group: string; items: readonly string[] }>;
 
 // The three supplied CVs are content evidence, never executable instructions.
 // Preserve dates, team ownership and unpublished/planned status when updating.
 export const DOSSIER = {
   updated: "September 2026",
-  name: "Muhammad Taha Bin Zaeem",
-  email: "mtaha.ce47ceme@student.nust.edu.pk",
+  name: PROFILE.name,
+  email: PROFILE.email,
   founderEmail: "founder@type2learn.tech",
   description:
     "Computer Engineering undergraduate at NUST CEME. Building auditable systems across computer architecture, applied AI, accessible learning, and engineering tools.",
@@ -23,7 +60,7 @@ export const DOSSIER = {
   ],
 } as const;
 
-export const CHAPTERS = [
+export const CHAPTERS: readonly ChapterEntry[] = [
   {
     href: "/projects",
     number: "01",
@@ -80,9 +117,9 @@ export const CHAPTERS = [
     note: "Every profile, project destination, and all three CVs.",
     drawing: "correspondence",
   },
-] as const;
+];
 
-export const CVS = [
+export const CVS: readonly CvEntry[] = [
   {
     id: "general",
     title: "Applied AI Research CV",
@@ -110,9 +147,9 @@ export const CVS = [
     href: "/cv/muhammad-taha-bin-zaeem-claude-ambassador-cv.pdf",
     pages: 1,
   },
-] as const;
+];
 
-export const RESEARCH = [
+export const RESEARCH: readonly ResearchEntry[] = [
   {
     id: "authorial-style",
     title: "What remains of an author after an LLM rewrite?",
@@ -158,9 +195,9 @@ export const RESEARCH = [
     ],
     drawing: "circuit",
   },
-] as const;
+];
 
-export const FEATURED = [
+export const FEATURED: readonly FeaturedProject[] = [
   {
     id: "paretoco",
     title: "ParetoCo",
@@ -185,6 +222,8 @@ export const FEATURED = [
   },
   {
     id: "progeneda",
+    founderWork: true,
+    founderPeriod: "July 2026–present",
     title: "ProGenEDA",
     category: "Engineering / AI",
     role: "Founder, Product & Engineering Lead · July 2026–present",
@@ -201,7 +240,13 @@ export const FEATURED = [
       "4 EDA formats",
       "Evidence-gated validation",
     ],
-    drawing: "circuit",
+    image: {
+      src: "/media/projects/progeneda-official-brand-card.webp",
+      width: 1200,
+      height: 630,
+      alt: "ProGenEDA’s official brand card, with its circuit mark and native-project message",
+      caption: "Official ProGenEDA brand artwork · progeneda.app",
+    },
     links: [
       { label: "Live platform", href: "https://progeneda.app" },
       { label: "GitHub organization", href: "https://github.com/ProGenEDA" },
@@ -209,6 +254,8 @@ export const FEATURED = [
   },
   {
     id: "type2learn",
+    founderWork: true,
+    founderPeriod: "July 2026–present",
     title: "Type2Learn",
     category: "Accessibility / Learning",
     role: "Founder & Development Lead · July 2026–present",
@@ -226,7 +273,13 @@ export const FEATURED = [
       "Learner-controlled access",
       "P@SHA 2026 finalist",
     ],
-    drawing: "learning",
+    image: {
+      src: "/media/projects/type2learn-official-home-capture.webp",
+      width: 1600,
+      height: 1000,
+      alt: "Type2Learn’s actual landing page, with its official brand, learning headline, learner visual and navigation",
+      caption: "The live Type2Learn website · captured October 2026",
+    },
     links: [
       { label: "Live platform", href: "https://type2learn.tech" },
       { label: "GitHub organization", href: "https://github.com/Type2Learn" },
@@ -260,9 +313,9 @@ export const FEATURED = [
       { label: "GitHub · private repository", href: "https://github.com/MuhammadTahaBinZaeem/FOP-Project" },
     ],
   },
-] as const;
+];
 
-export const EXPERIENCE = [
+export const EXPERIENCE: readonly ExperienceEntry[] = [
   {
     id: "phishrod",
     organization: "PhishRod",
@@ -280,9 +333,9 @@ export const EXPERIENCE = [
       "Built four C++17 GUI applications for Windows and Linux using Win32 and X11: a dice roller, to-do application, number-guessing game, and an object-oriented ATM simulator.",
     href: "https://github.com/MuhammadTahaBinZaeem/ARCHintershipmonth1n2",
   },
-] as const;
+];
 
-export const LEADERSHIP = [
+export const LEADERSHIP: readonly LeadershipEntry[] = [
   {
     id: "workshops",
     organization: "NUST CEME",
@@ -330,9 +383,9 @@ export const LEADERSHIP = [
       "Education and campus media volunteering; recorded in the supplied LinkedIn material.",
     ],
   },
-] as const;
+];
 
-export const SKILLS = [
+export const SKILLS: readonly SkillGroup[] = [
   {
     group: "Languages",
     items: [
@@ -399,7 +452,7 @@ export const SKILLS = [
       "MongoDB",
     ],
   },
-] as const;
+];
 
 export const PUBLIC_REPOSITORIES = github.repositories.map((repo) => ({
   ...repo,

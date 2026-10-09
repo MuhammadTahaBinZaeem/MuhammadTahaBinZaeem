@@ -5,6 +5,8 @@ import { PortfolioStructuredData } from "./seo-schema";
 import { SITE_ORIGIN } from "./site-config";
 import { pageMetadata } from "./seo";
 import "./globals.css";
+import "./portfolio-polish.css";
+import "./chapter-atmosphere.css";
 
 export const metadata: Metadata = {
   ...pageMetadata("/"),

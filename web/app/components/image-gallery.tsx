@@ -11,22 +11,28 @@ export function ImageGallery() {
   const [gallery, setGallery] = useState<Gallery | null>(null);
   const [index, setIndex] = useState(0);
   const [failed, setFailed] = useState(false);
+  const [zoom, setZoom] = useState<{ width: number; height: number } | null>(null);
+  const [direction, setDirection] = useState<"previous" | "next">("next");
   const dialog = useRef<HTMLDialogElement>(null);
+  const imageArea = useRef<HTMLDivElement>(null);
   const close = useRef(() => {});
   const touch = useRef<{ x: number; y: number } | null>(null);
+  const zoomed = useRef(false);
+  useEffect(() => { zoomed.current = !!zoom; }, [zoom]);
 
   useEffect(() => {
     const open = (event: MouseEvent) => {
       if (event.defaultPrevented || event.button || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-      const opener = (event.target as Element).closest<HTMLAnchorElement>("a[data-gallery]");
+      const opener = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("a[data-gallery]") : null;
       if (!opener || opener.closest("[inert]")) return;
       try {
         const data = JSON.parse(opener.dataset.gallery!) as Pick<Gallery, "title" | "items">;
-        if (!data.items.length) return;
+        if (!Array.isArray(data.items) || !data.items.length || !data.items.every((item) => item.src && item.alt && item.width > 0 && item.height > 0)) return;
         event.preventDefault();
         event.stopPropagation();
         setIndex(Math.max(0, data.items.findIndex((item) => item.src === opener.dataset.gallerySrc)));
         setFailed(false);
+        setZoom(null);
         setGallery({ ...data, opener, token: crypto.randomUUID() });
       } catch { /* A normal image link remains a working fallback. */ }
     };
@@ -54,8 +60,7 @@ export function ImageGallery() {
     history.pushState({ ...history.state, [HISTORY_KEY]: gallery.token }, "", location.href);
     element.showModal();
     element.querySelector<HTMLButtonElement>(".gallery-close")?.focus({ preventScroll: true });
-    const openedAt = performance.now();
-    let upward = 0, lastWheel = 0, closing = false;
+    let closing = false;
     close.current = () => {
       if (closing) return;
       closing = true;
@@ -72,15 +77,10 @@ export function ImageGallery() {
     };
     const wheel = (event: WheelEvent) => {
       if (event.ctrlKey) return; // Preserve browser pinch-to-zoom.
-      // Let the thumbnail strip / long caption scroll independently.
-      if ((event.target as Element).closest(".gallery-thumbnails, .gallery-caption")) return;
+      // The modal owns scroll gestures. A zoomed photograph and thumbnails
+      // retain their native scrolling; the page behind them stays still.
+      if ((event.target as Element).closest(".gallery-thumbnails, .gallery-caption") || zoomed.current) return;
       event.preventDefault();
-      const now = performance.now();
-      if (now - openedAt < 500) return; // Ignore the gesture that opened it.
-      if (now - lastWheel > 240 || event.deltaY >= 0) upward = 0;
-      lastWheel = now;
-      upward += Math.max(0, -event.deltaY) * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
-      if (upward >= 110 && Math.abs(event.deltaY) > Math.abs(event.deltaX)) close.current();
     };
     const keys = (event: KeyboardEvent) => {
       if (event.key === "Tab") {
@@ -102,9 +102,11 @@ export function ImageGallery() {
         close.current();
         return;
       }
-      if (["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) {
+      if (gallery.items.length > 1 && ["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) {
         event.preventDefault();
         setFailed(false);
+        setZoom(null);
+        setDirection(event.key === "ArrowLeft" || event.key === "Home" ? "previous" : "next");
         setIndex((current) => event.key === "Home" ? 0 : event.key === "End" ? gallery.items.length - 1
           : (current + (event.key === "ArrowRight" ? 1 : -1) + gallery.items.length) % gallery.items.length);
       }
@@ -118,7 +120,7 @@ export function ImageGallery() {
       element.removeEventListener("keydown", keys);
       element.close();
       root.style.overflow = originalOverflow;
-      scrollTo({ left: position.x, top: position.y, behavior: "instant" });
+      if (location.href === pageUrl) scrollTo({ left: position.x, top: position.y, behavior: "instant" });
       // Focus with scroll prevention while the book is still paused.
       if (gallery.opener.isConnected) gallery.opener.focus({ preventScroll: true });
       delete root.dataset.galleryOpen;
@@ -147,40 +149,64 @@ export function ImageGallery() {
   }, [gallery, index]);
 
   const item = gallery?.items[index];
-  const select = (next: number) => { setFailed(false); setIndex(next); };
+  const select = (next: number, movement: "previous" | "next" = next < index ? "previous" : "next") => {
+    setFailed(false);
+    setZoom(null);
+    setDirection(movement);
+    setIndex(next);
+  };
+  const toggleZoom = () => {
+    if (zoom) { setZoom(null); return; }
+    if (!item || !imageArea.current) return;
+    const area = imageArea.current;
+    const fit = Math.min(area.clientWidth / item.width, area.clientHeight / item.height);
+    setZoom({ width: Math.round(item.width * fit * 2), height: Math.round(item.height * fit * 2) });
+  };
   return (
     <dialog ref={dialog} className="image-gallery" aria-labelledby="gallery-title" aria-describedby="gallery-help"
-      data-lenis-prevent onCancel={(event) => { event.preventDefault(); close.current(); }}
+      onCancel={(event) => { event.preventDefault(); close.current(); }}
       onClick={(event) => { if (event.target === event.currentTarget) close.current(); }}>
       {gallery && item && <div className="gallery-surface">
         <header className="gallery-header">
-          <div><p className="eyebrow">From the notebook / image archive</p><h2 id="gallery-title">{gallery.title}</h2></div>
-          <button type="button" className="gallery-close" onClick={() => close.current()} aria-label="Close gallery">Close <span aria-hidden="true">×</span></button>
+          <div className="gallery-heading"><p className="eyebrow">The image library</p><h2 id="gallery-title">{gallery.title}</h2></div>
+          <div className="gallery-header-actions">
+            <span className="gallery-header-count" aria-hidden="true">{String(index + 1).padStart(2, "0")} <i>/</i> {String(gallery.items.length).padStart(2, "0")}</span>
+            <button type="button" className="gallery-close" onClick={() => close.current()} aria-label="Close gallery">Close <span aria-hidden="true">×</span></button>
+          </div>
         </header>
         <div className="gallery-stage" onTouchStart={(event) => {
-          touch.current = event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
-        }} onTouchEnd={(event) => {
+          touch.current = !zoomed.current && event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
+        }} onTouchMove={(event) => {
+          if (event.touches.length !== 1) touch.current = null;
+        }} onTouchCancel={() => { touch.current = null; }} onTouchEnd={(event) => {
           if (!touch.current) return;
           const dx = event.changedTouches[0].clientX - touch.current.x;
           const dy = event.changedTouches[0].clientY - touch.current.y;
           touch.current = null;
-          if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.4) select((index + (dx < 0 ? 1 : -1) + gallery.items.length) % gallery.items.length);
+          if (gallery.items.length > 1 && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) select((index + (dx < 0 ? 1 : -1) + gallery.items.length) % gallery.items.length, dx < 0 ? "next" : "previous");
           else if (dy > 120 && dy > Math.abs(dx) * 1.4) close.current();
         }}>
-          {gallery.items.length > 1 && <button type="button" className="gallery-arrow gallery-previous" aria-label="Previous image" onClick={() => select((index - 1 + gallery.items.length) % gallery.items.length)}>←</button>}
-          <div className="gallery-image-area">
+          {gallery.items.length > 1 && <button type="button" className="gallery-arrow gallery-previous" aria-label="Previous image" onClick={() => select((index - 1 + gallery.items.length) % gallery.items.length, "previous")}>←</button>}
+          <div ref={imageArea} className="gallery-image-area" data-zoomed={zoom ? "true" : undefined} data-direction={direction}>
             {failed ? <p className="gallery-error">This image could not load. <a href={item.src} target="_blank" rel="noreferrer">Try the original ↗</a></p>
-              : <img key={item.src} className="gallery-full-image" src={item.src} alt={item.alt} width={item.width} height={item.height} decoding="async" onError={() => setFailed(true)} />}
+              : <img key={item.src} className="gallery-full-image" src={item.src} alt={item.alt} width={item.width} height={item.height}
+                style={zoom ? { width: zoom.width, height: zoom.height } : undefined}
+                decoding="async" onError={() => setFailed(true)} onDoubleClick={toggleZoom} />}
           </div>
           {gallery.items.length > 1 && <button type="button" className="gallery-arrow gallery-next" aria-label="Next image" onClick={() => select((index + 1) % gallery.items.length)}>→</button>}
         </div>
-        <div className="gallery-caption"><p aria-live="polite" aria-atomic="true"><span className="gallery-count">{index + 1} / {gallery.items.length}</span>{item.caption || item.alt}</p><a href={item.src} target="_blank" rel="noreferrer">Open full resolution ↗</a></div>
+        <div className="gallery-caption"><p aria-live="polite" aria-atomic="true"><span className="gallery-count">{index + 1} / {gallery.items.length}</span>{item.caption || item.alt}</p>
+          <div className="gallery-image-actions">
+            {!failed && <button type="button" className="gallery-zoom" aria-pressed={!!zoom} onClick={toggleZoom}>{zoom ? "Fit image −" : "Zoom image +"}</button>}
+            <a href={item.src} target="_blank" rel="noreferrer">Full resolution ↗</a>
+          </div>
+        </div>
         {gallery.items.length > 1 && <nav className="gallery-thumbnails" aria-label="Gallery images">
           {gallery.items.map((image, i) => <button type="button" key={image.src} aria-label={`Image ${i + 1}: ${image.alt}`} aria-current={i === index ? "true" : undefined} onClick={() => select(i)}>
             <img src={image.src} alt="" width={image.width} height={image.height} loading="lazy" decoding="async" /><span>{String(i + 1).padStart(2, "0")}</span>
           </button>)}
         </nav>}
-        <p id="gallery-help" className="gallery-help">← → to explore · Esc or Close to return · Scroll up / swipe down to return to the book</p>
+        <p id="gallery-help" className="gallery-help"><span>← → to explore · Esc to close · Double-click to zoom</span><span>Swipe to explore · Swipe down to return</span></p>
       </div>}
     </dialog>
   );

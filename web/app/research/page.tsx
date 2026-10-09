@@ -10,6 +10,7 @@ import {
 import { StoryMotion } from "../components/story-motion";
 import { CollectionStructuredData } from "../seo-schema";
 import { SITE_ORIGIN } from "../site-config";
+import { EntryGallery } from "../components/gallery-image";
 export const metadata = pageMetadata("/research");
 export function ResearchChapter({
   embedded = false,
@@ -31,6 +32,7 @@ export function ResearchChapter({
           }))}
         />
         <ChapterHeading
+          chapter="research"
           level={embedded ? 2 : 1}
           number="02 / Research"
           title="Questions I test."
@@ -57,6 +59,7 @@ export function ResearchChapter({
                   <li key={d}>{d}</li>
                 ))}
               </ul>
+              <EntryGallery entry={r} title={r.title} />
             </div>
             <figure data-paper>
               <InkDrawing
