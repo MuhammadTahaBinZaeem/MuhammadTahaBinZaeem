@@ -14,14 +14,17 @@ type HomeIntroduction = Readonly<{
 }>;
 
 export const HOME_COVER = {
-  edition: "A LIVING PORTFOLIO / VOL. 01",
-  subtitle: "The engineering",
-  title: "FIELD",
-  titleAccent: "BOOK.",
+  edition: "ENGINEERING & APPLIED AI",
+  subtitle: "Computer engineering / NUST CEME",
+  title: "TAHA",
+  titleAccent: "BIN ZAEEM.",
+  lead: "I turn curiosity",
+  leadAccent: "into working things.",
+  focus: "Hardware. Software. The questions between.",
   authorLines: ["MUHAMMAD TAHA", "BIN ZAEEM"],
   foot: "Hardware · Software · Human curiosity",
-  invitation: "Open the field book ↗",
-  instructions: "Scroll to read. Reverse to return.",
+  invitation: "Explore the work",
+  instructions: "SCROLL TO DISCOVER / REVERSE TO RETURN",
   quietLabel: "Read without animation",
   animatedLabel: "Enter the animated book",
   spine: "MUHAMMAD TAHA BIN ZAEEM · FIELD NOTES",

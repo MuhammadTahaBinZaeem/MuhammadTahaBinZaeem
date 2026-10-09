@@ -42,11 +42,12 @@ export function ChapterHeading({
   const Heading = level === 1 ? "h1" : "h2";
   const artwork = chapter ? CHAPTER_ARTWORK[chapter] : undefined;
   return (
-    <header className={`page-heading${artwork ? " chapter-heading--illustrated" : ""}`}>
+    <header className={`page-heading${artwork ? " chapter-heading--illustrated" : ""}`}
+      data-chapter={chapter || number.split("/")[1]?.trim().toLowerCase()}>
       {artwork && <div className="chapter-atmosphere">
         <GalleryImage image={artwork.image} images={[artwork.image, ...(artwork.media || [])]} title={artwork.atmosphere} />
       </div>}
-      <div className={artwork ? "chapter-heading__copy" : undefined}>
+      <div className="chapter-heading__copy">
       <p className="eyebrow">The engineering notebook / {number}</p>
       <Heading>{title}</Heading>
       <div className="heading-tail">
@@ -58,9 +59,8 @@ export function ChapterHeading({
       {artwork && <div className="chapter-heading__personal">
         <figure className="chapter-author">
           <GalleryImage image={CHAPTER_AUTHOR.image} images={[CHAPTER_AUTHOR.image, ...CHAPTER_AUTHOR.portraits]} title={CHAPTER_AUTHOR.name} />
-          <figcaption><span>{CHAPTER_AUTHOR.label}</span><strong>{CHAPTER_AUTHOR.name}</strong></figcaption>
+          <figcaption><span>Field notes by</span><strong>{CHAPTER_AUTHOR.name}</strong></figcaption>
         </figure>
-        <p className="chapter-author__voice">{artwork.voice}</p>
       </div>}
     </header>
   );

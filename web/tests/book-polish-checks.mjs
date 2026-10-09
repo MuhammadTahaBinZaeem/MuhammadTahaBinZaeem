@@ -160,26 +160,26 @@ export async function runPolishChecks({
     if (detail) {
       const selector = JSON.stringify("#" + detail.id + " details");
       await cdp.evaluate(`document.querySelector(${selector}).open=true`);
-      await until(`document.querySelector('#projects [data-scroll-scene]').dataset.sceneReady==='natural'`, "Expanded rail evidence uses normal document flow");
+      await until(`document.querySelector('#projects [data-scroll-scene="horizontal"]').dataset.sceneReady==='natural'`, "Expanded rail evidence uses normal document flow");
       await sleep(180);
       assert.ok(Math.abs(await cdp.evaluate(`document.querySelector(${selector}).querySelector('summary').getBoundingClientRect().top`) - detail.top) < 3, "Opening rail evidence preserves its reading position");
       await cdp.evaluate(`document.querySelector(${selector}).open=false`);
-      await until(`document.querySelector('#projects [data-scroll-scene]').dataset.sceneReady==='book'`, "Closing evidence restores the cinematic rail");
+      await until(`document.querySelector('#projects [data-scroll-scene="horizontal"]').dataset.sceneReady==='book'`, "Closing evidence restores the cinematic rail");
       assert.ok(Math.abs(await cdp.evaluate(`document.querySelector(${selector}).querySelector('summary').getBoundingClientRect().top`) - detail.top) < 3, "Closing evidence preserves its reading position");
 
       await navigate("projects");
-      await until(`document.querySelector('[data-scroll-scene]').dataset.sceneReady==='scroll'`, "Direct chapter horizontal scene ready");
+      await until(`document.querySelector('[data-scroll-scene="horizontal"]').dataset.sceneReady==='scroll'`, "Direct chapter horizontal scene ready");
       await cdp.evaluate(`document.querySelector(${selector}).querySelector('summary').focus({preventScroll:true})`);
       await sleep(180);
       const directTop = await cdp.evaluate(`document.querySelector(${selector}).querySelector('summary').getBoundingClientRect().top`);
       await cdp.evaluate(`document.querySelector(${selector}).open=true`);
-      await until(`document.querySelector('[data-scroll-scene]').dataset.sceneReady==='natural'`, "Direct chapter expanded evidence uses normal flow");
+      await until(`document.querySelector('[data-scroll-scene="horizontal"]').dataset.sceneReady==='natural'`, "Direct chapter expanded evidence uses normal flow");
       await sleep(180);
       assert.ok(Math.abs(await cdp.evaluate(`document.querySelector(${selector}).querySelector('summary').getBoundingClientRect().top`) - directTop) < 3, "Direct chapter evidence preserves its reading position");
       await cdp.evaluate(`document.querySelector(${selector}).open=false`);
-      await until(`document.querySelector('[data-scroll-scene]').dataset.sceneReady==='scroll'`, "Direct chapter evidence closes into the rail");
+      await until(`document.querySelector('[data-scroll-scene="horizontal"]').dataset.sceneReady==='scroll'`, "Direct chapter evidence closes into the rail");
       const naturalRail = async (label) => {
-        await until(`(()=>{const scene=document.querySelector('[data-scroll-scene]'),track=scene.querySelector('[data-scroll-track]');return !scene.dataset.sceneReady&&getComputedStyle(track).display==='grid'})()`, label + " uses a vertical project list");
+        await until(`(()=>{const scene=document.querySelector('[data-scroll-scene="horizontal"]'),track=scene.querySelector('[data-scroll-track]');return !scene.dataset.sceneReady&&getComputedStyle(track).display==='grid'})()`, label + " uses a vertical project list");
         const state = await cdp.evaluate(`(()=>{const viewport=document.querySelector('[data-scroll-viewport]'),track=document.querySelector('[data-scroll-track]');return {horizontal:viewport.scrollWidth>viewport.clientWidth+1,transform:getComputedStyle(track).transform,overflow:getComputedStyle(viewport).overflowX}})()`);
         assert.equal(state.horizontal, false, label + " requires no horizontal input");
         assert.equal(state.transform, "none", label + " leaves every project in normal document flow");
@@ -188,11 +188,11 @@ export async function runPolishChecks({
       await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
       await naturalRail("Direct reduced-motion edition");
       await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "no-preference" }] });
-      await until(`document.querySelector('[data-scroll-scene]').dataset.sceneReady==='scroll'`, "Full motion restores direct project storytelling");
+      await until(`document.querySelector('[data-scroll-scene="horizontal"]').dataset.sceneReady==='scroll'`, "Full motion restores direct project storytelling");
       await cdp.evaluate(`document.documentElement.dataset.motion='quiet'`);
       await naturalRail("Direct quiet-motion edition");
       await cdp.evaluate(`document.documentElement.dataset.motion='full'`);
-      await until(`document.querySelector('[data-scroll-scene]').dataset.sceneReady==='scroll'`, "Quiet mode can return to full motion");
+      await until(`document.querySelector('[data-scroll-scene="horizontal"]').dataset.sceneReady==='scroll'`, "Quiet mode can return to full motion");
       await navigate("");
       report.checks.push("Expanded engineering evidence keeps its summary in view on both routes; reduced and quiet direct editions use an unclipped vertical project list and can return to full motion.");
     }

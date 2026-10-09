@@ -22,6 +22,9 @@ export type FeaturedProject = EvidenceRecord & Readonly<{
   id: string; legacyId?: string; title: string; category: string;
   role: string; summary: string; details: readonly string[];
   facts: readonly string[];
+  // Optional visible plate image selected from this project's curated gallery.
+  // This changes the display without adding or reordering gallery members.
+  displayImageSrc?: string;
   founderWork?: boolean; founderPeriod?: string;
   links: readonly Readonly<{ label: string; href: string }>[];
 }> & (
@@ -222,6 +225,7 @@ export const FEATURED: readonly FeaturedProject[] = [
   },
   {
     id: "progeneda",
+    displayImageSrc: "/media/projects/progeneda-official-generate-workspace.webp",
     founderWork: true,
     founderPeriod: "July 2026–present",
     title: "ProGenEDA",

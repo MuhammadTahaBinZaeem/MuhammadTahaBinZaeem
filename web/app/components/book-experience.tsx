@@ -1,6 +1,5 @@
 "use client";
 import {
-  Fragment,
   useEffect,
   useRef,
   useState,
@@ -9,6 +8,7 @@ import {
 } from "react";
 import { BOOK_WORLDS } from "../book-data";
 import { HOME_COVER } from "../homepage-data";
+import { PortfolioCover } from "./portfolio-cover";
 import {
   attachReactiveMotion,
   chapterPose,
@@ -21,6 +21,10 @@ import {
   collectSceneLayers,
   activateSceneLayers,
   revealColumnDelay,
+  collectArchitectureScenes,
+  measureArchitectureScene,
+  resetArchitectureScenes,
+  architectureTimeline,
 } from "./motion-vocabulary";
 import "./scene-motion.css";
 
@@ -169,6 +173,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
           window.scrollTo({ top, behavior: immediate ? "instant" : "smooth" });
         };
         const scenes = bodies.map(collectHorizontalScenes);
+        const studies = bodies.map(collectArchitectureScenes);
         const layers = bodies.map((body, index) => collectSceneLayers(body, BOOK_WORLDS[index].id, innerWidth < 760));
         const stopLayers = activateSceneLayers(layers.flat());
         const stopReactive = attachReactiveMotion(element);
@@ -182,7 +187,16 @@ export function BookExperience({ children }: { children: ReactNode }) {
         const setRotation = panels.map((panel) =>
           gsap.quickSetter(panel, "rotationY", "deg"),
         );
-        const setCover = gsap.quickSetter(coverNode, "rotationY", "deg");
+        const coverParts = Array.from(coverNode.querySelectorAll<HTMLElement>("[data-cover-layer]"));
+        const coverMotion = gsap.timeline({ paused: true });
+        const coverPart = (name: string) => coverParts.find((part) => part.dataset.coverLayer === name);
+        const namePart = coverPart("name"), portraitPart = coverPart("portrait"), circuitPart = coverPart("circuit"), introPart = coverPart("intro");
+        // The composition opens in layers; the entire cover stays planar.
+        // Viewport-relative values are resolved only during layout refresh.
+        if (namePart) coverMotion.fromTo(namePart, { x: 0, y: 0, ...PLANAR_TRANSFORM }, { x: () => -innerWidth * (innerWidth < 760 ? 0.1 : 0.12), y: () => -innerHeight * 0.28, duration: 1, ease: "power2.in", immediateRender: true }, 0);
+        if (portraitPart) coverMotion.fromTo(portraitPart, { x: 0, y: 0, scale: 1, ...PLANAR_TRANSFORM }, { x: () => innerWidth * (innerWidth < 760 ? 0.12 : 0.18), y: () => innerHeight * 0.08, scale: 1.16, duration: 1, ease: "power2.inOut", immediateRender: true }, 0);
+        if (circuitPart) coverMotion.fromTo(circuitPart, { x: 0, y: 0, scale: 1, ...PLANAR_TRANSFORM }, { x: () => -innerWidth * 0.04, y: () => -innerHeight * 0.06, scale: 1.36, duration: 1, ease: "none", immediateRender: true }, 0);
+        if (introPart) coverMotion.fromTo(introPart, { y: 0, ...PLANAR_TRANSFORM }, { y: () => -innerHeight * 0.16, duration: 1, ease: "power2.in", immediateRender: true }, 0);
         const shades = panels.map((p) =>
           p.querySelector<HTMLElement>(".page-turn-shade")!,
         );
@@ -271,7 +285,9 @@ export function BookExperience({ children }: { children: ReactNode }) {
           printing = true;
           restoreImages();
           resetHorizontalScenes(scenes.flat());
+          resetArchitectureScenes(studies.flat());
           gsap.set(scenes.flatMap((items) => items.flatMap(({ viewport, track }) => [viewport, track])), { clearProps: "transform" });
+          gsap.set(studies.flatMap((items) => items.map(({ viewport }) => viewport)), { clearProps: "transform" });
           // Print is an explicit request for the complete archive, including
           // images in chapters that the visitor has not opened yet.
           parkedImages.forEach(({ img }) => { img.loading = "eager"; });
@@ -315,6 +331,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
           if (document.documentElement.dataset.galleryOpen) { pendingMeasure = true; return; }
           pendingMeasure = false;
           scenes.flat().forEach((item) => measureHorizontalScene(item, "book"));
+          studies.flat().forEach((item) => measureArchitectureScene(item, "book"));
           const signature = [
             innerHeight,
             innerWidth,
@@ -336,6 +353,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
           const previous = segments[previousIndex];
           const previousLocal = previous ? position - previous.start : 0;
           vh = innerHeight;
+          coverMotion.invalidate();
           coverDistance = Math.round(vh * 1.2);
           motions.forEach((m) => m.revert());
           motions = [];
@@ -356,6 +374,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
             const reveals = targets.map((node, i) => ({ node, i, top: node.getBoundingClientRect().top - base, delay: revealColumnDelay(node, body, innerWidth < 760) }));
             const layerBounds = collectSceneLayers(body, BOOK_WORLDS[index].id, innerWidth < 760).map((layer) => ({ ...layer, top: layer.trigger.getBoundingClientRect().top - base, height: layer.trigger.offsetHeight }));
             const railBounds = scenes[index].map((item) => ({ item, top: item.viewport.getBoundingClientRect().top - base, height: item.viewport.offsetHeight }));
+            const studyBounds = studies[index].map((item) => ({ item, top: item.viewport.getBoundingClientRect().top - base, height: item.viewport.offsetHeight }));
             const parallax = Array.from(body.querySelectorAll<HTMLElement>("[data-motion-parallax]")).map((node) => ({ node, top: node.getBoundingClientRect().top - base, height: node.offsetHeight }));
             const titles = Array.from(body.querySelectorAll<HTMLElement>("[data-title-travel]")).map((node) => ({ node, top: node.getBoundingClientRect().top - base }));
             const rules = Array.from(body.querySelectorAll<HTMLElement>("[data-ink-rule]")).map((node) => ({ node, top: node.getBoundingClientRect().top - base }));
@@ -396,6 +415,15 @@ export function BookExperience({ children }: { children: ReactNode }) {
               timeline.fromTo(item.track, { x: rightward ? -item.travel : 0 }, {
                 x: rightward ? 0 : -item.travel, duration: item.distance, ease: "none", immediateRender: true,
               }, at);
+            });
+            studyBounds.forEach(({ item, top, height }) => {
+              const at = Math.min(read - 1, Math.max(0, top - (item.distance ? item.pinTop : vh * 0.85)));
+              const duration = Math.max(1, Math.min(read - at, item.distance || vh * 0.5 + height));
+              if (item.distance) timeline.fromTo(item.viewport, { y: 0 }, {
+                y: item.distance, duration: item.distance, ease: "none", immediateRender: true,
+              }, at);
+              const animation = architectureTimeline(gsap, item, duration);
+              timeline.add(animation.paused(false), at);
             });
             parallax.forEach(({ node, top, height }) => {
               const at = Math.max(0, top - vh);
@@ -508,7 +536,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
               1 - clamp((opening - 0.76) / 0.24),
             );
             sceneNode.style.backgroundColor = `rgba(36,60,50,${1 - opening})`;
-            setCover(-paperEase(opening) * 108);
+            coverMotion.progress(opening);
           }
           let index = 0;
           for (let i = 0; i < segments.length; i++)
@@ -783,8 +811,10 @@ export function BookExperience({ children }: { children: ReactNode }) {
           stopReactive();
           trigger.current?.kill();
           motions.forEach((m) => m.revert());
+          coverMotion.revert();
           stopLayers();
           resetHorizontalScenes(scenes.flat());
+          resetArchitectureScenes(studies.flat());
           observer.disconnect();
           removeEventListener("resize", resized);
           removeEventListener("wheel", stopJump, { capture: true });
@@ -881,72 +911,7 @@ export function BookExperience({ children }: { children: ReactNode }) {
             <div className="cover-spine" aria-hidden="true">
               {HOME_COVER.spine}
             </div>
-            <div className="cover-face">
-              <div className="cover-orbit" aria-hidden="true">
-                <svg viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g className="cover-orbit-rings" stroke="currentColor">
-                    <circle cx="300" cy="300" r="264" strokeOpacity=".22" />
-                    <circle cx="300" cy="300" r="216" strokeOpacity=".4" strokeDasharray="2 13" />
-                    <circle cx="300" cy="300" r="170" strokeOpacity=".22" />
-                    <ellipse cx="300" cy="300" rx="260" ry="94" transform="rotate(-32 300 300)" strokeOpacity=".6" />
-                    <ellipse cx="300" cy="300" rx="260" ry="94" transform="rotate(42 300 300)" strokeOpacity=".4" />
-                    <path d="M300 16v50m0 468v50M16 300h50m468 0h50" strokeOpacity=".6" />
-                    <path d="M98 98l28 28m348 348 28 28M98 502l28-28m348-348 28-28" strokeOpacity=".22" />
-                  </g>
-                  <g className="cover-orbit-core" stroke="currentColor" strokeWidth="1.5">
-                    <rect x="228" y="228" width="144" height="144" rx="20" strokeOpacity=".6" />
-                    <rect x="243" y="243" width="114" height="114" rx="12" strokeOpacity=".22" />
-                    <path d="M266 208v20m22-20v20m24-20v20m22-20v20M266 372v20m22-20v20m24-20v20m22-20v20M208 266h20m-20 22h20m-20 24h20m-20 22h20M372 266h20m-20 22h20m-20 24h20m-20 22h20" strokeOpacity=".6" />
-                    <path d="M264 316v-35l18 22 18-22v35m10-34h27m-13 0v34" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </g>
-                  <g className="cover-orbit-nodes" fill="currentColor">
-                    <circle cx="113" cy="116" r="5" />
-                    <circle cx="530" cy="235" r="6" />
-                    <circle cx="390" cy="548" r="4" />
-                    <circle cx="66" cy="420" r="3" />
-                  </g>
-                </svg>
-              </div>
-              <span className="cover-edition">
-                {HOME_COVER.edition}
-              </span>
-              <span className="cover-subtitle">{HOME_COVER.subtitle}</span>
-              <h1 id="book-title">
-                {HOME_COVER.title}
-                <em>{HOME_COVER.titleAccent}</em>
-              </h1>
-              <p className="cover-author">
-                {HOME_COVER.authorLines.map((line, index) => <Fragment key={line}>{index > 0 && <br />}{line}</Fragment>)}
-              </p>
-              <p className="cover-foot">
-                {HOME_COVER.foot}
-              </p>
-              <button
-                className="cover-open-hit"
-                onClick={() => api.current.go("foreword")}
-                disabled={!ready}
-                aria-label="Open Muhammad Taha Bin Zaeem’s field book"
-              />
-              <div className="cover-invitation">
-                <span className="cover-status" role="status">
-                  {ready ? HOME_COVER.invitation : "Binding the pages…"}
-                </span>
-                <p>{HOME_COVER.instructions}</p>
-                <button onClick={changeReader}>
-                  {reader
-                    ? HOME_COVER.animatedLabel
-                    : HOME_COVER.quietLabel}
-                </button>
-              </div>
-              <noscript>
-                <style>
-                  {".cover-invitation,.cover-open-hit{display:none!important}"}
-                </style>
-                <div className="cover-static-invitation">
-                  <a href="#foreword">Open the story ↓</a>
-                </div>
-              </noscript>
-            </div>
+            <PortfolioCover ready={ready} reader={reader} onOpen={() => api.current.go("foreword")} onToggleReader={changeReader} />
           </div>
         </div>
         <div className="book-paper-edge" aria-hidden="true" />

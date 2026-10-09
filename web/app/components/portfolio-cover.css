@@ -1,0 +1,99 @@
+/* A portrait, a name and a circuit field share one authored opening. */
+html:root .cover-face.portfolio-cover {
+  --cover-white: #f1ecdf;
+  --cover-copper: #cf9b73;
+  display: flex; flex-direction: column; gap: 0;
+  padding: 22px clamp(22px,4.2vw,76px) 28px;
+  background: radial-gradient(ellipse at 83% 38%,#25463855,transparent 50%),#0b1412;
+  color: var(--cover-white); box-shadow: none; isolation: isolate;
+}
+html:root .portfolio-cover::before { inset: 0; border: 0; background: linear-gradient(90deg,#0b1412 0%,transparent 60%); z-index: -1; }
+html:root .portfolio-cover::after { display: none; }
+html:root .portfolio-cover .cover-masthead { position: relative; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid #f1ecdf26; padding-bottom: 18px; }
+html:root .portfolio-cover .cover-edition { border: 0; padding: 0; gap: 18px; font-size: 9px; letter-spacing: .1em; color: #d9d6c8; }
+html:root .portfolio-cover .cover-edition::before { display: none; }
+html:root .portfolio-cover .cover-edition b { font: 750 26px/1 var(--font-body); letter-spacing: -.09em; color: var(--cover-white); }
+html:root .cover-masthead nav { display: flex; gap: 32px; font: 500 10px/1.5 var(--font-mono); }
+html:root .cover-masthead a { padding-block: 10px; color: var(--cover-white); border-bottom: 1px solid transparent; transition: border-color .25s; }
+html:root .cover-masthead a:hover { border-color: var(--cover-copper); }
+html:root .cover-composition { position: relative; flex: 1; min-height: 0; display: grid; grid-template-columns: 1.2fr 1fr; align-content: center; align-items: center; }
+html:root .portfolio-cover .cover-identity { grid-area: 1/1; z-index: 2; padding-bottom: 65px; pointer-events: none; }
+html:root .portfolio-cover .cover-subtitle { position: static; display: block; margin: 0 0 25px; font: 500 9px/1.7 var(--font-mono); letter-spacing: .16em; color: var(--cover-copper); text-transform: uppercase; }
+html:root .portfolio-cover h1 { display: block; margin: 0; max-width: 100%; font: 750 clamp(104px,15vw,248px)/.84 var(--font-body); letter-spacing: -.085em; white-space: normal; text-shadow: none; }
+html:root .portfolio-cover h1 > span { display: block; }
+html:root .portfolio-cover h1 em { display: block; margin: 24px 0 0; font: 500 clamp(34px,5.15vw,87px)/1.12 var(--font-body); letter-spacing: -.065em; color: var(--cover-white); }
+html:root .cover-name-rule { display: block; width: 68px; height: 3px; background: var(--cover-copper); margin-top: 30px; }
+html:root .cover-circuit { position: absolute; inset: -7% -5% -7% 8%; z-index: -1; color: var(--cover-copper); pointer-events: none; }
+html:root .cover-circuit svg { width: 100%; height: 100%; }
+html:root .cover-circuit-grid { opacity: .07; }
+html:root .cover-circuit-paths { opacity: .26; }
+html:root .cover-circuit svg > g:last-child { opacity: .6; }
+html:root .cover-circuit-label { position: absolute; bottom: 10%; right: 1%; font: 400 8px/1.8 var(--font-mono); letter-spacing: .09em; opacity: .65; }
+html:root .portfolio-cover .cover-portrait { grid-area: 1/2; position: relative; margin: 0 -3vw 0 -5vw; height: min(64vh,670px); min-height: 0; align-self: center; z-index: 1; }
+html:root .cover-portrait > .gallery-trigger { height: 100%; width: 100%; background: #0b1412; mask-image: linear-gradient(0deg,transparent 0%,black 18%,black 86%,transparent),linear-gradient(90deg,transparent,black 13%,black 93%,transparent); mask-composite: intersect; }
+html:root .cover-portrait .gallery-trigger > img { width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: .94; }
+html:root .cover-portrait .gallery-image-hint { display: none; }
+html:root .cover-portrait figcaption { position: absolute; left: 15%; right: 8%; bottom: 8%; display: flex; justify-content: space-between; gap: 12px; padding-top: 12px; border-top: 1px solid #f1ecdf35; font: 400 7px/1.8 var(--font-mono); letter-spacing: .12em; color: #e6d4be; pointer-events: none; }
+html:root .portfolio-cover .cover-intro { position: absolute; left: 0; bottom: 6%; max-width: 42%; z-index: 2; pointer-events: none; }
+html:root .cover-intro > p { margin: 0 0 18px; font: 450 clamp(20px,2.4vw,35px)/1.23 var(--font-body); letter-spacing: -.045em; }
+html:root .cover-intro em { display: block; font: italic 400 1.08em/1.35 Georgia,serif; color: var(--cover-copper); }
+html:root .cover-intro > span { font: 400 9px/1.7 var(--font-mono); color: #aebdb2; }
+html:root .portfolio-cover .cover-open-hit { z-index: 0; }
+html:root .cover-portrait > .gallery-trigger { z-index: 4; }
+html:root .portfolio-cover .cover-bottom { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding-top: 20px; border-top: 1px solid #f1ecdf26; position: relative; z-index: 4; pointer-events: none; }
+html:root .portfolio-cover .cover-author { max-width: none; margin: 0 0 5px; font: 500 9px/1.5 var(--font-mono); letter-spacing: .1em; }
+html:root .portfolio-cover .cover-foot { max-width: none; margin: 0; font: 400 9px/1.6 var(--font-mono); color: #aebdb2; }
+html:root .portfolio-cover .cover-invitation { position: static; width: auto; text-align: right; padding: 0; }
+html:root .portfolio-cover .cover-status { display: inline-flex; align-items: center; gap: 30px; font: 500 15px/1.4 var(--font-body); letter-spacing: -.025em; border: 0; padding: 0; color: var(--cover-white); }
+html:root .portfolio-cover .cover-status b { display: grid; place-items: center; width: 37px; height: 37px; border: 1px solid #cf9b7380; border-radius: 50%; font: 400 24px/1 var(--font-body); color: var(--cover-copper); }
+html:root .portfolio-cover .cover-invitation p { margin: 5px 0 4px; font-size: 8px; color: #aebdb2; }
+html:root .portfolio-cover .cover-invitation button { font-size: 8px; border-color: #f1ecdf38; color: #d1d8cd; padding: 3px 0; }
+html:root .portfolio-cover .cover-static-invitation { z-index: 5; }
+html:root .portfolio-cover .cover-portrait:has(.gallery-trigger:focus-visible) { outline: 2px solid var(--cover-copper); outline-offset: -10px; }
+@media (max-width: 760px) {
+  html:root .cover-face.portfolio-cover { padding: 17px 22px 22px; }
+  html:root .portfolio-cover .cover-masthead { gap: 12px; padding-bottom: 12px; }
+  html:root .portfolio-cover .cover-edition { gap: 11px; font-size: 7px; max-width: 190px; letter-spacing: .05em; }
+  html:root .portfolio-cover .cover-edition b { font-size: 23px; }
+  html:root .cover-masthead nav { gap: 0; font-size: 8px; }
+  html:root .cover-masthead nav a:first-child { display: none; }
+  html:root .cover-composition { display: block; align-content: start; padding-top: clamp(22px,5vh,45px); }
+  html:root .portfolio-cover .cover-identity { position: relative; padding: 0; z-index: 3; }
+  html:root .portfolio-cover .cover-subtitle { margin-bottom: 18px; font-size: 7px; letter-spacing: .1em; }
+  html:root .portfolio-cover h1 { font-size: clamp(95px,29vw,210px); line-height: .85; }
+  html:root .portfolio-cover h1 em { font-size: clamp(30px,9.7vw,70px); margin-top: 13px; }
+  html:root .cover-name-rule { width: 40px; height: 2px; margin-top: 18px; }
+  html:root .portfolio-cover .cover-portrait { position: absolute; top: 23%; right: -18px; left: 17%; height: 55%; margin: 0; min-height: 0; }
+  html:root .cover-portrait figcaption { left: 16%; right: 9%; bottom: 7%; font-size: 6px; letter-spacing: .06em; }
+  html:root .cover-portrait figcaption span:last-child { display: none; }
+  html:root .portfolio-cover .cover-intro { bottom: 3%; max-width: 85%; }
+  html:root .cover-intro > p { font-size: clamp(20px,6.1vw,28px); margin-bottom: 10px; }
+  html:root .cover-intro > span { font-size: 7px; }
+  html:root .cover-circuit { inset: 5% -50% 0 -20%; }
+  html:root .cover-circuit-label { display: none; }
+  html:root .portfolio-cover .cover-bottom { gap: 12px; padding-top: 15px; }
+  html:root .portfolio-cover .cover-credit { max-width: 45%; }
+  html:root .portfolio-cover .cover-author { font-size: 7px; line-height: 1.6; }
+  html:root .portfolio-cover .cover-foot { font-size: 7px; line-height: 1.6; max-width: 23ch; }
+  html:root .portfolio-cover .cover-invitation { width: 48%; }
+  html:root .portfolio-cover .cover-status { font-size: 11px; gap: 10px; }
+  html:root .portfolio-cover .cover-status b { width: 26px; height: 26px; font-size: 19px; flex: 0 0 auto; }
+  html:root .portfolio-cover .cover-invitation p { font-size: 6px; max-width: none; }
+  html:root .portfolio-cover .cover-invitation button { font-size: 7px; }
+}
+@media (max-height: 560px) and (min-width: 600px) {
+  html:root .cover-face.portfolio-cover { padding-top: 12px; padding-bottom: 15px; }
+  html:root .portfolio-cover .cover-masthead { padding-bottom: 8px; }
+  html:root .portfolio-cover .cover-identity { align-self: start; padding: 18px 0 0; }
+  html:root .portfolio-cover .cover-subtitle { margin-bottom: 16px; font-size: 7px; }
+  html:root .portfolio-cover h1 { font-size: min(16vw,26vh); }
+  html:root .portfolio-cover h1 em { font-size: min(5vw,9vh); margin-top: 10px; }
+  html:root .cover-name-rule { display: none; }
+  html:root .portfolio-cover .cover-portrait { height: 67vh; }
+  html:root .portfolio-cover .cover-intro { bottom: 0; }
+  html:root .cover-intro > p { font-size: 18px; margin-bottom: 4px; }
+  html:root .cover-intro > span { font-size: 7px; }
+  html:root .portfolio-cover .cover-bottom { padding-top: 10px; }
+  html:root .portfolio-cover .cover-invitation p { display: none; }
+}
+@media print { html:root .book-cover-scene { display: none; } }

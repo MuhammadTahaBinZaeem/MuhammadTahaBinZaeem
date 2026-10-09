@@ -1,6 +1,5 @@
 import { pageMetadata } from "../seo";
 import { PageStructuredData } from "../seo-schema";
-import type { CSSProperties } from "react";
 import { PROJECTS, type ProjectStory } from "../portfolio-data";
 import { FEATURED } from "../dossier-data";
 import { PROJECT_GALLERIES } from "../project-galleries";
@@ -16,6 +15,7 @@ import { RepositoryIndex } from "./repository-index";
 import { CollectionStructuredData } from "../seo-schema";
 import { SITE_ORIGIN } from "../site-config";
 import { GalleryImage, type GalleryAsset } from "../components/gallery-image";
+import { CPUArchitectureStudy } from "../components/cpu-architecture-study";
 const ENGINEERING_PROJECTS = PROJECTS.filter((project) =>
   !FEATURED.some((featured) => featured.legacyId === project.id),
 );
@@ -41,7 +41,7 @@ export function ProjectsChapter({
   const Frame = embedded ? "div" : "main";
   return (
     <StoryMotion disabled={embedded}>
-      <Frame className="page-width">
+      <Frame className="page-width projects-premium">
         {!embedded && <PageStructuredData path="/projects" />}
         <CollectionStructuredData
           path="/projects"
@@ -76,59 +76,65 @@ export function ProjectsChapter({
           {ENGINEERING_PROJECTS.length > 0 && <a href="#engineering">Engineering projects ↓</a>}
           <a href="#repositories">Complete GitHub index ↓</a>
         </nav>
+        <div className="project-plates">
         {FEATURED.map((p, i) => {
           const legacy = p.legacyId ? PROJECTS.find((project) => project.id === p.legacyId) : undefined;
           const cover = p.image || { src: `/art/notebook/${p.drawing}.svg`, width: 960, height: 760, alt: p.title + " illustrated in pen and ink" };
           const archive = (legacy?.media || []).map((image) => ({ ...image, caption: `Original FOP solver archive · ${image.caption || image.alt}` }));
           const related = [...((p as { media?: readonly GalleryAsset[] }).media || []), ...(PROJECT_GALLERIES[p.id] || []), ...archive];
           const images = p.image ? [p.image, ...related] : related.length ? related : [cover];
+          const displayImage = images.find((image) => image.src === p.displayImageSrc) || p.image;
+          const imageCount = new Set(images.map((image) => image.src)).size;
           return (
           <article
-            className="project-feature"
+            className={`project-feature project-plate${i % 2 ? " project-plate--reverse" : ""}${p.image ? " project-plate--product" : " project-plate--concept"}`}
             id={p.id}
             key={p.id}
-            style={
-              {
-                "--title-size": p.title.length > 12 ? "5.5vw" : "7vw",
-              } as CSSProperties
-            }
           >
-            <div data-reveal id={legacy ? "project-" + legacy.id : undefined}>
+            <div className="project-plate__intro" data-reveal id={legacy ? "project-" + legacy.id : undefined}>
+              <div className="project-plate__title">
               <p className="eyebrow">
-                0{i + 1} / {p.category}
+                <span className="project-plate__number">{String(i + 1).padStart(2, "0")}</span> {p.category}
               </p>
               <h2>{p.title}</h2>
               <p className="role">{p.role}</p>
+              </div>
+              <div className="project-plate__brief">
               <p className="project-summary">{p.summary}</p>
               <div className="facts">
                 {p.facts.map((f) => (
                   <span key={f}>{f}</span>
                 ))}
               </div>
+              </div>
             </div>
-            <figure className={`feature-art${p.image ? " project-screenshot" : ""}`} data-paper>
-              {p.image ? <>
-                <GalleryImage image={p.image} images={images} title={p.title} />
-                <figcaption>{p.image.caption}</figcaption>
-              </> : <InkDrawing name={p.drawing} alt={cover.alt} images={images} title={p.title} />}
+            <figure className={`feature-art project-plate__media${p.image ? " project-screenshot" : ""}`} data-paper>
+              {displayImage ? <>
+                <GalleryImage image={displayImage} images={images} title={p.title} />
+                <figcaption><span>{displayImage.caption}</span><span>{String(imageCount).padStart(2, "0")} images / open the archive ↗</span></figcaption>
+              </> : <InkDrawing name={p.drawing || "workbench"} alt={cover.alt} images={images} title={p.title} />}
             </figure>
-            <div>
-              <ul className="project-details">
-                {p.details.map((d) => (
-                  <li key={d}>{d}</li>
-                ))}
-              </ul>
-              <div className="link-row">
+            <div className="project-plate__footer">
+              <div className="link-row project-plate__links">
                 {p.links.map((l) => (
                   <ExternalLink href={l.href} key={l.href}>
                     {l.label}
                   </ExternalLink>
                 ))}
               </div>
+              {p.details.length > 0 && <details className="project-plate__details">
+                <summary><span>Inside the build</span><span aria-hidden="true">+</span></summary>
+              <ul className="project-details">
+                {p.details.map((d) => (
+                  <li key={d}>{d}</li>
+                ))}
+              </ul>
+              </details>}
               {legacy && <BuildNotes project={legacy} legacy images={images} title={p.title} />}
             </div>
           </article>
         );})}
+        </div>
         {ENGINEERING_PROJECTS.length > 0 && <section className="small-work" id="engineering">
           <SectionHeading
             eyebrow="On the bench / engineering foundations"
@@ -139,6 +145,7 @@ export function ProjectsChapter({
             data-memory, immediate-extension, lane load/store, core integration,
             and top-level logic.
           </p>
+          <CPUArchitectureStudy />
           <div className="engineering-rail" data-scroll-scene="horizontal" data-scroll-direction="right">
           <p className="rail-instruction">Scroll down. The work moves sideways.</p>
           <div className="engineering-rail__viewport" data-scroll-viewport>

@@ -16,7 +16,7 @@ Content is separate from its layouts, galleries, and motion. Edit a record in th
 | Leadership and volunteering | `app/dossier-data.ts`: `LEADERSHIP` |
 | People, order, profile pictures, illustrated backgrounds and LinkedIn links | `app/collaborators-data.ts`: `COLLABORATORS` |
 | Education, campus banners and institution galleries | `app/portfolio-data.ts`: `EDUCATION` |
-| Illustrated chapter backgrounds, captions, personal voice and portrait | `app/chapter-artwork.ts`: `CHAPTER_ARTWORK`, `CHAPTER_AUTHOR` |
+| Illustrated chapter backgrounds, captions and author portrait | `app/chapter-artwork.ts`: `CHAPTER_ARTWORK`, `CHAPTER_AUTHOR` |
 | Skills and research interests | `app/dossier-data.ts`: `SKILLS`, `DOSSIER.interests` |
 | Credentials, PDFs and issuer galleries | `app/portfolio-data.ts`: `CERTIFICATES`, `CERTIFICATE_GROUPS` |
 | Achievement cards and their evidence | `app/portfolio-data.ts`: `ACHIEVEMENTS` |
@@ -53,7 +53,7 @@ media: [
 
 Copy this field onto an achievement, engineering project, education entry, researcher, internship, leadership role, collaborator, CV, or achievement spotlight. `PROJECTS`, `ACHIEVEMENTS`, and `EDUCATION` require the `media` field; use `media: []` when there are no photographs. On other records, `media` is optional and may be omitted or set to `[]`. No empty gallery appears. The first image becomes the visible cover for record galleries. Moving an image to the first position changes the cover. Moving any remaining image changes the gallery sequence. Removing its object removes it from the gallery.
 
-For flagships, `image` sets the visible screenshot (or `drawing` sets notebook artwork); `media` adds related images. `PROJECT_GALLERIES[project.id]` also supplies archived application screenshots. Pocket Engineer uses `legacyId` to keep its original engineering evidence inside the same project, so update that original `PROJECTS` media array when replacing the FOP photographs.
+For flagships, `image` sets the primary image (or `drawing` sets notebook artwork); `media` adds related images. `PROJECT_GALLERIES[project.id]` also supplies archived application screenshots. Optional `displayImageSrc` selects an existing image from this combined library as the large visible cover without changing the gallery order. ProGenEDA uses this to lead with its workspace. Pocket Engineer uses `legacyId` to keep its original engineering evidence inside the same project, so update that original `PROJECTS` media array when replacing the FOP photographs.
 
 ProGenEDA and Type2Learn use official brand imagery, website captures, product screenshots and explicitly labeled explanatory artwork. Their asset sources, repository revisions and replacement guidance are recorded in [BRAND-IMAGERY.md](BRAND-IMAGERY.md).
 
@@ -63,7 +63,7 @@ For education, `campus` is the wide illustrated banner with its own illustration
 
 For certificates, `preview` remains the visible credential and `media` adds optional related evidence. Credentials with the same `groupId` share one issuer gallery. The first credential in each issuer becomes that collection's framed cover; the remaining credentials appear as readable compact records. Their original PDF and verification links remain separate. Counts, navigation, covers and galleries derive from the arrays automatically; deleting the last credential hides its empty collection.
 
-For foreword portraits, edit `HOME_INTRO.portraits`; `PROFILE.portrait` remains the canonical portrait for search metadata. Notebook drawings also open in the shared viewer. You can keep a gallery to one item; navigation controls appear when useful.
+For cover and foreword portraits, edit `HOME_INTRO.portraits`; its first item is the opening portrait and `PROFILE.portrait` remains the canonical portrait for search metadata. Cover wording, including the large name, introductory sentence and focus line, lives in `HOME_COVER`. Notebook drawings also open in the shared viewer. You can keep a gallery to one item; navigation controls appear when useful.
 
 The viewer keeps photographs in their natural aspect ratio. Visitors can move with arrows, thumbnail buttons, Left/Right keys, or phone swipes, and return with Close, Escape, or browser Back. Image metadata is included in server HTML, while large images load on demand.
 
@@ -133,7 +133,9 @@ The mouse wheel, trackpad and phone retain ordinary vertical scrolling. GSAP map
 
 ## Visuals and motion
 
-`app/chapter-artwork.ts` controls the six illustrated chapter introductions. Replace an entry's `image` to change its background, change `voice` for its first-person introduction, and add optional `media` for a larger artwork gallery. Removing an entry restores an ordinary chapter heading. `CHAPTER_AUTHOR.image` sets the shared authentic author portrait; `portraits` sets its related gallery. The atmospheric layout lives in `app/chapter-atmosphere.css`, and the issuer archive layout lives in `app/certifications/certifications.css`. Each illustration and portrait opens in the same image viewer as the evidence.
+The portrait-led cover and section-specific layouts are mapped in [ART-DIRECTION.md](ART-DIRECTION.md). Its file guide identifies the current CSS modules, cover layers and the data-driven CPU architecture study.
+
+`app/chapter-artwork.ts` controls the six illustrated chapter introductions. Replace an entry's `image` to change its background and add optional `media` for a larger artwork gallery. The older `voice` field remains archived data; the compact headings no longer render those quotations. Removing an artwork entry restores an ordinary chapter heading. `CHAPTER_AUTHOR.image` sets the shared authentic author portrait; `portraits` sets its related gallery. The atmospheric layout lives in `app/chapter-atmosphere.css`, and the issuer archive layout lives in `app/certifications/certifications.css`. Each illustration and portrait opens in the same image viewer as the evidence.
 
 `app/portfolio-polish.css` contains the visual finish for the cover and all chapters. `app/storybook.css` defines the book mechanics, and `app/globals.css` defines the base layouts. The polish selectors include `html:root` so route CSS load order cannot undo them. Direction, distance and reveal poses live in `app/components/motion-vocabulary.ts`. `data-motion-direction="left"`, `"right"`, `"up"` or `"down"` can override an individual reveal. Wheel, trackpad, touch and keyboard always keep native vertical input. The engineering rail uses that vertical position to animate sideways on desktop; smaller screens, reader mode, reduced motion and expanded build notes show an ordinary list.
 

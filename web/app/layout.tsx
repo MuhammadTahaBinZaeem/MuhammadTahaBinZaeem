@@ -7,6 +7,9 @@ import { pageMetadata } from "./seo";
 import "./globals.css";
 import "./portfolio-polish.css";
 import "./chapter-atmosphere.css";
+import "./chapters-premium.css";
+import "./sections-premium.css";
+import "./portfolio-direction.css";
 
 export const metadata: Metadata = {
   ...pageMetadata("/"),

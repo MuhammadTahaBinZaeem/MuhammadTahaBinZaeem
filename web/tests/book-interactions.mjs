@@ -171,7 +171,13 @@ export async function runBookChecks({
     "browser back to atlas",
   );
   await cdp.evaluate(`document.querySelector('.atlas-leaf-connect').click()`);
-  await sleep(80);
+  await until(
+    `(()=>{const r=document.querySelector('.book-rift');return r.dataset.kind==='jump'&&getComputedStyle(r).visibility==='visible';})()`,
+    "chapter jump is visibly in flight before native interruption",
+  );
+  await cdp.evaluate(
+    `window.__bookCancelWheel=null;addEventListener('wheel',e=>{window.__bookCancelWheel={trusted:e.isTrusted,deltaY:e.deltaY}},{once:true,capture:true,passive:true})`,
+  );
   await cdp.send("Input.dispatchMouseEvent", {
     type: "mouseWheel",
     x: 700,
@@ -180,11 +186,26 @@ export async function runBookChecks({
     deltaY: -120,
   });
   await until(
-    `getComputedStyle(document.querySelector('.book-rift')).visibility==='hidden'`,
+    `(()=>{const r=document.querySelector('.book-rift');return window.__bookCancelWheel?.trusted===true&&(getComputedStyle(r).visibility==='hidden'||r.dataset.kind==='turn');})()`,
     "native wheel cancels jump",
   );
+  // Interruption can stop inside an ordinary page-turn interval. Its seam
+  // belongs to the native coordinate and remains visible after the jump ends.
+  await sleep(220);
+  const interruptedPosition = await cdp.evaluate("scrollY");
+  await sleep(400);
+  assert.ok(
+    Math.abs((await cdp.evaluate("scrollY")) - interruptedPosition) <= 2,
+    "An interrupted chapter jump has no residual scripted scroll drift",
+  );
+  await seek("atlas", 0.25);
+  assert.equal(
+    await cdp.evaluate(`getComputedStyle(document.querySelector('.book-rift')).visibility`),
+    "hidden",
+    "The ordinary seam closes at a chapter reading position",
+  );
   report.checks.push(
-    "Chapter jumps tear open without route changes; browser Back works; native wheel cancels an in-flight jump.",
+    "Chapter jumps tear open without route changes; browser Back works; native wheel cancels an in-flight jump without residual scroll drift.",
   );
 
   await navigate("#research");
@@ -203,7 +224,7 @@ export async function runBookChecks({
     `document.querySelector('#engineering details').open=true`,
   );
   await until(
-    `Number(document.querySelector('.living-book').dataset.layoutRevision)>${initialRevision} && Number(document.getElementById('projects').dataset.readDistance)!==${initialHeight} && document.querySelector('#engineering details').open && document.querySelector('#engineering [data-scroll-scene]').dataset.sceneReady==='natural'`,
+    `Number(document.querySelector('.living-book').dataset.layoutRevision)>${initialRevision} && Number(document.getElementById('projects').dataset.readDistance)!==${initialHeight} && document.querySelector('#engineering details').open && document.querySelector('#engineering [data-scroll-scene="horizontal"]').dataset.sceneReady==='natural'`,
     "expanded content remeasured",
   );
   assert.equal((await state()).chapter, "projects");

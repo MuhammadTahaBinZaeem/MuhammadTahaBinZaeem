@@ -13,6 +13,10 @@ import {
   collectSceneLayers,
   activateSceneLayers,
   revealColumnDelay,
+  collectArchitectureScenes,
+  measureArchitectureScene,
+  resetArchitectureScenes,
+  architectureTimeline,
 } from "./motion-vocabulary";
 import "./scene-motion.css";
 
@@ -52,7 +56,9 @@ export function StoryMotion({
         gsap.registerPlugin(ScrollTrigger);
         const node = scope.current;
         const scenes = collectHorizontalScenes(node);
+        const studies = collectArchitectureScenes(node);
         scenes.forEach((item) => measureHorizontalScene(item, "scroll"));
+        studies.forEach((item) => measureArchitectureScene(item, "scroll"));
         const anchor = reflowAnchor;
         reflowAnchor = undefined;
         if (anchor?.node.isConnected && !document.documentElement.dataset.galleryOpen) {
@@ -132,6 +138,17 @@ export function StoryMotion({
               },
             });
           });
+          studies.forEach((item) => {
+            const animation = architectureTimeline(gsap, item);
+            ScrollTrigger.create({
+              trigger: item.scene,
+              animation,
+              start: () => item.distance ? `top ${item.pinTop}px` : "top 85%",
+              end: () => item.distance ? `+=${item.distance}` : "bottom 35%",
+              scrub: true,
+              invalidateOnRefresh: true,
+            });
+          });
         }, node);
         let resizeFrame = 0;
         let focusFrame = 0;
@@ -166,6 +183,7 @@ export function StoryMotion({
             if (disposed || version !== epoch) return;
             if (document.documentElement.dataset.galleryOpen) { pendingRefresh = true; return; }
             scenes.forEach((item) => measureHorizontalScene(item, "scroll"));
+            studies.forEach((item) => measureArchitectureScene(item, "scroll"));
             ScrollTrigger.refresh();
           });
         };
@@ -192,6 +210,7 @@ export function StoryMotion({
         node.addEventListener("toggle", onToggle, true);
         const observer = new ResizeObserver(refresh);
         scenes.forEach(({ track }) => observer.observe(track));
+        studies.forEach(({ viewport }) => observer.observe(viewport));
         void document.fonts.ready.then(refresh);
         cleanup = () => {
           cancelAnimationFrame(resizeFrame);
@@ -206,6 +225,7 @@ export function StoryMotion({
           context.revert();
           stopLayers();
           resetHorizontalScenes(scenes);
+          resetArchitectureScenes(studies);
         };
       } catch {
         // The server-rendered reading edition remains visible if motion cannot load.

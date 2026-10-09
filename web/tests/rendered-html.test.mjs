@@ -88,7 +88,7 @@ test("entity graph identifies the person, not their companies or credential issu
     const pages = nodes.filter((node) => ["WebPage", "ProfilePage", "ContactPage", "CollectionPage"].includes(node["@type"]));
     assert.equal(pages.length, 1, path + " one current-page entity");
     assert.equal(pages[0].url, "https://tahabinzaeem.tech" + path);
-    assert.equal(pages[0].dateModified, "2026-10-08");
+    assert.equal(pages[0].dateModified, "2026-10-09");
     if (path === "/") {
       assert.equal(pages[0]["@type"], "ProfilePage");
       assert.equal(pages[0].mainEntity["@id"], person["@id"]);
@@ -133,7 +133,7 @@ test("image sitemap uses real evidence, exact canonicals and truthful editorial 
   assert.ok(xml.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"'));
   const pages = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
   assert.deepEqual(pages.sort(), ROUTES.map(([path]) => "https://tahabinzaeem.tech" + path).sort());
-  assert.equal((xml.match(/<lastmod>2026-10-08<\/lastmod>/g) || []).length, 8);
+  assert.equal((xml.match(/<lastmod>2026-10-09<\/lastmod>/g) || []).length, 8);
   const images = new Set([...xml.matchAll(/<image:loc>([^<]+)<\/image:loc>/g)].map((match) => match[1]));
   assert.ok(images.size >= 35, "Project, credential, education and achievement galleries are discoverable");
   for (const image of images) {
@@ -231,7 +231,9 @@ test("every public repository is visible without JavaScript, with correct fork p
 test("Pocket Engineer is the fourth flagship, with current scope and preserved FOP evidence", async () => {
   for (const path of ["/", "/projects"]) {
     const html = await (await render(path)).text();
-    assert.equal((html.match(/class="project-feature"/g) || []).length, 4);
+    const flagships = [...html.matchAll(/class="([^"]*)"/g)]
+      .filter(([, classes]) => classes.split(/\s+/).includes("project-feature"));
+    assert.equal(flagships.length, 4);
     const order = ["paretoco", "progeneda", "type2learn", "pocket-engineer"]
       .map((id) => html.indexOf(`id="${id}"`));
     assert.ok(order.every((position, i) => position >= 0 && (i === 0 || position > order[i - 1])));

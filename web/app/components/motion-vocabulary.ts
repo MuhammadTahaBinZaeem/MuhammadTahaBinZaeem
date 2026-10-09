@@ -175,6 +175,71 @@ export function resetHorizontalScenes(items: HorizontalScene[]) {
   });
 }
 
+export type ArchitectureScene = {
+  scene: HTMLElement;
+  viewport: HTMLElement;
+  distance: number;
+  pinTop: number;
+  original: { scene: string; viewport: string };
+};
+
+export function collectArchitectureScenes(scope: HTMLElement): ArchitectureScene[] {
+  return Array.from(scope.querySelectorAll<HTMLElement>('[data-scroll-scene="architecture"]')).flatMap((scene) => {
+    const viewport = scene.querySelector<HTMLElement>("[data-study-viewport]");
+    return viewport ? [{ scene, viewport, distance: 0, pinTop: 0, original: { scene: scene.style.cssText, viewport: viewport.style.cssText } }] : [];
+  });
+}
+
+/** A short hold belongs only to a composition that fits completely on screen. */
+export function measureArchitectureScene(item: ArchitectureScene, mode: "book" | "scroll") {
+  const { scene, viewport } = item;
+  const height = viewport.offsetHeight;
+  const enabled = innerWidth > 900 && height <= innerHeight - 88;
+  item.distance = enabled ? Math.round(innerHeight * 0.92) : 0;
+  item.pinTop = Math.max(32, Math.round((innerHeight - height) / 2 - 24));
+  scene.dataset.studyReady = enabled ? mode : "natural";
+  if (enabled) {
+    scene.style.height = `${height + item.distance}px`;
+    viewport.style.position = mode === "book" ? "relative" : "sticky";
+    viewport.style.top = mode === "book" ? "0px" : `${item.pinTop}px`;
+  } else {
+    scene.style.cssText = item.original.scene;
+    viewport.style.cssText = item.original.viewport;
+  }
+}
+
+export function resetArchitectureScenes(items: ArchitectureScene[]) {
+  items.forEach(({ scene, viewport, original }) => {
+    scene.style.cssText = original.scene;
+    viewport.style.cssText = original.viewport;
+    delete scene.dataset.studyReady;
+  });
+}
+
+/** A visual explanation of a single-cycle datapath, never a timing simulation. */
+export function architectureTimeline(gsap: typeof import("gsap").gsap, item: ArchitectureScene, duration = 1) {
+  const timeline = gsap.timeline({ paused: true });
+  const moduleNode = (name: string) => item.scene.querySelector<SVGElement>(`[data-study-module="${name}"]`);
+  const trace = (name: string) => item.scene.querySelector<SVGElement>(`[data-study-trace="${name}"]`);
+  const fetch = moduleNode("fetch"), decode = moduleNode("decode"), result = moduleNode("result");
+  const lanes = Array.from(item.scene.querySelectorAll<SVGElement>("[data-study-lane]"));
+  const still = { x: 0, y: 0, scale: 1, ...PLANAR_TRANSFORM };
+  const entrance = { transformOrigin: "50% 50%", ...PLANAR_TRANSFORM };
+  if (fetch) timeline.fromTo(fetch, { y: -20, scale: 0.96, ...entrance }, { ...still, duration: duration * 0.18, ease: "power2.out", immediateRender: true }, 0);
+  if (decode) timeline.fromTo(decode, { y: -18, scale: 0.94, ...entrance }, { ...still, duration: duration * 0.22, ease: "power2.out", immediateRender: true }, duration * 0.15);
+  lanes.forEach((lane, index) => timeline.fromTo(lane, {
+    x: index % 2 ? 55 : -55, y: index < 2 ? -25 : 25, scale: 0.88, ...entrance,
+  }, { ...still, duration: duration * 0.28, ease: "power2.inOut", immediateRender: true }, duration * (0.32 + index * 0.04)));
+  if (result) timeline.fromTo(result, { y: 18, scale: 0.96, ...entrance }, { ...still, duration: duration * 0.2, ease: "power2.out", immediateRender: true }, duration * 0.8);
+  [["fetch", 0.08, 0.15], ["dispatch", 0.22, 0.3], ["result", 0.64, 0.23]].forEach(([name, start, length]) => {
+    const path = trace(String(name));
+    if (path) timeline.fromTo(path, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: duration * Number(length), ease: "none", immediateRender: true }, duration * Number(start));
+  });
+  const ghost = item.scene.querySelector<HTMLElement>(".cpu-study__ghost");
+  if (ghost) timeline.fromTo(ghost, { y: 45 }, { y: -30, duration, ease: "none", immediateRender: true }, 0);
+  return timeline;
+}
+
 /** Delegated pointer tracking avoids listeners and animation loops per card. */
 export function attachReactiveMotion(scope: HTMLElement) {
   const media = matchMedia("(hover: hover) and (pointer: fine)");
